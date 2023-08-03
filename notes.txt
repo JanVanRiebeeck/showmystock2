@@ -1,0 +1,13 @@
+node --version
+v16.17.1
+
+TODO: Make a google account for showmystock so that emails will be sent from it to users so they can authorize account access
+pieter@showmystock.com - Strand.198
+
+font = npm start
+back = npm run server
+
+git status
+git add .
+git commit -m " message "
+git push origin master
