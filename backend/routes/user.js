@@ -1,11 +1,11 @@
 // routes user.js
 
 const express = require("express");
-const { home } = require("../controllers/user");
+const { register } = require("../controllers/user");
 
 const router = express.Router();
 
-// User controller home (in controllers user.js)
-router.get("/user", home);
+//Route to register user
+router.post("/register", register);
 
 module.exports = router;

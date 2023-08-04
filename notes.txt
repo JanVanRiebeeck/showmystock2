@@ -11,3 +11,6 @@ git status
 git add .
 git commit -m " message "
 git push -u origin master
+
+idees - Kry 'n export function sodat user stock op sy Quote kan sit met sy pryse by, quick select % vir profits
+idees - 7 dae trial, kyk na quick books se pryse

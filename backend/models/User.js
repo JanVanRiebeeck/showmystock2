@@ -1,7 +1,7 @@
 // models User.js
 
 const mongoose = require("mongoose");
-const ObjectID = mongoose.Schema.ObjectID;
+const { Schema } = mongoose; // Import Schema from mongoose
 
 const userSchema = mongoose.Schema(
   {
@@ -39,7 +39,7 @@ const userSchema = mongoose.Schema(
     suppliers: [
       {
         user: {
-          type: ObjectID,
+          type: Schema.Types.ObjectId, // Use Schema.Types.ObjectId here
           ref: "User",
         },
       },
@@ -48,7 +48,7 @@ const userSchema = mongoose.Schema(
     clients: [
       {
         user: {
-          type: ObjectID,
+          type: Schema.Types.ObjectId, // Use Schema.Types.ObjectId here
           ref: "User",
         },
       },
@@ -57,7 +57,7 @@ const userSchema = mongoose.Schema(
     requests: [
       {
         user: {
-          type: ObjectID,
+          type: Schema.Types.ObjectId, // Use Schema.Types.ObjectId here
           ref: "User",
         },
         status: {
@@ -72,7 +72,7 @@ const userSchema = mongoose.Schema(
     search: [
       {
         user: {
-          type: ObjectID,
+          type: Schema.Types.ObjectId, // Use Schema.Types.ObjectId here
           ref: "User",
         },
       },
@@ -83,6 +83,9 @@ const userSchema = mongoose.Schema(
         type: String,
       },
       companyDescription: {
+        type: String,
+      },
+      vatNumber: {
         type: String,
       },
       contactDetails: {
