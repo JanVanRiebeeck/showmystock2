@@ -68,17 +68,58 @@ exports.register = async (req, res) => {
 
 // Activate the account
 exports.activateAccount = async (req, res) => {
-  const { token } = req.body;
-  console.log(token);
-  const user = jwt.verify(token, process.env.TOKEN_SECRET);
-  console.log(user);
-  const check = await User.findById(user.id);
-  if (check.verified == true) {
-    return res.status(400).json({ message: "This email is already verified" });
-  } else {
-    await User.findByIdAndUpdate(user.id, { verified: true });
-    return res
-      .status(200)
-      .json({ message: "Account has been activated successfully." });
+  try {
+    const { token } = req.body;
+    console.log(token);
+    const user = jwt.verify(token, process.env.TOKEN_SECRET);
+    console.log(user);
+    const check = await User.findById(user.id);
+    if (check.verified == true) {
+      return res
+        .status(400)
+        .json({ message: "This email is already verified" });
+    } else {
+      await User.findByIdAndUpdate(user.id, { verified: true });
+      return res
+        .status(200)
+        .json({ message: "Account has been activated successfully." });
+    }
+  } catch (error) {
+    console.error("Error in activation:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Check if user exists
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        message:
+          "The email address you entered is not connected to and account.",
+      });
+    }
+    // If user exists then check password
+    const check = await bcrypt.compare(password, user.password);
+
+    if (!check) {
+      return res.status(400).json({
+        message: "Invalid credentials, please try again.",
+      });
+    }
+    const token = generateToken({ id: user._id.toString() }, "7d");
+    res.send({
+      id: user._id,
+      token: token,
+      verified: user.verified,
+      message: "Register Success ! please activate your email to start",
+    });
+  } catch (error) {
+    console.error("Error in login:", error);
+    res.status(500).json({ message: error.message });
   }
 };
