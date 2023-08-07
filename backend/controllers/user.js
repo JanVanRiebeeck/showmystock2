@@ -3,11 +3,13 @@ const User = require("../models/User");
 const { validateEmail, validateLength } = require("../helpers/validation");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../helpers/tokens");
+const { sendVerificationEmail } = require("../helpers/mailer");
 
 exports.register = async (req, res) => {
+  console.log("Request Body:", req.body); // This will print the request body to the console
   try {
     // Extract data from request body
-    const { username, email, password } = req.body;
+    const { email, password } = req.body; // Removed username
 
     // Check if email is correct
     if (!validateEmail(email)) {
@@ -16,6 +18,7 @@ exports.register = async (req, res) => {
 
     // Check if email is not duplicate
     const check_email = await User.findOne({ email });
+    console.log("Checking email duplication:", check_email);
 
     if (check_email) {
       return res.status(400).json({
@@ -23,21 +26,6 @@ exports.register = async (req, res) => {
       });
     }
 
-    // check if username is not a duplicate
-    const check_username = await User.findOne({ username });
-
-    if (check_username) {
-      return res.status(400).json({
-        message: "Username already registered, please pick a new one",
-      });
-    }
-
-    // Check if username is between 3 and 30 characters
-    if (!validateLength(username, 3, 30)) {
-      return res
-        .status(400)
-        .json({ message: "Username must be between 3 and 30 characters" });
-    }
     // Check if password is between 6 and 30 characters
     if (!validateLength(password, 6, 30)) {
       return res
@@ -50,20 +38,28 @@ exports.register = async (req, res) => {
 
     // Create and save the data to a new User Object - Save in DB
     const user = await new User({
-      username,
       email,
       password: cryptedPassword,
-    }).save();
+    }).save(); // Removed username
 
     // Send verification email to user
     const emailVerificationToken = generateToken(
       { id: user._id.toString() },
       "30min"
     );
-    console.log(emailVerificationToken);
-    // return the user that is being saved
-    res.json(user);
+
+    // The user will be directed to this page, where we will do the verification
+    const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
+    sendVerificationEmail(user.email, url);
+    const token = generateToken({ id: user._id.toString() }, "7d");
+    res.send({
+      id: user._id,
+      token: token,
+      verified: user.verified,
+      message: "Register Success ! please activate your email to start",
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error in registration:", error);
+    res.status(500).json({ message: error.message });
   }
 };

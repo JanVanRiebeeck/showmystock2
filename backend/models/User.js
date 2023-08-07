@@ -5,14 +5,14 @@ const { Schema } = mongoose; // Import Schema from mongoose
 
 const userSchema = mongoose.Schema(
   {
-    // Let user set his Company name or Personal name
-    username: {
-      type: String,
-      required: [true, "username (Company or personal) is required"],
-      trim: true,
-      text: true,
-      unique: true,
-    },
+    // Remove this, we will only use email for registration purposes and then the user can set his / her company or personal details in the profile section
+    //username: {
+    //type: String,
+    //required: [true, "username (Company or personal) is required"],
+    //trim: true,
+    //text: true,
+    //unique: true,
+    //},
     email: {
       type: String,
       required: [true, "email is required"],

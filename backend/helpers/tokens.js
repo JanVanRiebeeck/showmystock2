@@ -1,3 +1,5 @@
+// helpers tokens.js
+
 const jwt = require("jsonwebtoken");
 
 exports.generateToken = (payload, expired) => {
