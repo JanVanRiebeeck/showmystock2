@@ -1,10 +1,12 @@
 // controllers user.js
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 const { validateEmail, validateLength } = require("../helpers/validation");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../helpers/tokens");
 const { sendVerificationEmail } = require("../helpers/mailer");
 
+// Register the user
 exports.register = async (req, res) => {
   console.log("Request Body:", req.body); // This will print the request body to the console
   try {
@@ -61,5 +63,22 @@ exports.register = async (req, res) => {
   } catch (error) {
     console.error("Error in registration:", error);
     res.status(500).json({ message: error.message });
+  }
+};
+
+// Activate the account
+exports.activateAccount = async (req, res) => {
+  const { token } = req.body;
+  console.log(token);
+  const user = jwt.verify(token, process.env.TOKEN_SECRET);
+  console.log(user);
+  const check = await User.findById(user.id);
+  if (check.verified == true) {
+    return res.status(400).json({ message: "This email is already verified" });
+  } else {
+    await User.findByIdAndUpdate(user.id, { verified: true });
+    return res
+      .status(200)
+      .json({ message: "Account has been activated successfully." });
   }
 };
