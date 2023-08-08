@@ -111,12 +111,13 @@ exports.login = async (req, res) => {
         message: "Invalid credentials, please try again.",
       });
     }
+    // If password is correct then we generate a token for the login (same as register)
     const token = generateToken({ id: user._id.toString() }, "7d");
     res.send({
       id: user._id,
       token: token,
       verified: user.verified,
-      message: "Register Success ! please activate your email to start",
+      message: "Login Success !",
     });
   } catch (error) {
     console.error("Error in login:", error);
