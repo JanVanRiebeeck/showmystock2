@@ -1,0 +1,361 @@
+/* -- src/pages/login/styles.css */
+
+/*---------------------------------------------------------------- Login ----------------------------------------------------------------  */
+
+.login_wrapper {
+  background: var(--bg-secondary);
+}
+
+.login_wrap {
+  height: 78vh;
+  color: var(--color-primary);
+}
+
+.login_1 {
+  width: 360px;
+  margin: 0 auto;
+}
+
+.logo_container {
+  display: flex; /* Aligns logos horizontally */
+  justify-content: center; /* Centers logos horizontally */
+  align-items: center; /* Centers logos vertically */
+  margin-bottom: 10px; /* Optional space between logos and the next element */
+}
+
+.logo1 {
+  width: 50px; /* Adjust as needed */
+  height: auto; /* Keeps the aspect ratio */
+  margin: 0 5px; /* Optional space between logos */
+}
+
+.logo2 {
+  width: 300px; /* Adjust as needed */
+  height: auto; /* Keeps the aspect ratio */
+  margin: 0 5px; /* Optional space between logos */
+}
+.text_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers text horizontally */
+  justify-content: center; /* Centers text vertically */
+  margin-top: 10px; /* Optional space between logos and the text */
+}
+
+.text_container span {
+  font-size: 16px; /* Smaller font size */
+  text-align: center; /* Centers text within each line */
+  margin: 5px 0; /* Optional space between lines */
+}
+
+.login_1 span {
+  font-size: 20px;
+}
+
+.login_2 {
+  text-align: center;
+}
+
+.login_2_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg-primary);
+  box-shadow: 0 1px 2px var(--shadow-1);
+  padding: 1rem;
+  padding-bottom: 2rem;
+  width: 350px;
+  height: fit-content;
+  margin: 1rem auto;
+  border-radius: 10px;
+  transition: opacity 1.3s ease;
+}
+
+.login_2_wrap button {
+  width: 100%;
+  height: 50px;
+  font-size: 17px;
+  font-weight: 700;
+  margin-top: 15px; /* Add this line to create space above the button */
+}
+
+.login_2_wrap button:hover {
+  opacity: 0.8;
+}
+
+.forgot_password {
+  color: var(--blue-color);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.forgot_password:hover {
+  text-decoration: underline;
+}
+
+.sign_splitter {
+  width: 100%;
+  height: 1px;
+  background-color: var(--bg-third);
+}
+
+.open_signup {
+  background: var(--green-color);
+  width: 70% !important;
+  font-weight: 600 !important;
+  font-size: 17px !important;
+  margin-top: 1rem;
+}
+.sign_extra {
+  font-size: 15px;
+}
+
+/*---------------------------------------------------------------- Register ----------------------------------------------------------------  */
+
+.register {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-primary);
+  box-shadow: 0 1px 2px var(--shadow-1);
+  border-radius: 10px;
+  padding: 15px;
+  padding-bottom: 1rem;
+  width: 350px;
+  height: fit-content;
+  color: var(--color-primary);
+}
+
+.register_header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--bg-third);
+  justify-content: center;
+}
+
+.register_header i {
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+}
+
+.register_header i:hover {
+  opacity: 80%;
+}
+
+.register_header span {
+  font-weight: 700;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.register_form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reg_line {
+  padding: 7px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reg_col {
+  position: relative;
+  align-self: flex-start;
+  margin-bottom: 10px;
+  padding: 0 10px;
+}
+
+.reg_line_header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 13px;
+  color: var(--color-secondary);
+}
+
+.reg_line_header i {
+  margin-top: 3px;
+}
+
+.reg_grid {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  grid-template-columns: repeat(2);
+  gap: 10px;
+  height: 35px;
+  width: 100%;
+}
+
+.reg_grid label {
+  width: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  color: var(--color-primary);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.reg_infos {
+  font-size: 11px;
+  margin-top: 10px;
+  color: var(--color-secondary);
+}
+
+.reg_infos span {
+  color: var(--blue-color);
+}
+
+.reg_btn_wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0 10px 0;
+}
+/*---------------------------------------------------------------- Footer ----------------------------------------------------------------  */
+
+.login_footer {
+  height: 22vh;
+  background: var(--bg-primary);
+  padding: 1.5rem;
+}
+
+.login_footer_wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 10px;
+  font-size: 13px;
+  color: var(--color-secondary);
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.login_footer_wrap a:hover {
+  text-decoration: underline;
+}
+
+.footer_square {
+  background: var (--bg-secondary);
+  height: 19px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--bg-third);
+}
+
+.footer_square i {
+  transform: scale(0.8);
+  -webkit-filter: invert(40%);
+}
+
+.footer_splitter {
+  width: 100%;
+  height: 1px;
+  background: var(--bg-third);
+  margin: 10px auto;
+  max-width: 900px;
+}
+
+/*---------------------------------------------------------------- Social Media Links ----------------------------------------------------------------  */
+
+.social_media_links {
+  display: flex;
+  gap: 10px; /* spacing between icons */
+  justify-content: center; /* Center the icons horizontally */
+}
+
+.social_media_links i {
+  color: var(--color-secondary); /* or whatever color you'd like */
+  font-size: 18px; /* size of the icons */
+  cursor: pointer;
+}
+
+.social_media_links i:hover {
+  color: var(--color-highlight); /* a different color or effect for hover */
+}
+
+.social-icon {
+  font-size: 20px; /* or whatever size you want */
+}
+
+.social-icon.whatsapp {
+  color: #25d366; /* WhatsApp color */
+}
+
+.social-icon.telegram {
+  color: #0088cc; /* Telegram color */
+}
+
+.social-icon.twitter {
+  color: #1da1f2; /* Twitter color */
+}
+
+.social-icon.facebook {
+  color: #1877f2; /* Facebook color */
+}
+
+.social-icon.youtube {
+  color: #ff0000; /* YouTube color */
+}
+
+/* You can add hover effects if desired */
+.social-icon:hover {
+  opacity: 0.8;
+}
+/*---------------------------------------------------------------- Media Queries ----------------------------------------------------------------  */
+
+@media (min-width: 539px) {
+  .login_footer_wrap {
+    max-width: 520px;
+  }
+}
+
+@media (min-width: 650px) {
+  .login_footer_wrap {
+    max-width: 650px;
+  }
+}
+
+@media (min-width: 850px) {
+  .login_wrap {
+    display: flex;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    flex-direction: row;
+  }
+
+  .login_1 {
+    width: 50%;
+  }
+
+  .login_2 {
+    width: 50%;
+  }
+
+  .login_2_wrap {
+    width: 400px;
+  }
+
+  .login_footer_wrap {
+    max-width: 900px;
+  }
+
+  /* Other styles go here */
+}
