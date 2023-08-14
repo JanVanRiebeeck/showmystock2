@@ -6,10 +6,17 @@ export default function RegisterForm() {
   // Yup set Schema
   const RegisterValidation = Yup.object({
     email: Yup.string()
-      .required("Email address is required")
+      .required(
+        "You will need this when you log in and if you ever need to reset your password"
+      )
       .email("Must be a valid email")
       .max(100),
-    password: Yup.string().required("Password is required"),
+    password: Yup.string()
+      .required(
+        "Enter a combination of at least six numbers, letters and punctuation marks (such as ! and &)"
+      )
+      .min(6, "Password must be at least 6 characters long")
+      .max(50, "Password cannot exceed 50 characters"),
     accountType: Yup.string().required("Account type is required"),
   });
 
