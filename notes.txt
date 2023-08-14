@@ -6,6 +6,8 @@ info@showmystock.com - Strand.198 - Credentiails - URI http://localhost:3000 (Ve
 om the check: OAuth playground => Step 1 https://mail.google.com en select Authorize APIS, settings => Use your own Oath Credentiails, en tik dan in wat op google cloud API Credentials gesave is
 Step 2: Exchange aith code for tokens, en save dan die tokens in .env file, register dan nuwe user met email in postman
 
+my blue color = #163172
+
 font = npm start
 back = npm run server
 
