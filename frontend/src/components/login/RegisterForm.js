@@ -1,8 +1,19 @@
-import { Form, Formik, Field } from "formik";
+import { Form, Formik, ErrorMessage } from "formik";
 import RegisterInput from "../inputs/registerInput";
 import * as Yup from "yup";
+import TypeOfAccountSelect from "./TypeOfAccountSelect";
+import ErrorWithTopArrow from "./ErrorWithTopArrow";
+import DotLoader from "react-spinners/DotLoader";
+import axios from "axios";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
+  // To navigate between pages
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   // Yup set Schema
   const RegisterValidation = Yup.object({
     email: Yup.string()
@@ -17,8 +28,43 @@ export default function RegisterForm() {
       )
       .min(6, "Password must be at least 6 characters long")
       .max(50, "Password cannot exceed 50 characters"),
-    accountType: Yup.string().required("Account type is required"),
+    accountType: Yup.string().required(
+      "Please select your account type, Company or Personal"
+    ),
   });
+
+  // Define state variables for success and error messages
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const registerSubmit = async (values) => {
+    setLoading(true);
+
+    // Introduce a delay using setTimeout
+    setTimeout(async () => {
+      try {
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_BACKEND_URL}/register`,
+          values
+        );
+        setLoading(false);
+        setError("");
+        setSuccess(data.message);
+        const { message, ...rest } = data;
+        setTimeout(() => {
+          dispatch({ type: "LOGIN", payload: rest });
+          Cookies.set("user", JSON.stringify(rest), { expires: 7 }); // Expires in 7 days
+
+          navigate("/");
+        }, 2000);
+      } catch (error) {
+        setLoading(false);
+        setError(error.response?.data?.message || "Email already registered");
+        console.log(error.response);
+      }
+    }, 3000);
+  };
 
   return (
     <div className="blur">
@@ -33,15 +79,10 @@ export default function RegisterForm() {
             password: "",
             accountType: "",
           }}
-          // Use Yup to validate the data
           validationSchema={RegisterValidation}
-          // Use Formik to do the submission of values
-          onSubmit={(values) => {
-            // Do something with the form values, like sending them to your API
-            console.log(values);
-          }}
+          onSubmit={(values) => registerSubmit(values)}
         >
-          {(formik) => (
+          {({ touched }) => (
             <Form className="regsiter_form">
               <div className="reg_line">
                 <RegisterInput
@@ -57,26 +98,13 @@ export default function RegisterForm() {
               </div>
               <div className="reg_col">
                 <div className="reg_line_header">Type of account?</div>
-                <div className="reg_grid">
-                  <label htmlFor="company">
-                    Company{" "}
-                    <Field
-                      type="radio"
-                      name="accountType"
-                      id="company"
-                      value="company"
-                    />
-                  </label>
-                  <label htmlFor="personal">
-                    Personal{" "}
-                    <Field
-                      type="radio"
-                      name="accountType"
-                      id="personal"
-                      value="personal"
-                    />
-                  </label>
-                </div>
+                <TypeOfAccountSelect />
+                {touched.accountType && (
+                  <ErrorMessage
+                    name="accountType"
+                    render={(msg) => <ErrorWithTopArrow message={msg} />}
+                  />
+                )}
               </div>
               <div className="reg_infos">
                 By clicking Submit, you agree to our {""}
@@ -89,6 +117,13 @@ export default function RegisterForm() {
                   Submit
                 </button>
               </div>
+              <div className="loader_wrapper">
+                {" "}
+                {/* <-- Wrapper div */}
+                <DotLoader color="#1876f2" loading={loading} size={30} />
+              </div>
+              {error && <div className="error_text"> {error}</div>}
+              {success && <div className="success_text"> {success}</div>}
             </Form>
           )}
         </Formik>

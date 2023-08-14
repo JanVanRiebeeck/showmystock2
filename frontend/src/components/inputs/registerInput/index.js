@@ -10,7 +10,7 @@ export default function RegisterInput({ placeholder, bottom, ...props }) {
     query: "(min-width: 850px)",
   });
   return (
-    <div className="input_wrap">
+    <div className="input_wrap register_input_wrap">
       {meta.touched && meta.error && !bottom && (
         <div
           className={
@@ -21,7 +21,7 @@ export default function RegisterInput({ placeholder, bottom, ...props }) {
           {meta.touched && meta.error && <ErrorMessage name={field.name} />}
           {meta.touched && meta.error && (
             <div
-              className={desktopView ? "error_arrow_left" : "error_arrow_top"}
+              className={desktopView ? "error_arrow_top" : "error_arrow_top"}
             ></div>
           )}
         </div>
@@ -45,7 +45,7 @@ export default function RegisterInput({ placeholder, bottom, ...props }) {
           {meta.touched && meta.error && (
             <div
               className={
-                desktopView ? "error_arrow_left" : "error_arrow_bottom"
+                desktopView ? "error_arrow_bottom" : "error_arrow_bottom"
               }
             ></div>
           )}

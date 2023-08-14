@@ -227,6 +227,24 @@
   justify-content: center;
   margin: 20px 0 10px 0;
 }
+
+/*---------------------------------------------------------------- Error and success Styles ----------------------------------------------------------------  */
+
+.error_text {
+  color: #b94a48;
+}
+
+.success_text {
+  color: var(--green-color);
+}
+
+.loader_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px; /* Optional space between the button and loader */
+}
+
 /*---------------------------------------------------------------- Footer ----------------------------------------------------------------  */
 
 .login_footer {
@@ -324,6 +342,9 @@
   .login_footer_wrap {
     max-width: 520px;
   }
+  .register {
+    width: 400px;
+  }
 }
 
 @media (min-width: 650px) {
@@ -356,6 +377,4 @@
   .login_footer_wrap {
     max-width: 900px;
   }
-
-  /* Other styles go here */
 }

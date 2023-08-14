@@ -1,0 +1,26 @@
+/* ErrorWithTopArrow.css */
+.error_with_arrow {
+  position: relative;
+}
+
+.error_message {
+  position: relative;
+  padding: 15px 10px;
+  background: #b94a48;
+  width: 100%;
+  color: #fff;
+  font-size: 13px; /* correct 'font-style' to 'font-size' */
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.error_arrow_bottom {
+  /* Update to error_arrow_top */
+  border-bottom: 10px solid #b94a48; /* change 'border-top' to 'border-bottom' */
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  position: absolute;
+  top: -10px; /* change 'bottom' to 'top' */
+  left: 50%;
+  transform: translateX(-50%) translateY(1px);
+}
