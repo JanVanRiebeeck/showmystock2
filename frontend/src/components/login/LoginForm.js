@@ -2,8 +2,16 @@ import { Formik, Form } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import LoginInput from "../../components/inputs/loginInput";
+import { useState } from "react";
+import DotLoader from "react-spinners/DotLoader";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
-export default function LoginForm() {
+export default function LoginForm({ setVisible }) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   // Yup set Schema
   const LoginValidation = Yup.object({
     email: Yup.string()
@@ -12,6 +20,33 @@ export default function LoginForm() {
       .max(100),
     password: Yup.string().required("Password is required"),
   });
+
+  // Define state variables for success and error messages
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const loginSubmit = async (values) => {
+    // Destructure email and password from values
+    const { email, password } = values;
+    // Introduce a delay using setTimeout
+    setLoading(true);
+    setTimeout(async () => {
+      try {
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_BACKEND_URL}/login`,
+          // how do I pass them here?
+          { email, password }
+        );
+        setLoading(false);
+        dispatch({ type: "LOGIN", payload: data });
+        Cookies.set("user", JSON.stringify(data), { expires: 7 }); // Expires in 7 days
+        navigate("/");
+      } catch (error) {
+        setLoading(false);
+        setError(error.response?.data?.message || "Error occurred");
+      }
+    }, 1500);
+  };
 
   return (
     <div className="login_wrap">
@@ -46,10 +81,7 @@ export default function LoginForm() {
             // Use Yup to validate the data
             validationSchema={LoginValidation}
             // Use Formik to do the submission of values
-            onSubmit={(values) => {
-              // Do something with the form values, like sending them to your API
-              console.log(values);
-            }}
+            onSubmit={loginSubmit} // Passing the entire values object
           >
             {() => (
               <Form>
@@ -73,8 +105,15 @@ export default function LoginForm() {
           <Link to="/forgot" className="forgot_password">
             Forgotten Password?
           </Link>
+          <DotLoader color="#1876f2" loading={loading} size={30} />
+          {error && <div className="error_text">{error}</div>}
           <div className="sign_splitter"></div>
-          <button className="blue_btn open_signup">Create Account</button>
+          <button
+            className="blue_btn open_signup"
+            onClick={() => setVisible(true)}
+          >
+            Create Account
+          </button>
         </div>
       </div>{" "}
       {/* This is the end of .login_2 */}

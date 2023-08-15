@@ -1,16 +1,16 @@
 import { Form, Formik, ErrorMessage } from "formik";
+import { useState } from "react";
 import RegisterInput from "../inputs/registerInput";
 import * as Yup from "yup";
 import TypeOfAccountSelect from "./TypeOfAccountSelect";
 import ErrorWithTopArrow from "./ErrorWithTopArrow";
 import DotLoader from "react-spinners/DotLoader";
 import axios from "axios";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
-export default function RegisterForm() {
+export default function RegisterForm({ setVisible }) {
   // To navigate between pages
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -57,20 +57,20 @@ export default function RegisterForm() {
           Cookies.set("user", JSON.stringify(rest), { expires: 7 }); // Expires in 7 days
 
           navigate("/");
-        }, 2000);
+        }, 1500);
       } catch (error) {
         setLoading(false);
         setError(error.response?.data?.message || "Email already registered");
         console.log(error.response);
       }
-    }, 3000);
+    }, 1500);
   };
 
   return (
     <div className="blur">
       <div className="register">
         <div className="register_header">
-          <i className="exit_icon"></i>
+          <i className="exit_icon" onClick={() => setVisible(false)}></i>
           <span>Create Account</span>
         </div>
         <Formik
