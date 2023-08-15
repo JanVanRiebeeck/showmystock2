@@ -16,7 +16,26 @@ git add .
 git commit -m " message "
 git push -u origin main
 
-idees - Kry 'n export function sodat user stock op sy Quote kan sit met sy pryse by, quick select % vir profits
-idees - 7 dae trial, kyk na quick books se pryse
+/////////////////////////////////////////////// idees //////////////////////////////////////////////////////////////////
+
+Free Features: Besighede kan opteken en hul info post op hul home feed
+Free Features: Hulle kan ander besighede volg en kliente kan hulle volg
+Free Features: Hulle kan die markplek sien en advertensies plaas
+Free Features: Besighede kan een supplier se stock track
+
+Betaal: As 'n besigheid sy advertensie wil promote
+Betaal: As 'n besigheid sy advertensie aan ander soortgelyke besighede stuur wat hy nie tanks volg nie (Hulle sal dit dan op hul home feed sien)
+Betaal: Basies subscription = 10 suppliers wat hulle wil volg,  moet hulle R150pm betaal subscription
+Betaal: Pro subscription = unlimited suppliers wat hulle wil volg,  moet hulle R1500pm betaal subscription
+Betaal: subscription = R100pm vir live quoting
+
+Ander revenue streams: Data kan getrack word en verkoop word (Check privacy laws)
+Ander revenue streams: Partnerships met partners soos Quickbooks, referral commision as iemand ons links gebruik
+Ander revenue streams: Ons kan 'n token launch op ETH, as hulle die token gebruik dan is kostes 50% minder
+
+
+Kry 'n export function sodat user stock op sy Quote kan sit met sy pryse by, quick select % vir profits
+7 dae trial, kyk na quick books se pryse
+
 
 

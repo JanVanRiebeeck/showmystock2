@@ -1,5 +1,5 @@
 // ErrorWithTopArrow.js
-// In ErrorWithTopArrow.js
+
 import "./ErrorWithTopArrow.css";
 
 export default function ErrorWithTopArrow({ message }) {

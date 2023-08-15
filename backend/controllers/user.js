@@ -117,6 +117,7 @@ exports.login = async (req, res) => {
       id: user._id,
       token: token,
       verified: user.verified,
+      picture: user.picture,
       message: "Login Success !",
     });
   } catch (error) {
