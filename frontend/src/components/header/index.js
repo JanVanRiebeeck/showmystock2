@@ -2,6 +2,9 @@ import "./style.css";
 import { Link } from "react-router-dom";
 import Showmystocklogo from "../../svg/showmystocklogo";
 import Search from "../../svg/search";
+import SearchMenu from "./SearchMenu";
+
+import { useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -21,9 +24,11 @@ import { useSelector } from "react-redux";
 
 export default function Header() {
   const { user } = useSelector((user) => ({ ...user }));
-  console.log(user);
+
   const color = "#65676b";
   const color2 = "#163172";
+
+  const [showSearchMenu, setShowSearchMenu] = useState(false);
   return (
     <header>
       <div className="header_left">
@@ -32,7 +37,12 @@ export default function Header() {
             <Showmystocklogo />
           </div>
         </Link>
-        <div className="search search1">
+        <div
+          className="search search1"
+          onClick={() => {
+            setShowSearchMenu(true);
+          }}
+        >
           <Search color={color} />
           <input
             type="text"
@@ -41,6 +51,9 @@ export default function Header() {
           ></input>
         </div>
       </div>
+      {showSearchMenu && (
+        <SearchMenu color={color} setShowSearchMenu={setShowSearchMenu} />
+      )}
       <div className="header_middle">
         <Link to="/home" className="middle_icon hover1 active">
           <FontAwesomeIcon color={color2} icon={faHome} />
