@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Showmystocklogo from "../../svg/showmystocklogo";
 import Search from "../../svg/search";
 import SearchMenu from "./SearchMenu";
+import AllMenu from "./AllMenu";
 
 import { useState } from "react";
 
@@ -12,7 +13,7 @@ import {
   faTruck,
   faUsers,
   faBalanceScale,
-  faCog,
+  faBars,
   faComments,
   faBell,
   faHeart,
@@ -74,8 +75,9 @@ export default function Header() {
           <img src={user?.picture} alt="" />
           <span>Username</span>
         </Link>
-        <Link to="/settings" className="circle_icon hover1">
-          <FontAwesomeIcon color={color2} icon={faCog} />
+        <Link to="/menu" className="circle_icon hover1">
+          <FontAwesomeIcon color={color2} icon={faBars} />
+          <AllMenu color={color} />
         </Link>
         <Link to="/comments" className="circle_icon hover1">
           <FontAwesomeIcon color={color2} icon={faComments} />

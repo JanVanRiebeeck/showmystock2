@@ -38,4 +38,59 @@ Kry 'n export function sodat user stock op sy Quote kan sit met sy pryse by, qui
 7 dae trial, kyk na quick books se pryse
 
 
+My webapp (showmystock.com) bridges the gap between sources, retailers and clients, allowing them to monitor real time inventory levels of each other, we also have a 
+marketplace that allows them to advertise products and services, we will also have a "live quote" function that users can use to send to clients so they know
+they have stock of an item they can deliver.
+My progress on the webapp is: 
+Header = divided Left middle and right section. 
+- Left will be the search bar, where users can search the site
 
+- Middle has 4 icons, Home, Suppliers, Clients, marketplace
+-- Home: Users can put their feed here, company news, promotions etc.
+-- Suppliers: Users can follow the feed of their suppliers here
+-- Clients: Users can follow the feed of their clients here
+-- marketplace: Users can post and view adds here
+
+- Right side: User navigation:
+- User Icon, where user can view and change the user details
+
+- Menu: Where user can see all the options of the site, 
+
+-- Menu: Discover and Connect: Find Suppliers, Find Clients, Marketplace Search, Quotes
+--- Find Suppliers: Search for and view supplier profiles
+--- Find Clients: Explore potential clients looking for your products
+--- Marketplace Search: Browse products and services in the marketplace
+--- Quotes: Send or request quotes from suppliers/clients (Live quotes for Basic and Pro subscribers)
+
+-- Menu: Manage and monitor
+--- Inventory Management: Track supplier inventory, track client inventory (1 supplier / client for Basic, Pro subscribers R 150 for each additional 10)
+--- Analytics and reporting: Access reports and analysis on page views, ads and products
+--- Advertisements and promotions: Manage your ads on the marketplace, manage promotions (Promoting ads and advertising promotions for fee)
+--- Supplier and Client relations: Review and manage your connections with suppliers and clients (Suppliers can be set as private (so not be searched for) or public, can manage who your clients are and what they can track from you)
+--- Subscriptions and billing: View and manage your subscription plan, view billing history.
+
+-- Menu: Engage & Network
+--- Forums and discussions: Participate in or start discussions on relevant topics (Let user create content here free)
+--- Events and webinars: Find or host industry-related events, webinars or workshops (Can do it on the site or maybe discord channel, plugin?)
+--- User feedback and reviews: Write and read reviewos on suppliers, products and services.
+--- Learning & resources: Access to tutorials, guides, best practices, industry-news (Can use AI agent to pull data and post here)
+
+-- Menu: Personal and Support
+--- Profile and settings: Manage personal details, preferences and privacy settings.
+--- Wishlist and Favourites: Save favorite suppliers, products, or posts to easily access later
+--- Help & Support Center: Access FAQ, guides, live chat, or submit support tickets (in support tickets we can also have feedback option)
+
+
+-- Messages: view and send messages to other users
+-- notifications: view site notifications
+-- Likes: See who liked content of user
+-- ShoppingCart: Subscribe or purchase (To follow more that one supplier = R 150pm, to follow more that 10 = R 1500pm)(Promoting ads will cost money)
+-- LogOut: User log out
+
+Footer Items:
+- Compliance
+- Legal 
+- Certificates
+
+Questions:
+-- Should I make a menu for the user? That will be in the right header? If so any ideas of what to put in it?
