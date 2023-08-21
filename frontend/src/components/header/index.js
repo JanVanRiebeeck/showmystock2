@@ -5,7 +5,8 @@ import Search from "../../svg/search";
 import SearchMenu from "./SearchMenu";
 import AllMenu from "./AllMenu";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import useClickOutside from "../../helpers/clickOutside";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,6 +23,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { useSelector } from "react-redux";
+import UserMenu from "./UserMenu";
 
 export default function Header() {
   const { user } = useSelector((user) => ({ ...user }));
@@ -30,6 +32,12 @@ export default function Header() {
   const color2 = "#163172";
 
   const [showSearchMenu, setShowSearchMenu] = useState(false);
+  const [showAllMenu, setShowAllMenu] = useState(false);
+  const allmenu = useRef(null);
+  useClickOutside(allmenu, () => {
+    setShowAllMenu(false);
+  });
+
   return (
     <header>
       <div className="header_left">
@@ -71,14 +79,16 @@ export default function Header() {
         </Link>
       </div>
       <div className="header_right">
-        <Link to="/user" className="profile_link hover1">
-          <img src={user?.picture} alt="" />
-          <span>Username</span>
-        </Link>
-        <Link to="/menu" className="circle_icon hover1">
+        <div
+          className="circle_icon hover1"
+          ref={allmenu}
+          onClick={() => {
+            setShowAllMenu((prev) => !prev);
+          }}
+        >
           <FontAwesomeIcon color={color2} icon={faBars} />
-          <AllMenu color={color} />
-        </Link>
+          {showAllMenu && <AllMenu color={color} />}
+        </div>
         <Link to="/comments" className="circle_icon hover1">
           <FontAwesomeIcon color={color2} icon={faComments} />
           <div className="right_notification">1</div>
@@ -94,9 +104,10 @@ export default function Header() {
         <Link to="/sales" className="circle_icon hover1">
           <FontAwesomeIcon color={color2} icon={faShoppingCart} />
         </Link>
-        <Link to="/logout" className="circle_icon hover1">
-          <FontAwesomeIcon color={color2} icon={faSignOut} />
-        </Link>
+        <div className="circle_icon hover1">
+          <img src={user?.picture} alt="" />
+        </div>
+        <UserMenu />
       </div>
     </header>
   );

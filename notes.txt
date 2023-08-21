@@ -41,6 +41,7 @@ Kry 'n export function sodat user stock op sy Quote kan sit met sy pryse by, qui
 My webapp (showmystock.com) bridges the gap between sources, retailers and clients, allowing them to monitor real time inventory levels of each other, we also have a 
 marketplace that allows them to advertise products and services, we will also have a "live quote" function that users can use to send to clients so they know
 they have stock of an item they can deliver.
+
 My progress on the webapp is: 
 Header = divided Left middle and right section. 
 - Left will be the search bar, where users can search the site
