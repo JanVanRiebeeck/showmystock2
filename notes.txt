@@ -53,7 +53,6 @@ Header = divided Left middle and right section.
 -- marketplace: Users can post and view adds here
 
 - Right side: User navigation:
-- User Icon, where user can view and change the user details
 
 - Menu: Where user can see all the options of the site, 
 
@@ -76,17 +75,18 @@ Header = divided Left middle and right section.
 --- User feedback and reviews: Write and read reviewos on suppliers, products and services.
 --- Learning & resources: Access to tutorials, guides, best practices, industry-news (Can use AI agent to pull data and post here)
 
--- Menu: Personal and Support
---- Profile and settings: Manage personal details, preferences and privacy settings.
---- Wishlist and Favourites: Save favorite suppliers, products, or posts to easily access later
---- Help & Support Center: Access FAQ, guides, live chat, or submit support tickets (in support tickets we can also have feedback option)
-
-
 -- Messages: view and send messages to other users
 -- notifications: view site notifications
 -- Likes: See who liked content of user
 -- ShoppingCart: Subscribe or purchase (To follow more that one supplier = R 150pm, to follow more that 10 = R 1500pm)(Promoting ads will cost money)
 -- LogOut: User log out
+
+-- User Icon (When click on - go to User Menu)
+--- Profile and settings: Manage personal details, preferences and privacy settings.
+--- Wishlist and Favourites: Save favorite suppliers, products, or posts to easily access later
+--- Help & Support Center: Access FAQ, guides, live chat, or submit support tickets (in support tickets we can also have feedback option)
+--- Display: Dark / Light mode 
+--- Log out
 
 Footer Items:
 - Compliance
@@ -94,4 +94,4 @@ Footer Items:
 - Certificates
 
 Questions:
--- Should I make a menu for the user? That will be in the right header? If so any ideas of what to put in it?
+-- I am working on the menu, if user clicks on it, it will open the div and if he clicks on the button or outside it, then it will close the menu, but if I click inside the menu, it is still closing the div? where it should be opening the respective links, please advise

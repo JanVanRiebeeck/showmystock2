@@ -31,11 +31,22 @@ export default function Header() {
   const color = "#65676b";
   const color2 = "#163172";
 
+  // UseState hooks (Initialize a state variable with a value "false" and a function)
   const [showSearchMenu, setShowSearchMenu] = useState(false);
   const [showAllMenu, setShowAllMenu] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+
+  // useRef hook ( create ref to DOM element "div" ref wil be updated once element is renedered)
   const allmenu = useRef(null);
+  const usermenu = useRef(null);
+
+  // Custom Hooks
   useClickOutside(allmenu, () => {
     setShowAllMenu(false);
+  });
+
+  useClickOutside(usermenu, () => {
+    setShowUserMenu(false);
   });
 
   return (
@@ -104,10 +115,17 @@ export default function Header() {
         <Link to="/sales" className="circle_icon hover1">
           <FontAwesomeIcon color={color2} icon={faShoppingCart} />
         </Link>
-        <div className="circle_icon hover1">
+
+        <div
+          className="circle_icon hover1"
+          ref={usermenu}
+          onClick={() => {
+            setShowUserMenu((prev) => !prev);
+          }}
+        >
           <img src={user?.picture} alt="" />
+          {showUserMenu && <UserMenu color={color} />}
         </div>
-        <UserMenu />
       </div>
     </header>
   );

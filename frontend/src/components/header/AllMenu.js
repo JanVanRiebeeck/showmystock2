@@ -13,9 +13,6 @@ import forumIcon from "../../styles/icons/icons8-boardroom-64.png";
 import webinarIcon from "../../styles/icons/icons8-webinar-48.png";
 import feedbackIcon from "../../styles/icons/icons8-feedback-100.png";
 import learningIcon from "../../styles/icons/icons8-learning-48.png";
-import settingsIcon from "../../styles/icons/icons8-settings-64.png";
-import favouriteIcon from "../../styles/icons/icons8-favorite-folder-48.png";
-import supportIcon from "../../styles/icons/icons8-support-100.png";
 
 export default function AllMenu({ color }) {
   const handleClickInside = (e) => {
@@ -160,38 +157,6 @@ export default function AllMenu({ color }) {
                   <span className="span_heading">Learning & Resources</span>
                   <span className="span_description">
                     Access to tutorials, guides, best practices, industry news
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="all_menu_group">
-              <div className="all_menu_group_header">Personal & Support</div>
-              <div className="all_menu_item hover1">
-                <img src={settingsIcon} alt="Truck Icon" />
-                <div className="all_menu_col">
-                  <span className="span_heading">Profile & Settings</span>
-                  <span className="span_description">
-                    Manage personal details, preferences and privacy settings
-                  </span>
-                </div>
-              </div>
-              <div className="all_menu_item hover1">
-                <img src={favouriteIcon} alt="Truck Icon" />
-                <div className="all_menu_col">
-                  <span className="span_heading">Wishlist & Favorites</span>
-                  <span className="span_description">
-                    Save favorite suppliers, products, or posts to easily access
-                    later
-                  </span>
-                </div>
-              </div>
-              <div className="all_menu_item hover1">
-                <img src={supportIcon} alt="Truck Icon" />
-                <div className="all_menu_col">
-                  <span className="span_heading">Help & Support Center</span>
-                  <span className="span_description">
-                    Access FAQs, guides, live chat support, or submit support
-                    tickets
                   </span>
                 </div>
               </div>
