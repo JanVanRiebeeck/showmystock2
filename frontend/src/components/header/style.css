@@ -99,14 +99,6 @@ header {
 
 /* -- Header right --*/
 
-.header_right {
-  display: flex;
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
 .circle_icon {
   position: relative;
   height: 40px;
@@ -211,19 +203,6 @@ header {
   color: var(--blue-color);
 }
 
-/* -- Search All Menu --*/
-header {
-  position: fixed;
-  top: 0;
-  height: 56px;
-  z-index: 99;
-  background: var(--bg-primary);
-  width: 100%;
-  box-shadow: 1px 8px 15px -7px var(--shadow-2);
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  color: var(--color-primary);
-}
 /*---Header left-----*/
 .header_left {
   display: flex;
@@ -268,7 +247,14 @@ header {
   align-items: center;
   gap: 14px;
   transform: translateX(3px);
+  flex-direction: row;
 }
+
+.middle_top,
+.middle_bottom {
+  display: flex; /* Ensures the icons inside these divs are in a row */
+}
+
 .middle_icon {
   position: relative;
   display: flex;
@@ -321,7 +307,13 @@ header {
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
+  flex-direction: row;
 }
+.right_top,
+.right_bottom {
+  display: flex; /* Ensures the icons inside these divs are in a row */
+}
+
 .profile_link {
   display: flex;
   align-items: center;
@@ -659,7 +651,62 @@ header {
 }
 
 @media (max-width: 625px) {
-  .header {
-    height: 120px; /* Allow the height to expand */
+  header {
+    height: 120px;
+  }
+
+  .header_left {
+    display: table-column;
+  }
+
+  .header_middle {
+    transform: translateX(-45%);
+    flex-direction: column;
+  }
+  .middle_top,
+  .middle_bottom {
+    justify-content: space-around;
+  }
+  .header_right {
+    flex-direction: column; /* Changes the icons to be in two rows */
+    align-items: center; /* Centers the icons */
+    gap: 10px;
+  }
+
+  .right_top,
+  .right_bottom {
+    justify-content: space-around; /* Or any other styling you need for the icons */
+    flex-wrap: wrap; /* Allows the icons to wrap to the next line if there's not enough space */
+  }
+  .all_menu {
+    right: -5rem;
+    width: 250px;
+    transform: translateY(9%);
+  }
+}
+
+@media (max-width: 400px) {
+  .header_middle {
+    transform: translateX(-25%);
+  }
+  .user_menu {
+    width: 200px;
+    height: 100vh;
+  }
+}
+
+@media (max-width: 320px) {
+  .header_middle {
+    transform: translateY(25%);
+    transform: translateX(-7%);
+  }
+
+  .middle_icon {
+    width: 30px;
+    height: 30px;
+  }
+  .circle_icon {
+    width: 30px;
+    height: 30px;
   }
 }

@@ -75,56 +75,64 @@ export default function Header() {
         <SearchMenu color={color} setShowSearchMenu={setShowSearchMenu} />
       )}
       <div className="header_middle">
-        <Link to="/home" className="middle_icon hover1 active">
-          <FontAwesomeIcon color={color2} icon={faHome} />
-        </Link>
-        <Link to="/suppliers" className="middle_icon hover1">
-          <FontAwesomeIcon color={color2} icon={faTruck} />
-        </Link>
-        <Link to="/clients" className="middle_icon hover1">
-          <FontAwesomeIcon color={color2} icon={faUsers} />
-          <div className="clients_notification">10+</div>
-        </Link>
-        <Link to="/marketplace" className="middle_icon hover1">
-          <FontAwesomeIcon color={color2} icon={faBalanceScale} />
-        </Link>
+        <div className="middle_top">
+          <Link to="/home" className="middle_icon hover1 active">
+            <FontAwesomeIcon color={color2} icon={faHome} />
+          </Link>
+          <Link to="/suppliers" className="middle_icon hover1">
+            <FontAwesomeIcon color={color2} icon={faTruck} />
+          </Link>
+        </div>
+        <div className="middle_bottom">
+          <Link to="/clients" className="middle_icon hover1">
+            <FontAwesomeIcon color={color2} icon={faUsers} />
+            <div className="clients_notification">10+</div>
+          </Link>
+          <Link to="/marketplace" className="middle_icon hover1">
+            <FontAwesomeIcon color={color2} icon={faBalanceScale} />
+          </Link>
+        </div>
       </div>
       <div className="header_right">
-        <div
-          className="circle_icon hover1"
-          ref={allmenu}
-          onClick={() => {
-            setShowAllMenu((prev) => !prev);
-          }}
-        >
-          <FontAwesomeIcon color={color2} icon={faBars} />
-          {showAllMenu && <AllMenu color={color} />}
+        <div className="right_top">
+          <div
+            className="circle_icon hover1"
+            ref={allmenu}
+            onClick={() => {
+              setShowAllMenu((prev) => !prev);
+            }}
+          >
+            <FontAwesomeIcon color={color2} icon={faBars} />
+            {showAllMenu && <AllMenu color={color} />}
+          </div>
+          <Link to="/comments" className="circle_icon hover1">
+            <FontAwesomeIcon color={color2} icon={faComments} />
+            <div className="right_notification">1</div>
+          </Link>
+          <Link to="/notifications" className="circle_icon hover1">
+            <FontAwesomeIcon color={color2} icon={faBell} />
+            <div className="right_notification">2</div>
+          </Link>
         </div>
-        <Link to="/comments" className="circle_icon hover1">
-          <FontAwesomeIcon color={color2} icon={faComments} />
-          <div className="right_notification">1</div>
-        </Link>
-        <Link to="/notifications" className="circle_icon hover1">
-          <FontAwesomeIcon color={color2} icon={faBell} />
-          <div className="right_notification">2</div>
-        </Link>
-        <Link to="/liked" className="circle_icon hover1">
-          <FontAwesomeIcon color={color2} icon={faHeart} />
-          <div className="right_notification">3</div>
-        </Link>
-        <Link to="/sales" className="circle_icon hover1">
-          <FontAwesomeIcon color={color2} icon={faShoppingCart} />
-        </Link>
+        <div className="right_bottom">
+          <Link to="/liked" className="circle_icon hover1">
+            <FontAwesomeIcon color={color2} icon={faHeart} />
+            <div className="right_notification">3</div>
+          </Link>
+          <Link to="/sales" className="circle_icon hover1">
+            <FontAwesomeIcon color={color2} icon={faShoppingCart} />
+          </Link>
 
-        <div
-          className="circle_icon hover1"
-          ref={usermenu}
-          onClick={() => {
-            setShowUserMenu((prev) => !prev);
-          }}
-        >
-          <img src={user?.picture} alt="" />
-          {showUserMenu && <UserMenu color={color} />}
+          <div
+            className="circle_icon hover1"
+            ref={usermenu}
+            onClick={() => {
+              setShowUserMenu((prev) => !prev);
+            }}
+          >
+            <img src={user?.picture} alt="" />
+            {showUserMenu && <UserMenu color={color} />}
+          </div>
         </div>
       </div>
     </header>
