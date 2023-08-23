@@ -1,0 +1,66 @@
+.left_home {
+  position: fixed;
+  margin-top: 58px;
+  left: 6px;
+  max-height: 100vh;
+  width: 300px;
+  overflow-y: auto;
+  color: var(--color-primary);
+  padding: 15px 0;
+  background: #fff; /* or whatever background you prefer */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* optional */
+}
+
+.user_image {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.left_link {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.follow_btn {
+  background-color: var(--color-primary);
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.follow_btn:hover {
+  background-color: darken(var(--color-primary), 10%);
+}
+
+.bio,
+.location,
+.services,
+.review_score,
+.recent_activity,
+.member_since {
+  margin: 10px 0;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid #e0e0e0;
+  margin: 20px 0;
+}
+
+.user_links a {
+  display: block;
+  margin: 5px 0;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.user_links a:hover {
+  text-decoration: underline;
+}

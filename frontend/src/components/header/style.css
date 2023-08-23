@@ -441,7 +441,7 @@ header {
 }
 .all_menu_wrap {
   display: grid;
-  grid-template-columns: 30fr 1fr;
+  grid-template-columns: 1fr; /* Change to one column */
   gap: 1rem;
   overflow-y: auto;
   height: 95%;
@@ -560,7 +560,7 @@ header {
   top: 45px;
   background: var(--bg-secondary);
   border-radius: 10px;
-  height: 45vh;
+  height: 85vh;
   width: 400px;
   padding: 10px 1rem;
   box-shadow: -2px 1px 5px 2px var(--shadow-1);
@@ -611,6 +611,12 @@ header {
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  overflow: auto;
+}
+
+/* -------------- Active Header selected ------------------ */
+.active_header {
+  background: #aef3f3;
 }
 
 /* -------------- Responsive for Mobile view ------------------ */
@@ -618,9 +624,6 @@ header {
 @media (max-width: 1295px) {
   .middle_icon {
     width: 90px;
-  }
-  .user_menu {
-    height: 50vh;
   }
 }
 

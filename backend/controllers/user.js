@@ -11,7 +11,20 @@ exports.register = async (req, res) => {
   console.log("Request Body:", req.body); // This will print the request body to the console
   try {
     // Extract data from request body
-    const { email, password } = req.body; // Removed username
+    const { email, password, accountType, companyName, firstName, lastName } =
+      req.body;
+
+    // Set picture based on account type
+    let picture;
+    if (accountType === "personal") {
+      picture =
+        "https://res.cloudinary.com/dw3k5fe80/image/upload/v1692706052/icons8-user-100_vqhvz3.png";
+    } else if (accountType === "company") {
+      picture =
+        "https://res.cloudinary.com/dw3k5fe80/image/upload/v1692706052/icons8-company-100_ufymer.png";
+    } else {
+      return res.status(400).json({ message: "Invalid account type" });
+    }
 
     // Check if email is correct
     if (!validateEmail(email)) {
@@ -35,6 +48,24 @@ exports.register = async (req, res) => {
         .json({ message: "Password must be between 6 and 30 characters" });
     }
 
+    // Validate and store company name for company accounts
+    let details;
+    if (accountType === "company") {
+      if (!companyName) {
+        return res.status(400).json({ message: "Company name is required" });
+      }
+      details = { accountType, companyName };
+    } else if (accountType === "personal") {
+      if (!firstName || !lastName) {
+        return res
+          .status(400)
+          .json({ message: "First name and last name are required" });
+      }
+      details = { accountType, firstName, lastName };
+    } else {
+      return res.status(400).json({ message: "Invalid account type" });
+    }
+
     // encrypt password with bcrypt -hash it and salt 12
     const cryptedPassword = await bcrypt.hash(password, 12);
 
@@ -42,7 +73,9 @@ exports.register = async (req, res) => {
     const user = await new User({
       email,
       password: cryptedPassword,
-    }).save(); // Removed username
+      details,
+      picture,
+    }).save();
 
     // Send verification email to user
     const emailVerificationToken = generateToken(
@@ -58,7 +91,9 @@ exports.register = async (req, res) => {
       id: user._id,
       token: token,
       verified: user.verified,
+      picture: user.picture,
       message: "Register Success ! please activate your email to start",
+      details,
     });
   } catch (error) {
     console.error("Error in registration:", error);
@@ -92,6 +127,7 @@ exports.activateAccount = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
+    // Extract data from request body
     const { email, password } = req.body;
 
     // Check if user exists
@@ -111,6 +147,7 @@ exports.login = async (req, res) => {
         message: "Invalid credentials, please try again.",
       });
     }
+
     // If password is correct then we generate a token for the login (same as register)
     const token = generateToken({ id: user._id.toString() }, "7d");
     res.send({
@@ -119,6 +156,7 @@ exports.login = async (req, res) => {
       verified: user.verified,
       picture: user.picture,
       message: "Login Success !",
+      details: user.details,
     });
   } catch (error) {
     console.error("Error in login:", error);

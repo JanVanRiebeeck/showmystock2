@@ -7,6 +7,7 @@ export default function TypeOfAccountSelect() {
         Company{" "}
         <Field type="radio" name="accountType" id="company" value="company" />
       </label>
+
       <label htmlFor="personal">
         Personal{" "}
         <Field type="radio" name="accountType" id="personal" value="personal" />

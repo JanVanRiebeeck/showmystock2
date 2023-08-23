@@ -32,13 +32,17 @@ export default function LoginForm({ setVisible }) {
     setLoading(true);
     setTimeout(async () => {
       try {
+        // Make the login request
         const { data } = await axios.post(
           `${process.env.REACT_APP_BACKEND_URL}/login`,
           // how do I pass them here?
           { email, password }
         );
         setLoading(false);
+        // Dispatch the user data to the Redux store
         dispatch({ type: "LOGIN", payload: data });
+        console.log(data);
+        // Set a cookie with a token or other session identifier
         Cookies.set("user", JSON.stringify(data), { expires: 7 }); // Expires in 7 days
         navigate("/");
       } catch (error) {

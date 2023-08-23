@@ -82,7 +82,8 @@ Header = divided Left middle and right section.
 -- LogOut: User log out
 
 -- User Icon (When click on - go to User Menu)
---- Profile and settings: Manage personal details, preferences and privacy settings.
+--- Profile: Manage personal details
+--- settings: Manage preferences and privacy settings.
 --- Wishlist and Favourites: Save favorite suppliers, products, or posts to easily access later
 --- Help & Support Center: Access FAQ, guides, live chat, or submit support tickets (in support tickets we can also have feedback option)
 --- Display: Dark / Light mode 
@@ -93,5 +94,5 @@ Footer Items:
 - Legal 
 - Certificates
 
-Questions:
--- I am working on the menu, if user clicks on it, it will open the div and if he clicks on the button or outside it, then it will close the menu, but if I click inside the menu, it is still closing the div? where it should be opening the respective links, please advise
+Question:
+-- I have finished my header and menu items, now I want to start with my protected routes, so if a user is logged in then they can access the protected routes, but if there is no user, then what should I do? Only be able to see the login page? Or must I make them able to see other useres feed? so to promote engagement?

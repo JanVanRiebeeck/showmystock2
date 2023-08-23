@@ -9,29 +9,40 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { useFormikContext } from "formik";
 
 export default function RegisterForm({ setVisible }) {
   // To navigate between pages
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // Yup set Schema
-  const RegisterValidation = Yup.object({
-    email: Yup.string()
-      .required(
-        "You will need this when you log in and if you ever need to reset your password"
-      )
-      .email("Must be a valid email")
-      .max(100),
-    password: Yup.string()
-      .required(
-        "Enter a combination of at least six numbers, letters and punctuation marks (such as ! and &)"
-      )
-      .min(6, "Password must be at least 6 characters long")
-      .max(50, "Password cannot exceed 50 characters"),
-    accountType: Yup.string().required(
-      "Please select your account type, Company or Personal"
-    ),
-  });
+  const RegisterValidation = Yup.lazy((values) =>
+    Yup.object({
+      email: Yup.string()
+        .required(
+          "You will need this when you log in and if you ever need to reset your password"
+        )
+        .email("Must be a valid email")
+        .max(100),
+      password: Yup.string()
+        .required(
+          "Enter a combination of at least six numbers, letters and punctuation marks (such as ! and &)"
+        )
+        .min(6, "Password must be at least 6 characters long")
+        .max(50, "Password cannot exceed 50 characters"),
+      accountType: Yup.string().required(
+        "Please select your account type, Company or Personal"
+      ),
+      ...(values.accountType === "company"
+        ? {
+            companyName: Yup.string().required("Company Name is required"),
+          }
+        : {
+            name: Yup.string().required("Name is required"),
+            surname: Yup.string().required("Surname is required"),
+          }),
+    })
+  );
 
   // Define state variables for success and error messages
   const [error, setError] = useState("");
@@ -77,12 +88,15 @@ export default function RegisterForm({ setVisible }) {
           initialValues={{
             email: "",
             password: "",
-            accountType: "",
+            accountType: "", // accountType should reflect the value in TypeOfAccountSelect
+            companyName: "",
+            name: "",
+            surname: "",
           }}
           validationSchema={RegisterValidation}
           onSubmit={(values) => registerSubmit(values)}
         >
-          {({ touched }) => (
+          {({ touched, values }) => (
             <Form className="regsiter_form">
               <div className="reg_line">
                 <RegisterInput
@@ -106,6 +120,23 @@ export default function RegisterForm({ setVisible }) {
                   />
                 )}
               </div>
+              {values.accountType === "company" && (
+                <RegisterInput
+                  type="text"
+                  name="companyName"
+                  placeholder="Company Name"
+                />
+              )}
+              {values.accountType === "personal" && (
+                <>
+                  <RegisterInput type="text" name="name" placeholder="Name" />
+                  <RegisterInput
+                    type="text"
+                    name="surname"
+                    placeholder="Surname"
+                  />
+                </>
+              )}
               <div className="reg_infos">
                 By clicking Submit, you agree to our {""}
                 <span>Terms and Conditions. </span>
