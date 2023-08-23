@@ -11,6 +11,24 @@
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* optional */
 }
 
+.picture_and_name {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  padding: 1rem;
+}
+.user_name {
+  font-size: large;
+  font-weight: bold;
+  flex-grow: 1; /* Allows the element to grow and occupy remaining space */
+  text-align: center; /* Centers the text within the element */
+  overflow: hidden; /* Prevents the text from overflowing the container */
+  text-overflow: ellipsis; /* Adds an ellipsis (...) when the text overflows */
+  white-space: nowrap; /* Prevents the text from wrapping to the next line */
+}
+
 .user_image {
   border-radius: 50%;
   width: 50px;
@@ -18,15 +36,22 @@
   object-fit: cover;
   margin-right: 15px;
 }
-
+.account_type {
+  font-size: small;
+}
 .left_link {
-  display: flex;
+  display: row;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.follow_btn {
-  background-color: var(--color-primary);
+.follow_and_message_button {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.buttons {
+  background-color: #163172;
   color: #fff;
   padding: 10px 15px;
   border: none;

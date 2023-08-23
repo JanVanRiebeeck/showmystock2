@@ -38,8 +38,8 @@ export default function RegisterForm({ setVisible }) {
             companyName: Yup.string().required("Company Name is required"),
           }
         : {
-            name: Yup.string().required("Name is required"),
-            surname: Yup.string().required("Surname is required"),
+            firstName: Yup.string().required("First Name is required"),
+            lastName: Yup.string().required("Last Name is required"),
           }),
     })
   );
@@ -90,8 +90,8 @@ export default function RegisterForm({ setVisible }) {
             password: "",
             accountType: "", // accountType should reflect the value in TypeOfAccountSelect
             companyName: "",
-            name: "",
-            surname: "",
+            firstName: "",
+            lastName: "",
           }}
           validationSchema={RegisterValidation}
           onSubmit={(values) => registerSubmit(values)}
@@ -129,11 +129,15 @@ export default function RegisterForm({ setVisible }) {
               )}
               {values.accountType === "personal" && (
                 <>
-                  <RegisterInput type="text" name="name" placeholder="Name" />
                   <RegisterInput
                     type="text"
-                    name="surname"
-                    placeholder="Surname"
+                    name="firstName"
+                    placeholder="First Name"
+                  />
+                  <RegisterInput
+                    type="text"
+                    name="lastName"
+                    placeholder="Last Name"
                   />
                 </>
               )}
