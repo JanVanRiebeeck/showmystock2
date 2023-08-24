@@ -1,8 +1,8 @@
 import "./style.css";
-import createPostIcon from "../../../../styles/icons/icons8-create-post-64.png";
-import plusIcon from "../../../../styles/icons/icons8-plus-50.png";
+import createPostIcon from "../../../src/styles/icons/icons8-create-post-64.png";
+import plusIcon from "../../../src/styles/icons/icons8-plus-50.png";
 
-export default function Posts() {
+export default function CreatePost() {
   return (
     <div className="posts">
       <div className="create_post_card">

@@ -1,0 +1,33 @@
+.home_middle {
+  margin-top: 60px; /* Positioned below the header */
+  margin-left: 300px; /* Same as left_home width */
+  margin-right: 300px; /* Same as right_home width */
+}
+
+.home_middle_top {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  top: 60px; /* Positioned below the header */
+  left: 300px; /* Same as left_home width */
+  right: 300px; /* Same as right_home width */
+  height: 150px; /* Adjust as needed */
+  padding: 10px;
+  background-color: var(--bg-primary);
+  z-index: 1;
+  /* ...other styles... */
+}
+
+.home_middle_bottom {
+  margin-top: 220px; /* Same as home_middle_top height */
+  overflow-y: auto; /* Scrollable content */
+  padding: 5px;
+  /* ...other styles... */
+}
+
+.box {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+}
