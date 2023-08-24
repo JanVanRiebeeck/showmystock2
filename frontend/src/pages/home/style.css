@@ -29,7 +29,14 @@
 
 .home_middle_bottom {
   position: relative;
+  height: calc(100vh - 260px);
+  right: calc(17vw + 22px);
+  display: flex; /* Use flex to align children horizontally */
+  justify-content: center;
+  align-items: center; /* Center align vertically */
+  left: 306px; /* Set the height based on the viewport height minus the heights of other fixed sections */
   margin-top: 200px; /* Push it down by the height of middle_top */
   overflow-y: auto; /* Enable vertical scrolling */
+
   /* Add other styles as needed, such as padding or margin */
 }
