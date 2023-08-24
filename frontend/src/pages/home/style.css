@@ -10,7 +10,7 @@
     17vw + 15px
   ); /* Adjust this to match the width of right_home */
   width: auto; /* Let it take the remaining space between left and right */
-  position: relative; /* This is needed to position the fixed child inside it */
+  position: fixed; /* This is needed to position the fixed child inside it */
 }
 .home_middle_top {
   position: fixed; /* This will fix the position */
@@ -21,11 +21,14 @@
   display: flex; /* Use flex to align children horizontally */
   justify-content: center;
   align-items: center; /* Center align vertically */
-  background: #fff; /* Adding a background color so it doesn't show content underneath when scrolling */
+  background: var(
+    --bg-secondary
+  ); /* Adding a background color so it doesn't show content underneath when scrolling */
   z-index: 1; /* Make sure it appears above the content */
 }
 
 .home_middle_bottom {
+  position: relative;
   margin-top: 200px; /* Push it down by the height of middle_top */
   overflow-y: auto; /* Enable vertical scrolling */
   /* Add other styles as needed, such as padding or margin */
