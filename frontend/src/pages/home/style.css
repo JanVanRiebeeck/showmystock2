@@ -14,13 +14,13 @@
 }
 .home_middle_top {
   position: fixed; /* This will fix the position */
+  height: 160px; /* Adjust as needed */
   top: 60px;
   left: 306px;
   right: calc(17vw + 22px);
   display: flex; /* Use flex to align children horizontally */
   justify-content: center;
   align-items: center; /* Center align vertically */
-  height: 200px; /* Set a specific height or use auto */
   background: #fff; /* Adding a background color so it doesn't show content underneath when scrolling */
   z-index: 1; /* Make sure it appears above the content */
 }
