@@ -54,7 +54,7 @@ Header = divided Left middle and right section.
 
 - Right side: User navigation:
 
-- Menu: Where user can see all the options of the site, 
+- Right side: Menu: Where user can see all the options of the site, 
 
 -- Menu: Discover and Connect: Find Suppliers, Find Clients, Marketplace Search, Quotes
 --- Find Suppliers: Search for and view supplier profiles
@@ -75,19 +75,25 @@ Header = divided Left middle and right section.
 --- User feedback and reviews: Write and read reviewos on suppliers, products and services.
 --- Learning & resources: Access to tutorials, guides, best practices, industry-news (Can use AI agent to pull data and post here)
 
--- Messages: view and send messages to other users
--- notifications: view site notifications
--- Likes: See who liked content of user
--- ShoppingCart: Subscribe or purchase (To follow more that one supplier = R 150pm, to follow more that 10 = R 1500pm)(Promoting ads will cost money)
--- LogOut: User log out
+-- Right side: Messages: view and send messages to other users
+-- Right side:notifications: view site notifications
+-- Right side:Likes: See who liked content of user
+-- Right side:ShoppingCart: Subscribe or purchase (To follow more that one supplier = R 150pm, to follow more that 10 = R 1500pm)(Promoting ads will cost money)
 
--- User Icon (When click on - go to User Menu)
+
+-- Right side: User Icon (When click on - go to User Menu)
 --- Profile: Manage personal details
 --- settings: Manage preferences and privacy settings.
 --- Wishlist and Favourites: Save favorite suppliers, products, or posts to easily access later
 --- Help & Support Center: Access FAQ, guides, live chat, or submit support tickets (in support tickets we can also have feedback option)
 --- Display: Dark / Light mode 
 --- Log out
+
+Home page: Left middle and right
+-- Left: display the user's details, 
+--- Top: Picture, displayname, type of company and two buttons (Follow and Message)
+--- Middle: This will be the largest part where the view will change as user navigates the site
+--- Right: This has two divs (Sponsored where we will display some adds) and Contacts( List a users conatact list)
 
 Footer Items:
 - Compliance

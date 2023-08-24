@@ -1,0 +1,55 @@
+.posts {
+  position: relative;
+}
+
+.create_post_card {
+  position: relative;
+  height: 150px;
+  width: 100px;
+  border-radius: 10px;
+
+  background: #fff;
+  cursor: pointer;
+  box-shadow: 0 1px 2px var(--shadow-1);
+}
+
+.create_post_card img {
+  position: absolute;
+  height: 75%;
+  width: 100%;
+  object-fit: cover;
+  background: #fff;
+  z-index: 1;
+}
+
+.plus_post {
+  position: absolute;
+  left: 50%;
+  top: 65%;
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Center both horizontally and vertically */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #fff;
+  background: #fff; /* Add background color to match the container */
+  z-index: 2; /* Bring the plus image to the front */
+}
+
+.plus_post img {
+  width: 80%; /* Adjust the size of the image */
+  height: 80%;
+}
+
+.post_create_text {
+  color: #000;
+  left: 20%;
+  top: 87%;
+  font-size: 12px;
+  position: absolute;
+}
