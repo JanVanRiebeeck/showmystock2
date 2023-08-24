@@ -124,7 +124,7 @@ exports.activateAccount = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
+// Login the user
 exports.login = async (req, res) => {
   try {
     // Extract data from request body
