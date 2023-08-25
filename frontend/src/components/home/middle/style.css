@@ -22,6 +22,7 @@
   margin-top: 220px; /* Same as home_middle_top height */
   overflow-y: auto; /* Scrollable content */
   padding: 5px;
+
   /* ...other styles... */
 }
 
@@ -30,4 +31,9 @@
   height: 300px;
   display: flex;
   justify-content: center;
+  border: solid black;
+  border-radius: 1px;
+  padding: 10px;
+  align-items: center;
+  border-radius: 10px;
 }

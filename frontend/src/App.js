@@ -9,6 +9,7 @@ import Settings from "./pages/settings";
 
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
+import Activate from "./pages/home/activate";
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
           <Route path="/settings" element={<Settings />} exact />{" "}
           {/* Private Profile */}
           <Route path="/" element={<Home />} exact />
+          {/* Activate Account for logged in user */}
+          <Route path="/activate/:token" element={<Activate />} exact />
           {/*<Route path="/create-ad" element={<CreateAd />} exact />{" "}*/}
           {/* Example CRUD operation */}
         </Route>

@@ -1,0 +1,30 @@
+.send_verification_box {
+  border: 2px solid black;
+  background: var(--bg-primary);
+  box-shadow: 0 1px 2px var(--shadow-1);
+  padding: 20px;
+  font-size: 14px;
+  color: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  z-index: 99;
+  border-radius: 10px;
+
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  width: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.send_verification_box a {
+  color: var(--blue-color);
+  cursor: pointer;
+}
+
+.send_verification_box a:hover {
+  text-decoration: underline;
+}

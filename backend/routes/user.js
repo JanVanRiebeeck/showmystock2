@@ -6,6 +6,7 @@ const {
   activateAccount,
   login,
   auth,
+  sendVerification,
 } = require("../controllers/user");
 const { authUser } = require("../middlewares/auth");
 
@@ -15,9 +16,12 @@ const router = express.Router();
 router.post("/register", register);
 
 // Route to activate the account
-router.post("/activate", activateAccount);
+router.post("/activate", authUser, activateAccount);
 
 // Route to login user
 router.post("/login", login);
+
+// Route to resend the verification to user email
+router.post("/sendVerification", authUser, sendVerification);
 
 module.exports = router;

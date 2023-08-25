@@ -80,7 +80,7 @@ exports.register = async (req, res) => {
     // Send verification email to user
     const emailVerificationToken = generateToken(
       { id: user._id.toString() },
-      "30min"
+      "3d"
     );
 
     // The user will be directed to this page, where we will do the verification
@@ -104,11 +104,19 @@ exports.register = async (req, res) => {
 // Activate the account
 exports.activateAccount = async (req, res) => {
   try {
+    // Make sure the request comes from the actual user
+    const validUser = req.user.id;
     const { token } = req.body;
-    console.log(token);
+
     const user = jwt.verify(token, process.env.TOKEN_SECRET);
-    console.log(user);
+
     const check = await User.findById(user.id);
+
+    if (validUser !== user.id) {
+      return res.status(400).json({
+        message: "You don't have the authorization to complete this operation",
+      });
+    }
     if (check.verified == true) {
       return res
         .status(400)
@@ -120,7 +128,6 @@ exports.activateAccount = async (req, res) => {
         .json({ message: "Account has been activated successfully." });
     }
   } catch (error) {
-    console.error("Error in activation:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -160,6 +167,32 @@ exports.login = async (req, res) => {
     });
   } catch (error) {
     console.error("Error in login:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.sendVerification = async (req, res) => {
+  try {
+    const id = req.user.id;
+    const user = await User.findById(id);
+    if (user.verified === true) {
+      return res
+        .status(400)
+        .json({ message: "This account is already activated" });
+    }
+    // Send verification email to user
+    const emailVerificationToken = generateToken(
+      { id: user._id.toString() },
+      "3d"
+    );
+
+    // The user will be directed to this page, where we will do the verification
+    const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
+    sendVerificationEmail(user.email, url);
+    return res
+      .status(200)
+      .json({ message: "Email verification link has been sent to your email" });
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
