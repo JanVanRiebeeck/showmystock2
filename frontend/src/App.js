@@ -10,6 +10,7 @@ import Settings from "./pages/settings";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import Activate from "./pages/home/activate";
+import ForgotPassword from "./pages/forgotPassword";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         {/* Not Logged-In Routes */}
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} exact />
+          <Route path="/forgotpassword" element={<ForgotPassword />} exact />
           <Route
             path="/user/:username/profile"
             element={<Profile />}

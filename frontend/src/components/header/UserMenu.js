@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 
 import settingsIcon from "../../styles/icons/icons8-settings-64.png";
 import favouriteIcon from "../../styles/icons/icons8-favorite-folder-48.png";
@@ -8,8 +10,21 @@ import logoutIcon from "../../styles/icons/icons8-log-out-64.png";
 import profileIcon from "../../styles/icons/icons8-about-me-48.png";
 
 export default function UserMenu({ color }) {
+  const dispatch = useDispatch();
   const handleClickInside = (e) => {
     e.stopPropagation();
+  };
+  const navigate = useNavigate();
+
+  const logout = () => {
+    // Set the Cookies of user to none
+    Cookies.set("user", "");
+    // Use the reducer to LOGOUT
+    dispatch({
+      type: "LOGOUT",
+    });
+    // Navigate the user to Login page
+    navigate("/login");
   };
 
   return (
@@ -64,7 +79,12 @@ export default function UserMenu({ color }) {
                   <span className="span_description">Dark / Light mode</span>
                 </div>
               </div>
-              <div className="user_menu_item hover1">
+              <div
+                className="user_menu_item hover1"
+                onClick={() => {
+                  logout();
+                }}
+              >
                 <img src={logoutIcon} alt="Truck Icon" />
                 <div className="user_menu_col">
                   <span className="span_heading">Log Out</span>

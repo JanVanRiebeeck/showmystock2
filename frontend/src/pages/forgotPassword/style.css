@@ -1,0 +1,81 @@
+.forgot_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  box-shadow: 1px 8px 15px -7px var(--shadow-1);
+  background: var(--bg-primary);
+}
+
+.forgot_header span {
+  font-weight: 600;
+  color: var(--blue-color);
+  font-size: large;
+}
+
+.forgot_header svg {
+  height: 80px;
+  width: 80px;
+}
+
+body {
+  background-color: var(--bg-secondary);
+}
+
+.reset_wrap {
+  height: 67vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+}
+
+.reset_form {
+  background: var(--bg-primary);
+  box-shadow: 0 1px 2px var(--shadow-1);
+  border-radius: 10px;
+  width: 350px;
+  height: 280px;
+}
+
+.reset_form_header {
+  padding: 15px;
+  font-weight: 600;
+  font-size: 24px;
+  border-bottom: 1px solid var(--bg-third);
+}
+
+.reset_form_text {
+  padding: 15px;
+  font-size: 17px;
+}
+
+.reset_form form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid var(--bg-third);
+}
+
+.reset_form_btns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+  padding: 10px;
+
+  right: 10px;
+  bottom: 10px;
+}
+
+.reset_form_btns a,
+.reset_form_btns button {
+  width: 90px;
+}
+
+/* ---Queries --- */
+@media (max-width: 350px) {
+  .reset_form form input {
+    width: 250px;
+  }
+}
