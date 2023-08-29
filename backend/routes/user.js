@@ -7,6 +7,7 @@ const {
   login,
   auth,
   sendVerification,
+  findUser,
 } = require("../controllers/user");
 const { authUser } = require("../middlewares/auth");
 
@@ -23,5 +24,8 @@ router.post("/login", login);
 
 // Route to resend the verification to user email
 router.post("/sendVerification", authUser, sendVerification);
+
+// Route for user to search email address when forgot password
+router.post("/findUser", findUser);
 
 module.exports = router;

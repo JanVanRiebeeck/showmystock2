@@ -170,7 +170,7 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
+// Send verification email to user
 exports.sendVerification = async (req, res) => {
   try {
     const id = req.user.id;
@@ -192,6 +192,23 @@ exports.sendVerification = async (req, res) => {
     return res
       .status(200)
       .json({ message: "Email verification link has been sent to your email" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+// Find user email addresses on db
+exports.findUser = async (req, res) => {
+  try {
+    // get the email address from the body
+    const { email } = req.body;
+    // look for the email address in DB
+    const user = await User.findOne({ email }).select("-password");
+    if (!user) {
+      return res.status(400).json({ message: "Account does not exist" });
+    }
+    return res.status(200).json({
+      email: user.email,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -7,14 +7,24 @@ import LoginInput from "../../components/inputs/loginInput";
 import { useState } from "react";
 import SearchAccount from "./SearchAccount";
 import SendEmail from "./SendEmail";
+import CodeVerification from "./CodeVerification";
+import Footer from "../../components/login/Footer";
+import ChangePassword from "./ChangePassword";
 
 export default function ForgotPassword() {
   const { user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [visible, setVisible] = useState(1);
-  const { email, setEmail } = useState("");
-  const { error, setError } = useState("");
+  const [visible, setVisible] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
+  const [password, setPassword] = useState("");
+  const [conf_password, setConf_password] = useState("");
+  const [error, setError] = useState("");
+  const [userInfos, setUserInfos] = useState("");
+
+  console.log(userInfos);
 
   return (
     <div>
@@ -27,10 +37,30 @@ export default function ForgotPassword() {
       </div>
       <div className="reset_wrap">
         {visible === 0 && (
-          <SearchAccount email={email} setEmail={setEmail} error={setError} />
+          <SearchAccount
+            email={email}
+            setEmail={setEmail}
+            error={error}
+            setError={setError}
+            setLoading={setLoading}
+            setUserInfos={setUserInfos}
+            setVisible={setVisible}
+          />
         )}
-        {visible === 1 && <SendEmail />}
+        {visible === 1 && userInfos && <SendEmail userInfos={userInfos} />}
+        {visible === 2 && (
+          <CodeVerification code={code} setCode={setCode} error={error} />
+        )}
+        {visible === 3 && (
+          <ChangePassword
+            password={password}
+            conf_password={conf_password}
+            setConf_password={setConf_password}
+            setPassword={setPassword}
+          />
+        )}
       </div>
+      <Footer />
     </div>
   );
 }
