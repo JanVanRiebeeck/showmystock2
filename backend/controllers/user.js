@@ -4,7 +4,12 @@ const jwt = require("jsonwebtoken");
 const { validateEmail, validateLength } = require("../helpers/validation");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../helpers/tokens");
-const { sendVerificationEmail } = require("../helpers/mailer");
+const {
+  sendVerificationEmail,
+  sendVerificationCode,
+} = require("../helpers/mailer");
+const Code = require("../models/Code");
+const generateCode = require("../helpers/generateCode");
 
 // Register the user
 exports.register = async (req, res) => {
@@ -212,4 +217,51 @@ exports.findUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+// Send the reset password code to user
+exports.sendResetPasswordCode = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email }).select("-password");
+    await Code.findOneAndRemove({ user: user._id });
+    const code = generateCode(5);
+    const savedCode = await new Code({
+      code,
+      user: user._id,
+    }).save();
+    sendVerificationCode(user.email, code);
+    return res.status(200).json({
+      message: "Email reset code has been sent to your email address",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Validate the reset code to the one sent to user email
+exports.validateResetCode = async (req, res) => {
+  try {
+    const { email, code } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+    const db_code = await Code.findOne({ user: user._id });
+
+    if (db_code.code !== code) {
+      return res.status(400).json({ message: "Verification code is wrong" });
+    }
+    return res.status(200).json({ message: "ok" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Let user change password
+exports.changePassword = async (req, res) => {
+  const { email, password } = req.body;
+
+  const cryptedPassword = await bcrypt.hash(password, 12);
+  await User.findOneAndUpdate({ email }, { password: cryptedPassword });
+  return res.status(200).json({ message: "Password changed" });
 };

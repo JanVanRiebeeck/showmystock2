@@ -1,8 +1,9 @@
 import { Formik, Form } from "formik";
 import LoginInput from "../../components/inputs/loginInput";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import axios from "axios";
 
 export default function ChangePassword({
   password,
@@ -10,7 +11,12 @@ export default function ChangePassword({
   conf_password,
   setConf_password,
   error,
+  loading,
+  setLoading,
+  userInfos,
+  setError,
 }) {
+  const navigate = useNavigate();
   const validatePassword = Yup.object({
     password: Yup.string()
       .required(
@@ -22,6 +28,22 @@ export default function ChangePassword({
       .required("Confirm your password")
       .oneOf([Yup.ref("password")], "Password must match"),
   });
+
+  const { email } = userInfos;
+  const changePassword = async () => {
+    try {
+      setLoading(true);
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/changePassword`, {
+        email,
+        password,
+      });
+      setError("");
+      navigate("/login");
+    } catch (error) {
+      setLoading(false);
+      setError(error.response.data.message);
+    }
+  };
   return (
     <div className="reset_form">
       <div className="reset_form_header">Change Password</div>
@@ -30,6 +52,9 @@ export default function ChangePassword({
         enableReinitialize
         initialValues={{ password, conf_password }}
         validationSchema={validatePassword}
+        onSubmit={() => {
+          changePassword();
+        }}
       >
         {(formik) => (
           <Form>
@@ -46,6 +71,7 @@ export default function ChangePassword({
               placeholder={"Confirm new password"}
             />
             {error && <div className="error_text">{error}</div>}
+            <div className="box_space"></div>
             <div className="reset_form_btns">
               <Link to="/login" className="gray_btn">
                 Cancel

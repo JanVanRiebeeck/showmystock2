@@ -47,16 +47,41 @@ export default function ForgotPassword() {
             setVisible={setVisible}
           />
         )}
-        {visible === 1 && userInfos && <SendEmail userInfos={userInfos} />}
+        {visible === 1 && userInfos && (
+          <SendEmail
+            email={email}
+            userInfos={userInfos}
+            error={error}
+            setError={setError}
+            setLoading={setLoading}
+            setUserInfos={setUserInfos}
+            setVisible={setVisible}
+          />
+        )}
         {visible === 2 && (
-          <CodeVerification code={code} setCode={setCode} error={error} />
+          <CodeVerification
+            code={code}
+            setCode={setCode}
+            userInfos={userInfos}
+            error={error}
+            setError={setError}
+            setLoading={setLoading}
+            setVisible={setVisible}
+            setUserInfos={setUserInfos}
+          />
         )}
         {visible === 3 && (
           <ChangePassword
             password={password}
             conf_password={conf_password}
+            userInfos={userInfos}
             setConf_password={setConf_password}
             setPassword={setPassword}
+            error={error}
+            setError={setError}
+            setLoading={setLoading}
+            setVisible={setVisible}
+            setUserInfos={setUserInfos}
           />
         )}
       </div>

@@ -32,6 +32,7 @@ export default function SearchAccount({
       // Change the view to the second screen element
       setVisible(1);
       setError("");
+      setLoading(false);
     } catch (error) {
       setLoading(false);
       if (error.response) {
