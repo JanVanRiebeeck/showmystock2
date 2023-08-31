@@ -6,15 +6,19 @@ import Home from "./pages/home";
 import Marketplace from "./pages/marketplace";
 import UserFeed from "./pages/userFeed";
 import Settings from "./pages/settings";
+import { useSelector } from "react-redux";
 
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import Activate from "./pages/home/activate";
 import ForgotPassword from "./pages/forgotPassword";
+import CreatePostPopup from "./components/createPostPopup";
 
 function App() {
+  const { user } = useSelector((state) => ({ ...state }));
   return (
     <div>
+      <CreatePostPopup user={user} />
       <Routes>
         {/* Public Routes */}
         <Route path="/marketplace" element={<Marketplace />} exact />
