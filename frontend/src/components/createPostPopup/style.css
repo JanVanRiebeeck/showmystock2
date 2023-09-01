@@ -92,10 +92,29 @@
 
 .comment_emoji_picker {
   position: absolute;
-  right: 0;
-  bottom: 2.5rem;
+  left: 78px;
+  width: 500px;
+  bottom: 3.3rem;
 }
 
 .rlmove {
-  right: -8rem;
+  right: -13rem;
+}
+
+.box_footer {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 10px 15px;
+  height: 10px;
+}
+
+.box_footer img {
+  width: 40px;
+  cursor: pointer;
+}
+
+.box_footer img:hover {
+  transform: scale(1.1);
 }

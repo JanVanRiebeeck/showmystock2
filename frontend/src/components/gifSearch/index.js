@@ -1,5 +1,5 @@
 import "./style.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import exitIcon from "../../../src/styles/icons/icons8-exit-48.png";
 
 export default function GifSearch() {
@@ -8,6 +8,25 @@ export default function GifSearch() {
 
   const API_KEY = "8tD3377E9GSDeLGXb6vv0zFwYUYmrLuS";
   const API_URL = `https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=`;
+  const TRENDING_URL = `https://api.giphy.com/v1/gifs/trending?api_key=${API_KEY}`;
+
+  useEffect(() => {
+    // Fetch trending GIFs when component first mounts
+    fetchTrendingGifs();
+  }, []);
+
+  const fetchTrendingGifs = async () => {
+    try {
+      const response = await fetch(TRENDING_URL);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setGifs(data.data);
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+    }
+  };
 
   const searchGifs = async () => {
     try {
@@ -40,6 +59,7 @@ export default function GifSearch() {
               key={gif.id}
               src={gif.images.fixed_height.url}
               alt={gif.title}
+              className="grid_item"
             />
           ))}
         </div>

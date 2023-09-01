@@ -1,0 +1,27 @@
+.plus_container {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+
+  left: 0;
+  bottom: 3.5rem;
+  width: 250px;
+  height: 300px;
+
+  border-radius: 10px;
+  background: var(--bg-primary);
+  box-shadow: 0 12px 28px 0 var(--shadow-1), 0 2px 4px 0 var(--shadow-2),
+    inset 0 0 0 1px var(--shadow-inset);
+}
+
+.plus_item {
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: 1px solid var(--bg-third);
+}
+
+.plus_item_description {
+  display: flex;
+  align-items: center;
+  padding: 0px 0px 0px 15px;
+}
