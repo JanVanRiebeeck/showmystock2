@@ -2,11 +2,26 @@ import "./style.css";
 import emojiIcon from "../../../src/styles/icons/icons8-smile-48.png";
 
 import Picker from "emoji-picker-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function EmojiPickerBackground({ text, setText, textRef }) {
   const [picker, setPicker] = useState(false);
   const [cursorPosition, setCursorPosition] = useState();
+
+  const pickerRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (pickerRef.current && !pickerRef.current.contains(event.target)) {
+        setPicker(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (cursorPosition !== undefined) {
@@ -33,19 +48,21 @@ export default function EmojiPickerBackground({ text, setText, textRef }) {
 
   return (
     <div>
-      {picker && (
-        <div className="comment_emoji_picker rlmove">
-          <Picker onEmojiClick={handleEmoji} />
-        </div>
-      )}
+      <div ref={pickerRef}>
+        {picker && (
+          <div className="comment_emoji_picker rlmove">
+            <Picker onEmojiClick={handleEmoji} />
+          </div>
+        )}
 
-      <img
-        src={emojiIcon}
-        alt=""
-        onClick={() => {
-          setPicker((prev) => !prev);
-        }}
-      />
+        <img
+          src={emojiIcon}
+          alt=""
+          onClick={() => {
+            setPicker((prev) => !prev);
+          }}
+        />
+      </div>
     </div>
   );
 }

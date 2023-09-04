@@ -5,7 +5,7 @@
 
   left: 0;
   bottom: 3.5rem;
-  width: 250px;
+  width: 100%;
   height: 300px;
 
   border-radius: 10px;
@@ -18,10 +18,145 @@
   display: flex;
   justify-content: flex-start;
   border-bottom: 1px solid var(--bg-third);
+  cursor: pointer;
 }
 
 .plus_item_description {
   display: flex;
   align-items: center;
   padding: 0px 0px 0px 15px;
+}
+
+.photo_container {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+
+  left: 0;
+  bottom: 3.5rem;
+  width: 100%;
+  height: 464px;
+
+  border-radius: 10px;
+  background: var(--bg-primary);
+  box-shadow: 0 12px 28px 0 var(--shadow-1), 0 2px 4px 0 var(--shadow-2),
+    inset 0 0 0 1px var(--shadow-inset);
+}
+
+.photo_container_item1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #000;
+  flex: none; /* This ensures the item1 doesn't grow and just takes space required by its content */
+}
+
+.photo_container_item2 {
+  flex: 1; /* This will make it take up all the remaining space in the container */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the content vertically */
+  justify-content: space-between;
+  overflow: hidden; /* Hide any overflowing content, in case the image is bigger than the container */
+  border: 1px solid #000;
+}
+
+.image-thumbnail {
+  width: 100%; /* Make image fill the width */
+  height: 100%; /* Make image fill the height */
+  object-fit: contain; /* Resize the image to cover the container without distortion */
+}
+
+.photo_styling {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 37px;
+  border: 1px solid #000;
+}
+
+.photo_styling img {
+  height: 30px;
+  width: 30px;
+}
+
+.photo_preview_main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 220px;
+  border: 1px solid #000;
+}
+
+.photo_preview_main img {
+  max-width: 100% !important; /* max width of the container */
+  max-height: 220px !important; /* fit within the height of the container */
+  width: auto; /* allow the width to adjust based on aspect ratio */
+  height: auto; /* allow the height to adjust based on aspect ratio */
+  object-fit: contain; /* resize the image to cover the container without distortion */
+}
+
+.photo_preview_main img:hover {
+  transform: none !important;
+}
+
+.photo_preview_list img,
+.file-preview img {
+  max-width: 100%; /* max width of the container */
+  max-height: 100%; /* max height of the container */
+  width: auto; /* allow the width to adjust based on aspect ratio */
+  height: auto; /* allow the height to adjust based on aspect ratio */
+  object-fit: contain; /* resize the image to cover the container without distortion */
+}
+
+.file-preview img:hover {
+  transform: none !important;
+}
+
+.thumbnail-container {
+  display: flex;
+  align-items: center;
+  width: 40px; /* or any desired fixed width for thumbnails */
+  height: 40px; /* or any desired fixed height for thumbnails */
+  overflow: hidden; /* hides parts of the image that exceed the container size */
+}
+
+.photo_preview_list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  height: 50px;
+  border: 1px solid #000;
+}
+
+.file-preview.selected {
+  border: 2px solid var(--blue-color); /* or any other style you prefer */
+}
+
+.previews {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #000;
+}
+
+.photo_add_text {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #000;
+  font-family: inherit;
+  font-size: 24px;
+}
+
+.photo_send_and_choose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+  border: 1px solid #000;
 }
