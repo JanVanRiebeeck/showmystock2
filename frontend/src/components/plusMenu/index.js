@@ -58,6 +58,7 @@ export default function PlusMenu({ textHandler }) {
   const { text, setText, textRef } = textHandler;
 
   const toggleCategory = (category) => {
+    console.log("toggleCategory");
     if (activeCategory === category) {
       setActiveCategory(null);
     } else {
@@ -66,6 +67,7 @@ export default function PlusMenu({ textHandler }) {
   };
 
   const toggleSubCategory = (subCategory) => {
+    console.log("toggleSubCategory");
     if (activeSubCategory === subCategory) {
       setActiveSubCategory(null);
     } else {
