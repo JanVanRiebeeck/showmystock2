@@ -10,10 +10,6 @@ export default function Crop1({ onCancel, imageDataUrl, imageDimensions }) {
   const topLeftTriangleRef = useRef(null);
   const bottomRightTriangleRef = useRef(null);
 
-  const stopPropagation = (e) => {
-    e.stopPropagation();
-  };
-
   const handleMouseDown = (e) => {
     setIsDragging(true);
     console.log("dragging start");
@@ -76,7 +72,7 @@ export default function Crop1({ onCancel, imageDataUrl, imageDimensions }) {
   }, [imageDataUrl]);
 
   return (
-    <div className="Crop_Container" onClick={stopPropagation}>
+    <div className="Crop_Container">
       <div className="crop_container_top">
         <div
           className="crop_image_container"
