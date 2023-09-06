@@ -7,6 +7,7 @@ import micIcon from "../../../src/styles/icons/icons8-mic-48.png";
 import sendIcon from "../../../src/styles/icons/icons8-send-60.png";
 
 import { useState, useRef, useEffect } from "react";
+import { useTextHandling } from "./useTextHandling";
 
 import GifSearch from "../gifSearch";
 
@@ -14,10 +15,13 @@ import PlusMenu from "../plusMenu";
 import AddPhotoFromCamera from "../addPhoto";
 
 export default function CreatePostPopup({ user }) {
-  const [text, setText] = useState("");
+  // This is for handling text in this component
+  const { text, setText, textRef, handleTextChange, handleEmoji } =
+    useTextHandling();
+
+  // State to control gif and plus handling
   const [gif_pick, setGifPick] = useState(false);
   const [plus_pick, setPlusPick] = useState(false);
-  const textRef = useRef(null);
 
   useEffect(() => {
     textRef.current.focus();
@@ -53,7 +57,10 @@ export default function CreatePostPopup({ user }) {
             alt=""
             onClick={() => setPlusPick((prev) => !prev)}
           />
-          {plus_pick && <PlusMenu currentText={text} setText={setText} />}
+          {plus_pick && (
+            <PlusMenu textHandler={{ text, setText, textRef, handleEmoji }} />
+          )}
+
           <img src={micIcon} alt="" />
           <img
             src={gifIcon}
@@ -63,10 +70,10 @@ export default function CreatePostPopup({ user }) {
           {gif_pick && <GifSearch />}
           <AddPhotoFromCamera />
           <EmojiPickerBackground
-            text={text}
+            textHandler={{ text, setText, handleEmoji }}
             textRef={textRef}
-            setText={setText}
           />
+
           {text.trim().length > 0 && <img src={sendIcon} alt="" />}
         </div>
       </div>

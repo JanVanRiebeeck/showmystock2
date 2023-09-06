@@ -11,17 +11,67 @@ import textIcon from "../../../src/styles/icons/icons8-text-100.png";
 import pencilIcon from "../../../src/styles//icons/icons8-pencil-100.png";
 import stickerIcon from "../../../src/styles/icons/icons8-sticker-48.png";
 import emojiIcon from "../../../src/styles/icons/icons8-smile-48.png";
+import slideshowIcon from "../../../src/styles/icons/icons8-slideshow-64.png";
+import voiceoverIcon from "../../../src/styles/icons/icons8-voiceover-64.png";
+import rotateIcon from "../../../src/styles/icons/icons8-rotate-right-48.png";
+import brighnessIcon from "../../../src/styles/icons/icons8-brightness-64.png";
+import grayscaleIcon from "../../../src/styles/icons/icons8-grayscale-100.png";
+import vintageIcon from "../../../src/styles/icons/icons8-old-fashioned-family-photo-48.png";
+import previewIcon from "../../../src/styles/icons/icons8-preview-64.png";
+import undoIcon from "../../../src/styles/icons/icons8-undo-40.png";
+import redoIcon from "../../../src/styles/icons/icons8-redo-40.png";
+import basiceditIcon from "../../../src/styles/icons/icons8-edit-image-40.png";
+import annotationsIcon from "../../../src/styles/icons/icons8-paint-palette-40.png";
+import eraserIcon from "../../../src/styles/icons/icons8-eraser-64.png";
 
 import { useState, useEffect, useRef } from "react";
 import { Emoji } from "emoji-picker-react";
 
-export default function PlusMenu({ currentText, setText }) {
+import Crop1 from "../styleOptions/Crop1";
+
+export default function PlusMenu({ textHandler }) {
   const [activePreview, setActivePreview] = useState("");
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [activeSubCategory, setActiveSubCategory] = useState(null);
+
   const [selectedFiles, setSelectedFiles] = useState([]);
   const fileInputRef = useRef(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [imageDataUrl, setImageDataUrl] = useState("");
+  const [imageDimensions, setImageDimensions] = useState({
+    width: 0,
+    height: 0,
+  });
 
-  const textRef = useRef(null);
+  const [images, setImages] = useState([
+    //... for all 8 images
+    { url: null, dimensions: null, isCropping: false },
+    { url: null, dimensions: null, isCropping: false },
+    { url: null, dimensions: null, isCropping: false },
+    { url: null, dimensions: null, isCropping: false },
+    { url: null, dimensions: null, isCropping: false },
+    { url: null, dimensions: null, isCropping: false },
+    { url: null, dimensions: null, isCropping: false },
+    { url: null, dimensions: null, isCropping: false },
+  ]);
+
+  const { text, setText, textRef } = textHandler;
+
+  const toggleCategory = (category) => {
+    if (activeCategory === category) {
+      setActiveCategory(null);
+    } else {
+      setActiveCategory(category);
+    }
+  };
+
+  const toggleSubCategory = (subCategory) => {
+    if (activeSubCategory === subCategory) {
+      setActiveSubCategory(null);
+    } else {
+      setActiveSubCategory(subCategory);
+    }
+  };
 
   const handleFilesChange = (event) => {
     const files = Array.from(event.target.files);
@@ -33,11 +83,47 @@ export default function PlusMenu({ currentText, setText }) {
       return;
     }
 
-    setSelectedFiles((prevFiles) => {
-      // Update selectedImageIndex to the index of the last added file
-      setSelectedImageIndex(prevFiles.length);
-      return [...prevFiles, ...files];
+    const newSelectedFiles = [...selectedFiles, ...files];
+    setSelectedFiles(newSelectedFiles);
+
+    // Update the images state as well with the new files.
+    const updatedImages = [...images];
+    files.forEach((file, index) => {
+      if (file.type.startsWith("image/")) {
+        const objectURL = URL.createObjectURL(file);
+        updatedImages[selectedFiles.length + index].url = objectURL;
+
+        // Load image to get its dimensions
+        const image = new Image();
+        image.onload = () => {
+          // Update the dimensions in the images state for the respective image
+          updatedImages[selectedFiles.length + index].dimensions = {
+            width: image.width,
+            height: image.height,
+          };
+          setImages(updatedImages); // Update the state with new dimensions
+        };
+        image.src = objectURL;
+      }
     });
+
+    // Set the selected image index to the last image.
+    const lastIndex = newSelectedFiles.length - 1;
+    setSelectedImageIndex(lastIndex);
+
+    // Set the image data URL for the cropping component.
+    const file = newSelectedFiles[lastIndex];
+    if (file && file.type.startsWith("image/")) {
+      const image = new Image();
+      image.onload = () => {
+        setImageDimensions({
+          width: image.width,
+          height: image.height,
+        });
+      };
+      image.src = URL.createObjectURL(file);
+      setImageDataUrl(image.src);
+    }
   };
 
   const renderFilePreviews = () => {
@@ -63,11 +149,38 @@ export default function PlusMenu({ currentText, setText }) {
 
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
+    const file = images[index];
+    if (file && file.url) {
+      setImageDataUrl(file.url);
+
+      // Also, update the dimensions if available
+      if (file.dimensions) {
+        setImageDimensions(file.dimensions);
+      } else {
+        // If dimensions are not yet available, fetch them
+        const image = new Image();
+        image.onload = () => {
+          setImageDimensions({
+            width: image.width,
+            height: image.height,
+          });
+
+          // Also update the dimensions in the images list for future reference.
+          const updatedImages = [...images];
+          updatedImages[index].dimensions = {
+            width: image.width,
+            height: image.height,
+          };
+          setImages(updatedImages);
+        };
+        image.src = file.url;
+      }
+    }
   };
 
   const renderFileList = () => {
-    return selectedFiles.map((file, index) => {
-      if (file.type.startsWith("image/")) {
+    return images.map((image, index) => {
+      if (image.url) {
         return (
           <div
             key={index}
@@ -77,13 +190,150 @@ export default function PlusMenu({ currentText, setText }) {
             onClick={() => handleImageClick(index)}
           >
             <div className="thumbnail-container">
-              <img src={URL.createObjectURL(file)} alt={file.name} />
+              <img src={image.url} alt={`Image ${index + 1}`} />
             </div>
           </div>
         );
       }
       return null;
     });
+  };
+
+  const renderMasterIcons = () => {
+    if (selectedImageIndex === null) return null; // Don't render if no image is selected
+    return (
+      <div className="photo_styling_master">
+        <div
+          onClick={() => toggleCategory("basicEditing")}
+          className={getMasterIconClass("basicEditing")}
+        >
+          <img src={basiceditIcon} alt="Basic Editing" />
+        </div>
+        <div
+          onClick={() => toggleCategory("annotations")}
+          className={getMasterIconClass("annotations")}
+        >
+          <img src={annotationsIcon} alt="Annotations" />
+        </div>
+        <div
+          onClick={() => toggleCategory("emoji_sticker")}
+          className={getMasterIconClass("emoji_sticker")}
+        >
+          <img src={emojiIcon} alt="emoji_sticker" />
+        </div>
+      </div>
+    );
+  };
+
+  const renderSubIcons = () => {
+    switch (activeCategory) {
+      case "basicEditing":
+        return (
+          <>
+            <div
+              onClick={() => {
+                toggleSubCategory("crop");
+              }}
+              className={getSubIconClass("crop")}
+            >
+              <img src={cropIcon} alt="Crop" />
+              {activeSubCategory === "crop" &&
+                selectedImageIndex !== null &&
+                images[selectedImageIndex] && (
+                  <Crop1
+                    onCancel={handleCropCancel}
+                    imageDataUrl={images[selectedImageIndex].url}
+                    imageDimensions={images[selectedImageIndex].dimensions}
+                  />
+                )}
+            </div>
+
+            <div
+              onClick={() => toggleSubCategory("rotate")}
+              className={getSubIconClass("rotate")}
+            >
+              <img src={rotateIcon} alt="Rotate" />
+            </div>
+            <div
+              onClick={() => toggleSubCategory("brightness")}
+              className={getSubIconClass("brightness")}
+            >
+              <img src={brighnessIcon} alt="brightness" />
+            </div>
+            <div
+              onClick={() => toggleSubCategory("grayscale")}
+              className={getSubIconClass("grayscale")}
+            >
+              <img src={grayscaleIcon} alt="grayscale" />
+            </div>
+            <div
+              onClick={() => toggleSubCategory("vintage")}
+              className={getSubIconClass("vintage")}
+            >
+              <img src={vintageIcon} alt="vintage" />
+            </div>
+
+            {/* ... other icons */}
+          </>
+        );
+      case "annotations":
+        return (
+          <>
+            <div
+              onClick={() => toggleSubCategory("pencil")}
+              className={getSubIconClass("pencil")}
+            >
+              <img src={pencilIcon} alt="pencil" />
+            </div>
+            <div
+              onClick={() => toggleSubCategory("text")}
+              className={getSubIconClass("text")}
+            >
+              <img src={textIcon} alt="text" />
+            </div>
+            <div
+              onClick={() => toggleSubCategory("eraser")}
+              className={getSubIconClass("eraser")}
+            >
+              <img src={eraserIcon} alt="eraser" />
+            </div>
+
+            {/* ... other icons */}
+          </>
+        );
+      case "emoji_sticker":
+        return (
+          <>
+            <div
+              onClick={() => toggleSubCategory("emoji")}
+              className={getSubIconClass("emoji")}
+            >
+              <img src={emojiIcon} alt="emoji" />
+            </div>
+            <div
+              onClick={() => toggleSubCategory("sticker")}
+              className={getSubIconClass("sticker")}
+            >
+              <img src={stickerIcon} alt="sticker" />
+            </div>
+
+            {/* ... other icons */}
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
+  const renderStyleOption = () => {
+    switch (activeSubCategory) {
+      case "crop":
+        return <Crop1 onCancel={handleCropCancel} />;
+    }
+  };
+
+  const handleAfterCrop = (croppedData) => {
+    // Handle the cropped data (e.g., update state, save, etc.) Replace the original image with the cropped data
   };
 
   const renderPreview = () => {
@@ -101,13 +351,13 @@ export default function PlusMenu({ currentText, setText }) {
               />
             </div>
             <div className="photo_container_item2">
-              <div className="photo_styling">
-                <img src={cropIcon} />
-                <img src={textIcon} />
-                <img src={pencilIcon} />
-                <img src={stickerIcon} />
-                <img src={emojiIcon} />
+              <div className="photo_styling_master">
+                {selectedImageIndex !== null && renderMasterIcons()}
               </div>
+              <div className="photo_styling_sub">
+                {activeCategory ? renderSubIcons() : null}
+              </div>
+
               <div className="photo_preview_main">
                 <div className="file-previews">{renderFilePreviews()}</div>
               </div>
@@ -132,9 +382,9 @@ export default function PlusMenu({ currentText, setText }) {
               <div className="photo_add_text">
                 <textarea
                   maxLength="1000"
-                  value={currentText}
+                  value={text}
                   placeholder={
-                    currentText.length === 0
+                    text.length === 0
                       ? "Add text to your photo/video"
                       : "Modify your post"
                   }
@@ -219,6 +469,18 @@ export default function PlusMenu({ currentText, setText }) {
       </div>
     </div>
   );
+
+  const getMasterIconClass = (category) => {
+    return activeCategory === category ? "active-border" : "";
+  };
+
+  const getSubIconClass = (subCategory) => {
+    return activeSubCategory === subCategory ? "active-border" : "";
+  };
+
+  function handleCropCancel() {
+    setActiveSubCategory(null); // to close the cropping interface
+  }
 
   return <div>{activePreview ? renderPreview() : renderOptions()}</div>;
 }

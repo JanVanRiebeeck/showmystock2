@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from "react";
 
 export const useTextHandling = (initialText = "") => {
   const [text, setText] = useState(initialText);
-  const [cursorPosition, setCursorPosition] = useState();
   const textRef = useRef(null);
 
   useEffect(() => {
@@ -14,15 +13,27 @@ export const useTextHandling = (initialText = "") => {
     setText(e.target.value);
   };
 
-  // ... other methods like handleEmoji ...
+  const handleEmoji = (emojiData) => {
+    const emoji = emojiData.emoji;
+    const ref = textRef.current;
+    let selectionStart = ref.selectionStart;
+
+    if (selectionStart === null) {
+      selectionStart = text?.length || 0;
+    }
+
+    const start = text ? text.substring(0, selectionStart) : "";
+    const end = text ? text.substring(selectionStart) : "";
+    const newText = start + emoji + end;
+
+    setText(newText);
+  };
 
   return {
     text,
     setText,
-    cursorPosition,
-    setCursorPosition,
     textRef,
     handleTextChange,
-    // ... other methods ...
+    handleEmoji,
   };
 };

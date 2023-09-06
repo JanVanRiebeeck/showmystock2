@@ -1,0 +1,7 @@
+.crop_container {
+  position: absolute;
+
+  border: 1px solid #1e9e45;
+  height: 100%;
+  width: 100%;
+}

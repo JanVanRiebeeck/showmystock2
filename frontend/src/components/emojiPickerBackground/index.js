@@ -4,7 +4,7 @@ import emojiIcon from "../../../src/styles/icons/icons8-smile-48.png";
 import Picker from "emoji-picker-react";
 import { useEffect, useState, useRef } from "react";
 
-export default function EmojiPickerBackground({ text, setText, textRef }) {
+export default function EmojiPickerBackground({ textHandler, textRef }) {
   const [picker, setPicker] = useState(false);
   const [cursorPosition, setCursorPosition] = useState();
 
@@ -12,6 +12,8 @@ export default function EmojiPickerBackground({ text, setText, textRef }) {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      if (!picker) return; // <-- Add this line. It ensures the rest of the function only runs if the picker is open.
+      console.log("user clicked outside");
       if (pickerRef.current && !pickerRef.current.contains(event.target)) {
         setPicker(false);
       }
@@ -21,7 +23,7 @@ export default function EmojiPickerBackground({ text, setText, textRef }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [picker]);
 
   useEffect(() => {
     if (cursorPosition !== undefined) {
@@ -30,20 +32,7 @@ export default function EmojiPickerBackground({ text, setText, textRef }) {
   }, [cursorPosition, textRef]);
 
   const handleEmoji = (emojiData, event) => {
-    const emoji = emojiData.emoji;
-
-    const ref = textRef.current;
-    let selectionStart = ref.selectionStart;
-    if (selectionStart === null) {
-      selectionStart = text?.length || 0;
-    }
-
-    const start = text ? text.substring(0, selectionStart) : "";
-    const end = text ? text.substring(selectionStart) : "";
-    const newText = start + emoji + end;
-
-    setText(newText);
-    setCursorPosition(selectionStart + emoji.length);
+    textHandler.handleEmoji(emojiData);
   };
 
   return (
