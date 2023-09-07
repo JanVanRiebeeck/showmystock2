@@ -46,8 +46,8 @@ export default function Crop1({
       e.target.style.display = "none"; // Hide original triangle
       setMovingTrianglePosition({
         // Initialize moving triangle position
-        x: e.target.getBoundingClientRect().left,
-        y: e.target.getBoundingClientRect().top,
+        x: e.target.getBoundingClientRect().left - 8,
+        y: e.target.getBoundingClientRect().top - 8,
       });
       setDraggedTriangle("topLeft"); // Set the state for top-left triangle
       document.addEventListener("mousemove", handleMouseMove);
@@ -78,8 +78,8 @@ export default function Crop1({
 
       if (draggedTriangle === "topLeft") {
         setMovingTrianglePosition((prev) => ({
-          x: prev.x + deltaX - containerRect.left - 8,
-          y: prev.y + deltaY - containerRect.top - 8,
+          x: prev.x + deltaX,
+          y: prev.y + deltaY,
         }));
       } else if (draggedTriangle === "bottomRight") {
         // Similar logic for the bottom-right triangle
