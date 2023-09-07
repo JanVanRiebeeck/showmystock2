@@ -84,6 +84,8 @@ export default function Crop1({
       } else if (draggedTriangle === "bottomRight") {
         // Similar logic for the bottom-right triangle
       }
+      initialMousePositionRef.current = { x: e.clientX, y: e.clientY };
+      console.log(initialMousePositionRef);
     }
   };
 
