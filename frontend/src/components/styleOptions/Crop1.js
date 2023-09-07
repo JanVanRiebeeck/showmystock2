@@ -32,8 +32,6 @@ export default function Crop1({
   const initialMousePositionRef = useRef(null);
 
   const handleMouseDownOnTriangle = (e) => {
-    e.stopPropagation();
-
     initialMousePositionRef.current = { x: e.clientX, y: e.clientY }; // Store the initial position
 
     // Check if the target is the top left triangle
@@ -59,11 +57,11 @@ export default function Crop1({
       e.target.classList.add("grabbingCursor");
       setDraggedTriangle("bottomRight"); // Set the state for bottom-right triangle
     }
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
   };
 
   const handleMouseMove = (e) => {
-    e.stopPropagation();
-
     if (isDragging && initialMousePositionRef.current) {
       const deltaX = e.clientX - initialMousePositionRef.current.x;
       const deltaY = e.clientY - initialMousePositionRef.current.y;
@@ -88,7 +86,6 @@ export default function Crop1({
   };
 
   const handleMouseUp = (e) => {
-    e.stopPropagation();
     console.log("Mouse up");
     initialMousePositionRef.current = null; // Reset initial mouse position
     if (topLeftTriangleRef.current) {
@@ -103,8 +100,6 @@ export default function Crop1({
 
     console.log("dragging end");
     setIsDragging(false);
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
   };
 
   const isPortrait = imageDimensions.height > imageDimensions.width;
@@ -132,9 +127,6 @@ export default function Crop1({
   }, [imageDataUrl]);
 
   useEffect(() => {
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-
     return () => {
       // Cleanup: Remove the event listeners when the component unmounts
       document.removeEventListener("mousemove", handleMouseMove);
