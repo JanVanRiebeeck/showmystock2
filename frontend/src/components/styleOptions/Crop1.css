@@ -8,7 +8,6 @@
   background: #d4caca;
   width: 100%;
   height: 100%;
-  cursor: pointer;
 }
 
 .crop_container_top {
@@ -39,6 +38,45 @@
   transform: none !important;
 }
 
+.Crop_Container:not(.grabbingCursor) {
+  cursor: pointer;
+}
+
+.crop_image_container:active,
+.crop_image_container:focus,
+.triangle:active,
+.triangle:focus {
+  outline: none;
+}
+
+.crop_image_container img:active,
+.crop_image_container img:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.shadow_above_crop_area {
+  background-color: semi-transparent #a3a0a0;
+}
+
+.shadow_right_crop_area {
+  background-color: semi-transparent #a3a0a0;
+}
+
+.shadow_below_crop_area {
+  background-color: semi-transparent #a3a0a0;
+}
+
+.shadow_left_crop_area {
+  background-color: semi-transparent #a3a0a0;
+}
+
+body.grabbingCursor,
+.triangle,
+.crop_image_container img {
+  user-select: none;
+}
+
 .triangle {
   content: "";
   position: absolute;
@@ -46,10 +84,32 @@
   height: 22px;
   background-color: rgb(247, 213, 21);
   border: 3px solid #000000;
+  z-index: 2;
+  cursor: grab;
+}
+
+.triangle_move {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background-color: rgb(247, 213, 21);
+  border: 3px solid #000000;
+  z-index: 2;
+  cursor: grab;
 }
 
 .triangle:hover {
   cursor: grab;
+}
+
+.grabbingCursor {
+  cursor: grabbing !important;
+}
+
+.triangle,
+.crop_image_container img {
+  cursor: pointer;
 }
 
 /* Top-left triangle */
@@ -59,8 +119,19 @@
   clip-path: polygon(100% 0, 0 0, 0 100%);
 }
 
+.triangle_move.top_left {
+  top: -8px;
+  left: -8px;
+  clip-path: polygon(100% 0, 0 0, 0 100%);
+}
+
 /* Bottom-right triangle */
 .triangle.bottom-right {
+  bottom: -6px;
+  right: -6px;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+.triangle_move.bottom-right {
   bottom: -6px;
   right: -6px;
   clip-path: polygon(100% 0, 100% 100%, 0 100%);

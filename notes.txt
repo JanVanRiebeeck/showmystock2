@@ -101,14 +101,7 @@ Footer Items:
 - Certificates
 
 Question:
-========================================================================
-|                        Header - fixed                                 |
-|========================================================================
-| Home - Left - fixed | Home Middle - Top - Fixed | Home Right - Fixed  |
-|                     |===========================|                     |
-|                     | Home Middle - Bottom      |                     |
-|                     |  - Scroll down            |                     |
-|                     |                           |                     |
-|=====================|                           |=====================|
-|                     |                           |                     |
-=========================================================================
+- I am going to start working on my "create post", so when user clicks on it, then he will get a pop-up with the ability to post something, like text, with options to add picture, emoji, contacts, location, voice note etc, 
+I want to know, if you have more ideas? Remember I am targeting businesses, so I suspect they will be making posts like flyers or advertisements, to gain visibility
+with prospective clients, I want to know if you think I should have an option where they upload pics, enter prices, then we use an AI to put it together and make an
+advertisement? I know cloudinary has something like that available, do you know of any other services like that?

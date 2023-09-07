@@ -233,8 +233,9 @@ export default function PlusMenu({ textHandler }) {
         return (
           <>
             <div
-              onClick={() => {
+              onClick={(e) => {
                 toggleSubCategory("crop");
+                e.stopPropagation(); // Stop the click event from propagating up
               }}
               className={getSubIconClass("crop")}
             >
@@ -244,6 +245,7 @@ export default function PlusMenu({ textHandler }) {
                 images[selectedImageIndex] && (
                   <Crop1
                     onCancel={handleCropCancel}
+                    onClick={(e) => e.stopPropagation()} // This stops the event from bubbling up to parent div
                     imageDataUrl={images[selectedImageIndex].url}
                     imageDimensions={images[selectedImageIndex].dimensions}
                   />
