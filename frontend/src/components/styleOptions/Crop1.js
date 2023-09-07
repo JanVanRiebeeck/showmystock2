@@ -71,6 +71,9 @@ export default function Crop1({
       const deltaX = e.clientX - initialMousePositionRef.current.x;
       const deltaY = e.clientY - initialMousePositionRef.current.y;
 
+      initialMousePositionRef.current = { x: e.clientX, y: e.clientY };
+      console.log(initialMousePositionRef);
+
       // Use getBoundingClientRect() to get the position of the container
       const containerRect = e.target
         .closest(".crop_image_container")
@@ -84,8 +87,6 @@ export default function Crop1({
       } else if (draggedTriangle === "bottomRight") {
         // Similar logic for the bottom-right triangle
       }
-      initialMousePositionRef.current = { x: e.clientX, y: e.clientY };
-      console.log(initialMousePositionRef);
     }
   };
 
