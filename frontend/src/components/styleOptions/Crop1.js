@@ -78,8 +78,8 @@ export default function Crop1({
 
       if (draggedTriangle === "topLeft") {
         setMovingTrianglePosition((prev) => ({
-          x: prev.x + deltaX - containerRect.left,
-          y: prev.y + deltaY - containerRect.top,
+          x: prev.x + deltaX - containerRect.left - 8,
+          y: prev.y + deltaY - containerRect.top - 8,
         }));
       } else if (draggedTriangle === "bottomRight") {
         // Similar logic for the bottom-right triangle
