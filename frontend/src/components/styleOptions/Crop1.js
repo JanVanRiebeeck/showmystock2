@@ -39,9 +39,7 @@ export default function Crop1({
     // Check if the target is the top left triangle
     if (e.target === topLeftTriangleRef.current) {
       setIsDragging(true);
-      console.log(
-        "Hide Original Top Triangle and make a new one that moves with the mouse"
-      );
+      console.log("Mouse down on triangle");
       // How do I hide the original top triangle and show The new triangle (triangle_move.top_left)
       e.target.classList.add("grabbingCursor");
       e.target.style.display = "none"; // Hide original triangle
@@ -72,14 +70,19 @@ export default function Crop1({
       const deltaX = e.clientX - initialMousePositionRef.current.x;
       const deltaY = e.clientY - initialMousePositionRef.current.y;
 
+      console.log("Mouse move:", { deltaX, deltaY });
+
       initialMousePositionRef.current = { x: e.clientX, y: e.clientY };
-      console.log(initialMousePositionRef);
 
       if (draggedTriangle === "topLeft") {
-        setMovingTrianglePosition((prev) => ({
-          x: prev.x + deltaX,
-          y: prev.y + deltaY,
-        }));
+        setMovingTrianglePosition((prev) => {
+          const newPos = {
+            x: prev.x + deltaX,
+            y: prev.y + deltaY,
+          };
+          console.log("Updated triangle position:", newPos);
+          return newPos;
+        });
       } else if (draggedTriangle === "bottomRight") {
         // Similar logic for the bottom-right triangle
       }
@@ -88,6 +91,7 @@ export default function Crop1({
 
   const handleMouseUp = (e) => {
     e.stopPropagation();
+    console.log("Mouse up");
     initialMousePositionRef.current = null; // Reset initial mouse position
     if (topLeftTriangleRef.current) {
       topLeftTriangleRef.current.classList.remove("grabbingCursor");
@@ -166,7 +170,12 @@ export default function Crop1({
                 top: `${movingTrianglePosition.y}px`,
                 display: draggedTriangle === "topLeft" ? "block" : "none",
               }}
-            ></div>
+            >
+              {console.log(
+                "Rendered triangle position:",
+                movingTrianglePosition
+              )}
+            </div>
 
             <div
               className="triangle bottom-right"
