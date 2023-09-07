@@ -39,6 +39,8 @@ export default function Crop1({
     // Check if the target is the top left triangle
     if (e.target === topLeftTriangleRef.current) {
       setIsDragging(true);
+      console.log("Clicked element:", e.target);
+
       console.log("Mouse down on triangle");
       // How do I hide the original top triangle and show The new triangle (triangle_move.top_left)
       e.target.classList.add("grabbingCursor");
@@ -49,8 +51,6 @@ export default function Crop1({
         y: e.target.getBoundingClientRect().top - 8,
       });
       setDraggedTriangle("topLeft"); // Set the state for top-left triangle
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
     }
     // Check if the target is the bottom right triangle
     else if (e.target === bottomRightTriangleRef.current) {
@@ -58,8 +58,6 @@ export default function Crop1({
       console.log("dragging start");
       e.target.classList.add("grabbingCursor");
       setDraggedTriangle("bottomRight"); // Set the state for bottom-right triangle
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
     }
   };
 
@@ -132,6 +130,17 @@ export default function Crop1({
       }
     };
   }, [imageDataUrl]);
+
+  useEffect(() => {
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      // Cleanup: Remove the event listeners when the component unmounts
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, []);
 
   return (
     <div onClick={onClick}>
