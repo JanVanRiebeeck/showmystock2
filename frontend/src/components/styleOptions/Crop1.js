@@ -14,6 +14,7 @@ export default function Crop1({
 
   const topLeftTriangleRef = useRef(null);
   const bottomRightTriangleRef = useRef(null);
+  const cropContainerRef = useRef(null);
 
   const [draggedTriangle, setDraggedTriangle] = useState(null);
   const [movingTrianglePosition, setMovingTrianglePosition] = useState({
@@ -73,11 +74,6 @@ export default function Crop1({
 
       initialMousePositionRef.current = { x: e.clientX, y: e.clientY };
       console.log(initialMousePositionRef);
-
-      // Use getBoundingClientRect() to get the position of the container
-      const containerRect = e.target
-        .closest(".crop_image_container")
-        .getBoundingClientRect();
 
       if (draggedTriangle === "topLeft") {
         setMovingTrianglePosition((prev) => ({
@@ -139,6 +135,7 @@ export default function Crop1({
         <div className="crop_container_top">
           <div
             className="crop_image_container"
+            ref={cropContainerRef}
             onMouseDown={handleMouseDownOnTriangle}
             style={
               isPortrait

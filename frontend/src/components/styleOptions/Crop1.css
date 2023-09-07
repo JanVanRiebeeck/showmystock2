@@ -26,6 +26,7 @@
   justify-content: center;
   border: 3px solid #000000;
   object-fit: contain;
+  user-select: none;
 }
 
 .crop_image_container img {
