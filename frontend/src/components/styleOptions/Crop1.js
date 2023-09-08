@@ -32,33 +32,27 @@ export default function Crop1({
   const initialMousePositionRef = useRef(null);
 
   const handleMouseDownOnTriangle = (e) => {
-    initialMousePositionRef.current = { x: e.clientX, y: e.clientY }; // Store the initial position
+    e.stopPropagation();
+    initialMousePositionRef.current = { x: e.clientX, y: e.clientY };
 
-    // Check if the target is the top left triangle
     if (e.target === topLeftTriangleRef.current) {
       setIsDragging(true);
-      console.log("Clicked element:", e.target);
-
-      console.log("Mouse down on triangle");
-      // How do I hide the original top triangle and show The new triangle (triangle_move.top_left)
       e.target.classList.add("grabbingCursor");
-      e.target.style.display = "none"; // Hide original triangle
+      e.target.style.display = "none";
       setMovingTrianglePosition({
-        // Initialize moving triangle position
         x: e.target.getBoundingClientRect().left - 8,
         y: e.target.getBoundingClientRect().top - 8,
       });
-      setDraggedTriangle("topLeft"); // Set the state for top-left triangle
+      setDraggedTriangle("topLeft");
     }
-    // Check if the target is the bottom right triangle
-    else if (e.target === bottomRightTriangleRef.current) {
-      setIsDragging(true);
-      console.log("dragging start");
-      e.target.classList.add("grabbingCursor");
-      setDraggedTriangle("bottomRight"); // Set the state for bottom-right triangle
-    }
+    // Rest of your logic
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
+  };
+
+  const handleMouseDownOnContainer = (e) => {
+    // Any logic specific to mousedown on the container but not on the triangle.
+    // This handler is for future use in case you decide to implement more features.
   };
 
   const handleMouseMove = (e) => {
@@ -94,12 +88,23 @@ export default function Crop1({
     if (bottomRightTriangleRef.current) {
       bottomRightTriangleRef.current.classList.remove("grabbingCursor");
     }
-    if (draggedTriangle === "topLeft") {
-      topLeftTriangleRef.current.style.display = "block"; // Show original triangle again
-    }
+
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
 
     console.log("dragging end");
     setIsDragging(false);
+  };
+
+  const handleReset = () => {
+    // Show the original top-left triangle
+    if (topLeftTriangleRef.current) {
+      topLeftTriangleRef.current.style.display = "block";
+    }
+
+    // Hide the moving triangle and reset its position
+    setDraggedTriangle(null);
+    setMovingTrianglePosition({ x: 0, y: 0 });
   };
 
   const isPortrait = imageDimensions.height > imageDimensions.width;
@@ -141,7 +146,7 @@ export default function Crop1({
           <div
             className="crop_image_container"
             ref={cropContainerRef}
-            onMouseDown={handleMouseDownOnTriangle}
+            onMouseDown={handleMouseDownOnContainer}
             style={
               isPortrait
                 ? { ...containerPosition, width: "auto", height: "90%" }
@@ -186,7 +191,9 @@ export default function Crop1({
           </div>
         </div>
         <div className="crop_container_middle">
-          <button className="blue_btn">Reset</button>
+          <button className="blue_btn" onClick={handleReset}>
+            Reset
+          </button>
         </div>
         <div className="crop_container_bottom">
           <button className="blue_btn" onClick={onCancel}>

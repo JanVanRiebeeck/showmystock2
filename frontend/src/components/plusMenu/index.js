@@ -27,7 +27,7 @@ import eraserIcon from "../../../src/styles/icons/icons8-eraser-64.png";
 import { useState, useEffect, useRef } from "react";
 import { Emoji } from "emoji-picker-react";
 
-import Crop1 from "../styleOptions/Crop1";
+import Crop2 from "../styleOptions/Crop2";
 
 export default function PlusMenu({ textHandler }) {
   const [activePreview, setActivePreview] = useState("");
@@ -243,11 +243,10 @@ export default function PlusMenu({ textHandler }) {
               {activeSubCategory === "crop" &&
                 selectedImageIndex !== null &&
                 images[selectedImageIndex] && (
-                  <Crop1
-                    onCancel={handleCropCancel}
-                    onClick={(e) => e.stopPropagation()} // This stops the event from bubbling up to parent div
+                  <Crop2
                     imageDataUrl={images[selectedImageIndex].url}
                     imageDimensions={images[selectedImageIndex].dimensions}
+                    onCancel={handleCropCancel}
                   />
                 )}
             </div>
@@ -332,7 +331,7 @@ export default function PlusMenu({ textHandler }) {
   const renderStyleOption = () => {
     switch (activeSubCategory) {
       case "crop":
-        return <Crop1 onCancel={handleCropCancel} />;
+        return <Crop2 onCancel={(imageDataUrl, handleCropCancel)} />;
     }
   };
 
