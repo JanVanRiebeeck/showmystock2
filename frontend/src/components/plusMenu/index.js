@@ -27,7 +27,7 @@ import eraserIcon from "../../../src/styles/icons/icons8-eraser-64.png";
 import { useState, useEffect, useRef } from "react";
 import { Emoji } from "emoji-picker-react";
 
-import Crop2 from "../styleOptions/Crop2";
+import Crop1 from "../styleOptions/Crop1";
 
 export default function PlusMenu({ textHandler }) {
   const [activePreview, setActivePreview] = useState("");
@@ -42,6 +42,16 @@ export default function PlusMenu({ textHandler }) {
     width: 0,
     height: 0,
   });
+
+  const [isCropVisible, setIsCropVisible] = useState(false);
+
+  const showCrop = () => {
+    setIsCropVisible(true);
+  };
+
+  const hideCrop = () => {
+    setIsCropVisible(false);
+  };
 
   const [images, setImages] = useState([
     //... for all 8 images
@@ -77,7 +87,19 @@ export default function PlusMenu({ textHandler }) {
 
   const handleFilesChange = (event) => {
     const files = Array.from(event.target.files);
-    const newTotalFiles = selectedFiles.length + files.length;
+
+    // Rename files with timestamps
+    const renamedFiles = files.map((file) => {
+      const nameParts = file.name.split(".");
+      const extension = nameParts.pop();
+      const newName = `${nameParts.join(".")}_${Date.now()}.${extension}`;
+      return new File([file], newName, {
+        type: file.type,
+        lastModified: file.lastModified,
+      });
+    });
+
+    const newTotalFiles = selectedFiles.length + renamedFiles.length;
 
     // Ensure the total number of files does not exceed 8
     if (newTotalFiles > 8) {
@@ -85,7 +107,7 @@ export default function PlusMenu({ textHandler }) {
       return;
     }
 
-    const newSelectedFiles = [...selectedFiles, ...files];
+    const newSelectedFiles = [...selectedFiles, ...renamedFiles];
     setSelectedFiles(newSelectedFiles);
 
     // Update the images state as well with the new files.
@@ -126,6 +148,9 @@ export default function PlusMenu({ textHandler }) {
       image.src = URL.createObjectURL(file);
       setImageDataUrl(image.src);
     }
+
+    // Reset the value of the input file element to allow selecting the same file again.
+    event.target.value = "";
   };
 
   const renderFilePreviews = () => {
@@ -235,6 +260,7 @@ export default function PlusMenu({ textHandler }) {
             <div
               onClick={(e) => {
                 toggleSubCategory("crop");
+                showCrop();
                 e.stopPropagation(); // Stop the click event from propagating up
               }}
               className={getSubIconClass("crop")}
@@ -242,11 +268,16 @@ export default function PlusMenu({ textHandler }) {
               <img src={cropIcon} alt="Crop" />
               {activeSubCategory === "crop" &&
                 selectedImageIndex !== null &&
-                images[selectedImageIndex] && (
-                  <Crop2
+                images[selectedImageIndex] &&
+                isCropVisible && (
+                  <Crop1
                     imageDataUrl={images[selectedImageIndex].url}
                     imageDimensions={images[selectedImageIndex].dimensions}
                     onCancel={handleCropCancel}
+                    onCropComplete={(croppedImageData) => {
+                      handleCropComplete(croppedImageData);
+                      hideCrop();
+                    }}
                   />
                 )}
             </div>
@@ -328,16 +359,36 @@ export default function PlusMenu({ textHandler }) {
     }
   };
 
-  const renderStyleOption = () => {
-    switch (activeSubCategory) {
-      case "crop":
-        return <Crop2 onCancel={(imageDataUrl, handleCropCancel)} />;
-    }
+  const handleCropComplete = (croppedImageData) => {
+    // Make a copy of the images array.
+    const updatedImages = [...images];
+    // Replace the original image data of the selected image with the cropped data.
+    updatedImages[selectedImageIndex].url = croppedImageData;
+    // Update the state with the modified images array.
+    setImages(updatedImages);
+
+    // Now, update the selectedFiles state with the cropped image.
+    const updatedFiles = [...selectedFiles];
+    const newBlob = dataURLtoBlob(croppedImageData); // Convert data URL to blob.
+    updatedFiles[selectedImageIndex] = newBlob;
+    setSelectedFiles(updatedFiles);
+
+    // Reset the subcategory to none
+    toggleSubCategory("");
   };
 
-  const handleAfterCrop = (croppedData) => {
-    // Handle the cropped data (e.g., update state, save, etc.) Replace the original image with the cropped data
-  };
+  // Utility function to convert dataURL to Blob
+  function dataURLtoBlob(dataurl) {
+    let arr = dataurl.split(","),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
+  }
 
   const renderPreview = () => {
     switch (activePreview) {

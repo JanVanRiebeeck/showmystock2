@@ -1,113 +1,32 @@
 import React, { useState, useEffect, useRef } from "react";
+import Cropper from "react-cropper";
+
+import "cropperjs/dist/cropper.css";
 import "./Crop1.css";
 
 export default function Crop1({
   onCancel,
   imageDataUrl,
   imageDimensions,
-  onClick,
+  onCropComplete,
 }) {
-  const image_aspect_rateio = imageDimensions.height / imageDimensions.width;
+  const [cropData, setCropData] = useState("#");
+  const cropperRef = useRef(null);
 
-  const [isDragging, setIsDragging] = useState(false);
-  const [cropSize, setCropSize] = useState({ width: "90%", height: "90%" });
-
-  const topLeftTriangleRef = useRef(null);
-  const bottomRightTriangleRef = useRef(null);
-  const cropContainerRef = useRef(null);
-
-  const [draggedTriangle, setDraggedTriangle] = useState(null);
-  const [movingTrianglePosition, setMovingTrianglePosition] = useState({
-    x: 0,
-    y: 0,
-  });
-
-  const [containerPosition, setContainerPosition] = useState({
-    top: "0%",
-    left: "0%",
-    right: "0%",
-    bottom: "0",
-  });
-
-  const initialMousePositionRef = useRef(null);
-
-  const handleMouseDownOnTriangle = (e) => {
-    e.stopPropagation();
-    initialMousePositionRef.current = { x: e.clientX, y: e.clientY };
-
-    if (e.target === topLeftTriangleRef.current) {
-      setIsDragging(true);
-      e.target.classList.add("grabbingCursor");
-      e.target.style.display = "none";
-      setMovingTrianglePosition({
-        x: e.target.getBoundingClientRect().left - 8,
-        y: e.target.getBoundingClientRect().top - 8,
-      });
-      setDraggedTriangle("topLeft");
-    }
-    // Rest of your logic
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  };
-
-  const handleMouseDownOnContainer = (e) => {
-    // Any logic specific to mousedown on the container but not on the triangle.
-    // This handler is for future use in case you decide to implement more features.
-  };
-
-  const handleMouseMove = (e) => {
-    if (isDragging && initialMousePositionRef.current) {
-      const deltaX = e.clientX - initialMousePositionRef.current.x;
-      const deltaY = e.clientY - initialMousePositionRef.current.y;
-
-      console.log("Mouse move:", { deltaX, deltaY });
-
-      initialMousePositionRef.current = { x: e.clientX, y: e.clientY };
-
-      if (draggedTriangle === "topLeft") {
-        setMovingTrianglePosition((prev) => {
-          const newPos = {
-            x: prev.x + deltaX,
-            y: prev.y + deltaY,
-          };
-          console.log("Updated triangle position:", newPos);
-          return newPos;
-        });
-      } else if (draggedTriangle === "bottomRight") {
-        // Similar logic for the bottom-right triangle
-      }
+  const getCropData = () => {
+    if (typeof cropperRef.current?.cropper !== "undefined") {
+      const croppedImageData = cropperRef.current?.cropper
+        .getCroppedCanvas()
+        .toDataURL();
+      setCropData(croppedImageData);
+      onCropComplete(croppedImageData); // This will hide the Crop1 component in the parent
     }
   };
 
-  const handleMouseUp = (e) => {
-    console.log("Mouse up");
-    initialMousePositionRef.current = null; // Reset initial mouse position
-    if (topLeftTriangleRef.current) {
-      topLeftTriangleRef.current.classList.remove("grabbingCursor");
-    }
-    if (bottomRightTriangleRef.current) {
-      bottomRightTriangleRef.current.classList.remove("grabbingCursor");
-    }
-
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-
-    console.log("dragging end");
-    setIsDragging(false);
+  const handleCropClick = (event) => {
+    event.stopPropagation();
+    // Other crop handling logic
   };
-
-  const handleReset = () => {
-    // Show the original top-left triangle
-    if (topLeftTriangleRef.current) {
-      topLeftTriangleRef.current.style.display = "block";
-    }
-
-    // Hide the moving triangle and reset its position
-    setDraggedTriangle(null);
-    setMovingTrianglePosition({ x: 0, y: 0 });
-  };
-
-  const isPortrait = imageDimensions.height > imageDimensions.width;
 
   useEffect(() => {
     const image = new Image();
@@ -120,87 +39,38 @@ export default function Crop1({
 
       // Determine aspect ratio
       const aspectRatio = imgWidth / imgHeight;
-
-      if (aspectRatio > 1) {
-        // Image is landscape
-        setCropSize({ width: `${imgWidth}px`, height: `${imgHeight}px` });
-      } else {
-        // Image is portrait or square
-        setCropSize({ height: `${imgHeight}px`, width: `${imgWidth}px` });
-      }
     };
   }, [imageDataUrl]);
 
-  useEffect(() => {
-    return () => {
-      // Cleanup: Remove the event listeners when the component unmounts
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, []);
-
   return (
-    <div onClick={onClick}>
+    <div onClick={handleCropClick}>
       <div className="Crop_Container">
         <div className="crop_container_top">
-          <div
+          <Cropper
             className="crop_image_container"
-            ref={cropContainerRef}
-            onMouseDown={handleMouseDownOnContainer}
-            style={
-              isPortrait
-                ? { ...containerPosition, width: "auto", height: "90%" }
-                : { ...containerPosition, width: "90%", height: "auto" }
-            }
-          >
-            {imageDataUrl ? (
-              <img
-                src={imageDataUrl}
-                alt="Crop preview"
-                draggable="false"
-                className={isPortrait ? "portrait" : "landscape"}
-              />
-            ) : (
-              <p>No image selected</p>
-            )}
-
-            <div
-              className="triangle top-left"
-              ref={topLeftTriangleRef}
-              onMouseDown={handleMouseDownOnTriangle}
-            ></div>
-            <div
-              className="triangle_move top_left"
-              style={{
-                left: `${movingTrianglePosition.x}px`,
-                top: `${movingTrianglePosition.y}px`,
-                display: draggedTriangle === "topLeft" ? "block" : "none",
-              }}
-            >
-              {console.log(
-                "Rendered triangle position:",
-                movingTrianglePosition
-              )}
-            </div>
-
-            <div
-              className="triangle bottom-right"
-              ref={bottomRightTriangleRef}
-              onMouseDown={handleMouseDownOnTriangle}
-            ></div>
-          </div>
+            style={{ height: 400, width: "100%" }}
+            initialAspectRatio={1}
+            preview=".img-preview"
+            src={imageDataUrl}
+            ref={cropperRef}
+            viewMode={1}
+            guides={true}
+            minCropBoxHeight={10}
+            minCropBoxWidth={10}
+            background={false}
+            responsive={true}
+            checkOrientation={false}
+          />
         </div>
-        <div className="crop_container_middle">
-          <button className="blue_btn" onClick={handleReset}>
-            Reset
-          </button>
-        </div>
+
         <div className="crop_container_bottom">
           <button className="blue_btn" onClick={onCancel}>
             Cancel
           </button>
 
-          <button className="blue_btn">Done</button>
+          <button className="blue_btn" onClick={getCropData}>
+            Done
+          </button>
         </div>
       </div>
     </div>

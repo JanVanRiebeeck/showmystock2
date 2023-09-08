@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid #000000;
+
   height: 90%;
   width: 100%;
 }
@@ -22,7 +22,7 @@
 .crop_container_middle {
   display: flex;
   justify-content: center;
-  border: 3px solid #000000;
+
   height: 5%;
   width: 100%;
 }
@@ -30,7 +30,7 @@
 .crop_container_bottom {
   display: flex;
   justify-content: space-between;
-  border: 3px solid #000000;
+  padding: 0px 10px 0% 10px;
   width: 100%;
   height: 5%;
 }
@@ -40,7 +40,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid #000000;
+
   object-fit: contain;
   user-select: none;
 }

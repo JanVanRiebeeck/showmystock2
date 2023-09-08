@@ -90,7 +90,7 @@ export default function Crop2({
   const isPortrait = imageDimensions.height > imageDimensions.width;
 
   const handleMouseDownOnTriangle = (event) => {
-    console.log("handleMouseDownOnTriangle");
+    console.log(event.target);
 
     // Add the 'grabbingCursor' class to the triangle
     event.target.classList.add("grabbingCursor");
@@ -100,7 +100,7 @@ export default function Crop2({
       x: event.clientX,
       y: event.clientY,
     };
-    console.log(initialMousePositionRef);
+
     document.addEventListener("mousemove", handleMouseDragOnTriangle);
     document.addEventListener("mouseup", handleMouseUpOnTriangle);
   };
@@ -173,6 +173,11 @@ export default function Crop2({
       updateLines();
     }
   };
+
+  const handleMouseDragOnTopLeftTriangle = () => {};
+  const handleMouseDragOnTopRightTriangle = () => {};
+  const handleMouseDragOnBottomLeftTriangle = () => {};
+  const handleMouseDragOnBottomRightTriangle = () => {};
 
   const handleMouseUpOnTriangle = () => {
     console.log("handleMouseUpOnTriangle");
@@ -260,7 +265,7 @@ export default function Crop2({
             <div
               className="triangle top-left"
               ref={topLeftTriangleRef}
-              onMouseDown={handleMouseDownOnTriangle}
+              onMouseDown={handleMouseDragOnTopLeftTriangle}
             ></div>
             <div
               className="triangle bottom-right"
