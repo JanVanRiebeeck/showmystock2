@@ -174,7 +174,7 @@ export default function Crop2({
     }
   };
 
-  const handleMouseDragOnTopLeftTriangle = () => {};
+  const handleMouseDragOnTopLeftTriangle = (event) => {};
   const handleMouseDragOnTopRightTriangle = () => {};
   const handleMouseDragOnBottomLeftTriangle = () => {};
   const handleMouseDragOnBottomRightTriangle = () => {};

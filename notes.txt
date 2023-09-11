@@ -101,7 +101,7 @@ Footer Items:
 - Certificates
 
 Question:
-- I am going to start working on my "create post", so when user clicks on it, then he will get a pop-up with the ability to post something, like text, with options to add picture, emoji, contacts, location, voice note etc, 
-I want to know, if you have more ideas? Remember I am targeting businesses, so I suspect they will be making posts like flyers or advertisements, to gain visibility
-with prospective clients, I want to know if you think I should have an option where they upload pics, enter prices, then we use an AI to put it together and make an
-advertisement? I know cloudinary has something like that available, do you know of any other services like that?
+- Please have a look at my code = https://github.com/JanVanRiebeeck/showmystock2
+- File to inspect: frontend/src/components/styleOptions/Crop1.js and Crop1.css
+-Question: I want to be able to click on the top left triangle and then move it around, so I am hiding the original triangle and displaying a new one that is a bit bigger,
+this is working so far, but the new triangle should be positioned top -8px and left -8px, but when it shows it is 0px and 0px. Please advise

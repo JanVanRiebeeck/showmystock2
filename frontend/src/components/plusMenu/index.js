@@ -42,6 +42,7 @@ export default function PlusMenu({ textHandler }) {
     width: 0,
     height: 0,
   });
+  const [rotationDegree, setRotationDegree] = useState(0);
 
   const [isCropVisible, setIsCropVisible] = useState(false);
 
@@ -55,14 +56,14 @@ export default function PlusMenu({ textHandler }) {
 
   const [images, setImages] = useState([
     //... for all 8 images
-    { url: null, dimensions: null, isCropping: false },
-    { url: null, dimensions: null, isCropping: false },
-    { url: null, dimensions: null, isCropping: false },
-    { url: null, dimensions: null, isCropping: false },
-    { url: null, dimensions: null, isCropping: false },
-    { url: null, dimensions: null, isCropping: false },
-    { url: null, dimensions: null, isCropping: false },
-    { url: null, dimensions: null, isCropping: false },
+    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
+    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
+    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
+    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
+    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
+    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
+    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
+    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
   ]);
 
   const { text, setText, textRef } = textHandler;
@@ -75,6 +76,17 @@ export default function PlusMenu({ textHandler }) {
       setActiveCategory(category);
     }
   };
+
+  function handleRotateClick() {
+    setImages((prevImages) => {
+      const updatedImages = [...prevImages];
+      if (selectedImageIndex !== null) {
+        updatedImages[selectedImageIndex].rotationDegree =
+          (updatedImages[selectedImageIndex].rotationDegree + 90) % 360;
+      }
+      return updatedImages;
+    });
+  }
 
   const toggleSubCategory = (subCategory) => {
     console.log("toggleSubCategory");
@@ -166,6 +178,9 @@ export default function PlusMenu({ textHandler }) {
             <img
               src={URL.createObjectURL(displayedFile)}
               alt={displayedFile.name}
+              style={{
+                transform: `rotate(${images[selectedImageIndex].rotationDegree}deg)`,
+              }}
             />
           </div>
         );
@@ -283,7 +298,9 @@ export default function PlusMenu({ textHandler }) {
             </div>
 
             <div
-              onClick={() => toggleSubCategory("rotate")}
+              onClick={() => {
+                handleRotateClick();
+              }}
               className={getSubIconClass("rotate")}
             >
               <img src={rotateIcon} alt="Rotate" />
