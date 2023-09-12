@@ -5,6 +5,7 @@ import gifIcon from "../../../src/styles/icons/icons8-gif-64.png";
 import plustIcon from "../../../src/styles/icons/icons8-plus-40.png";
 import micIcon from "../../../src/styles/icons/icons8-mic-48.png";
 import sendIcon from "../../../src/styles/icons/icons8-send-60.png";
+import imagesFolderIcon from "../../../src/styles/icons/icons8-images-folder-48.png";
 
 import { useState, useRef, useEffect } from "react";
 import { useTextHandling } from "./useTextHandling";
@@ -13,6 +14,7 @@ import GifSearch from "../gifSearch";
 
 import PlusMenu from "../plusMenu";
 import AddPhotoFromCamera from "../addPhoto";
+import ImageEditor from "../imageEditor";
 
 export default function CreatePostPopup({ user }) {
   // This is for handling text in this component
@@ -57,11 +59,13 @@ export default function CreatePostPopup({ user }) {
             alt=""
             onClick={() => setPlusPick((prev) => !prev)}
           />
+
           {plus_pick && (
             <PlusMenu textHandler={{ text, setText, textRef, handleEmoji }} />
           )}
 
           <img src={micIcon} alt="" />
+          <img src={imagesFolderIcon} alt="" />
           <img
             src={gifIcon}
             alt=""
