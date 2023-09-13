@@ -519,23 +519,29 @@ export default function PhotoVideoLibrary({
     <div>
       {/* ... your photo and video library JSX here ... */}
       <div className="photo_container">
-        <div className="photo_container_item1">
-          <div></div>
-          <div className="heading">Select Photo or Video</div>
-          <img
-            src={icons.gobackIcon}
-            alt=""
-            onClick={() => setActivePreview("")}
-          />
-        </div>
+        {busyEditingPhoto === false && (
+          <div className="photo_container_item1">
+            <div></div>
+            <div className="heading">Select Photo or Video</div>
+            <img
+              src={icons.gobackIcon}
+              alt=""
+              onClick={() => setActivePreview("")}
+            />
+          </div>
+        )}
 
         <div className="photo_container_item2">
-          <div className="photo_styling_master">
-            {selectedImageIndex !== null && renderMasterIcons()}
-          </div>
-          <div className="photo_styling_sub">
-            {activeCategory ? renderSubIcons() : null}
-          </div>
+          {busyEditingPhoto === false && (
+            <div className="photo_styling_master">
+              {selectedImageIndex !== null && renderMasterIcons()}
+            </div>
+          )}
+          {busyEditingPhoto === false && (
+            <div className="photo_styling_sub">
+              {activeCategory ? renderSubIcons() : null}
+            </div>
+          )}
 
           {busyEditingPhoto === false && (
             <div className="photo_preview_main">
