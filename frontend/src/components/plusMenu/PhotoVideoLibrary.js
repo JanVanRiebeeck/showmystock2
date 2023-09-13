@@ -252,19 +252,19 @@ export default function PhotoVideoLibrary({
 
   const renderFilePreviews = () => {
     if (imageState.selectedFiles.length > 0) {
-      const displayedFile =
+      const displayedImage =
         selectedImageIndex !== null
-          ? imageState.selectedFiles[selectedImageIndex]
-          : imageState.selectedFiles[imageState.selectedFiles.length - 1];
+          ? images[selectedImageIndex]
+          : images[images.length - 1];
 
-      if (displayedFile && displayedFile.type.startsWith("image/")) {
+      if (displayedImage && displayedImage.url) {
         return (
           <div className="file-preview">
             <img
-              src={URL.createObjectURL(displayedFile)}
-              alt={displayedFile.name}
+              src={displayedImage.url}
+              alt="Edited Image"
               style={{
-                transform: `rotate(${images[selectedImageIndex].rotationDegree}deg)`,
+                transform: `rotate(${displayedImage.rotationDegree}deg)`,
               }}
             />
           </div>
