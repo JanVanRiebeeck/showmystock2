@@ -111,6 +111,10 @@
   border: 1px solid #000;
 }
 
+.photo_preview_main img.zoomed-in {
+  object-fit: cover;
+}
+
 .photo_preview_main img {
   max-width: 100% !important; /* max width of the container */
   max-height: 220px !important; /* fit within the height of the container */

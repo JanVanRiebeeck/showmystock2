@@ -158,6 +158,15 @@ export default function PhotoVideoLibrary({
         // Load image to get its dimensions
         const image = new Image();
         image.onload = () => {
+          const containerWidth = 230; // width of .photo_preview_main
+          const containerHeight = 230; // height of .photo_preview_main
+
+          if (image.width < containerWidth || image.height < containerHeight) {
+            image.classList.add("zoomed-in");
+          } else {
+            image.classList.remove("zoomed-in");
+          }
+
           // Update the dimensions in the images state for the respective image
           updatedImages[imageState.selectedFiles.length + index].dimensions = {
             width: image.width,
