@@ -22,6 +22,9 @@ import redoIcon from "../../../src/styles/icons/icons8-redo-40.png";
 import basiceditIcon from "../../../src/styles/icons/icons8-edit-image-40.png";
 import annotationsIcon from "../../../src/styles/icons/icons8-paint-palette-40.png";
 import eraserIcon from "../../../src/styles/icons/icons8-eraser-64.png";
+import doneIcon from "../../../src/styles/icons/icons8-done-40.png";
+import cancelIcon from "../../../src/styles/icons/icons8-cancel-40.png";
+import resetIcon from "../../../src/styles/icons/icons8-reset-40.png";
 
 export const icons = {
   photoIcon,
@@ -49,4 +52,7 @@ export const icons = {
   contactIcon,
   locationIcon,
   documentIcon,
+  doneIcon,
+  cancelIcon,
+  resetIcon,
 };

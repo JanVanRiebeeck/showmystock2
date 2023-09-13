@@ -101,7 +101,115 @@ Footer Items:
 - Certificates
 
 Question:
-- Please have a look at my code = https://github.com/JanVanRiebeeck/showmystock2
-- File to inspect: frontend/src/components/styleOptions/Crop1.js and Crop1.css
--Question: I want to be able to click on the top left triangle and then move it around, so I am hiding the original triangle and displaying a new one that is a bit bigger,
-this is working so far, but the new triangle should be positioned top -8px and left -8px, but when it shows it is 0px and 0px. Please advise
+-PhotoVideoLibrary: User uploads image, it is stored here: 
+const [images, setImages] = useState([
+    //... for all 8 images
+    {
+      url: null,
+      dimensions: null,
+      isCropping: false,
+      rotationDegree: 0,
+      edits: [],
+    }, ...
+I render it here: 
+  const renderFilePreviews = () => {
+    if (imageState.selectedFiles.length > 0) {
+      const displayedFile =
+        selectedImageIndex !== null
+          ? imageState.selectedFiles[selectedImageIndex]
+          : imageState.selectedFiles[imageState.selectedFiles.length - 1];
+
+      if (displayedFile && displayedFile.type.startsWith("image/")) {
+        return (
+          <div className="file-preview">
+            <img
+              src={URL.createObjectURL(displayedFile)}
+              alt={displayedFile.name}
+              style={{
+                transform: `rotate(${images[selectedImageIndex].rotationDegree}deg)`,
+              }}
+            />
+          </div>
+        );
+      }
+    }
+    return null;
+  }; and display like this: 
+  {busyEditingPhoto === false && (
+            <div className="photo_preview_main">
+              <div className="file-previews">{renderFilePreviews()}</div>
+            </div>
+          )}
+If user clicks on any edit icon, I change: const [busyEditingPhoto, setBusyEditingPhoto] = useState(false);
+and I display the following:
+{busyEditingPhoto === true && (
+            <div className="photo_preview_main">
+              <div className="file-previews">{renderFileEdits()}</div>
+            </div>
+          )}
+my buttons will be cancel reset and done:
+{busyEditingPhoto === true && (
+            <div className="ImageCancelResetDone">
+              <img
+                src={icons.cancelIcon}
+                alt=""
+                onClick={() => setActivePreview("")}
+              />
+              <img
+                src={icons.resetIcon}
+                alt=""
+                onClick={() => setActivePreview("")}
+              />
+              <img
+                src={icons.doneIcon}
+                alt=""
+                onClick={() => setActivePreview("")}
+              />
+            </div>
+          )}
+so I pass the image state to my ImageEditor to do an edit and update that state:
+<ImageEditor
+        images={images}
+        setImages={setImages}
+        selectedImageIndex={selectedImageIndex}
+        imageState={imageState}
+        setImageState={setImageState}
+        toggleSubCategory={toggleSubCategory}
+        activeSubCategory={activeSubCategory}
+        setActiveSubCategory={setActiveSubCategory}
+        isCropVisible={isCropVisible}
+        showCrop={showCrop}
+        hideCrop={hideCrop}
+      />
+So lets work on the Crop styling, so user will see the cropper over the image, then when he selects the part to crop,
+I will have three handlers: handleCropCancel, handleCropReset, handleCropComplete.  
+function handleCropCancel() {
+    setActiveSubCategory(null); // to close the cropping interface
+  }
+function handleCropReset() {
+    //Should this just clear the edits: []? must I add a cropped: true to the edits list to track it?
+}
+
+fucntion handleCropComplete() {
+    // So here I add cropped: true to the list? Or must I save the crop dimensions or something there?
+}
+
+I render the cropper like this, please see if its correct: 
+return (
+    <div>
+      {activeSubCategory === "crop" &&
+        selectedImageIndex !== null &&
+        images[selectedImageIndex] &&
+        isCropVisible && (
+          <Crop4
+            imageDataUrl={images[selectedImageIndex].url}
+            imageDimensions={images[selectedImageIndex].dimensions}
+            onCancel={handleCropCancel}
+            onCropComplete={(croppedImageData) => {
+              handleCropComplete(croppedImageData);
+              hideCrop();
+            }}
+          />
+        )}
+    </div>
+  );

@@ -11,50 +11,100 @@ export default function PhotoVideoLibrary({
 }) {
   // --------------------------------------------------------- States --------------------------------------------------------
 
-  // Image related States:
+  const [resetCropFunc, setResetCropFunc] = useState(null);
+  const [busyEditingPhoto, setBusyEditingPhoto] = useState(false);
+  const [isCropVisible, setIsCropVisible] = useState(false);
   const [imageState, setImageState] = useState({
     selectedFiles: [],
   });
-
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-
-  // Active catergory
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeSubCategory, setActiveSubCategory] = useState(null);
-
-  // Upload images
   const fileInputRef = useRef(null);
-
   const [imageDataUrl, setImageDataUrl] = useState("");
   const [imageDimensions, setImageDimensions] = useState({
     width: 0,
     height: 0,
   });
-
   const [images, setImages] = useState([
     //... for all 8 images
-    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
-    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
-    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
-    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
-    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
-    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
-    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
-    { url: null, dimensions: null, isCropping: false, rotationDegree: 0 },
+    {
+      originalUrl: null,
+      url: null,
+      dimensions: null,
+      isCropping: false,
+      rotationDegree: 0,
+      edits: [],
+    },
+    {
+      originalUrl: null,
+      url: null,
+      dimensions: null,
+      isCropping: false,
+      rotationDegree: 0,
+      edits: [],
+    },
+    {
+      originalUrl: null,
+      url: null,
+      dimensions: null,
+      isCropping: false,
+      rotationDegree: 0,
+      edits: [],
+    },
+    {
+      originalUrl: null,
+      url: null,
+      dimensions: null,
+      isCropping: false,
+      rotationDegree: 0,
+      edits: [],
+    },
+    {
+      originalUrl: null,
+      url: null,
+      dimensions: null,
+      isCropping: false,
+      rotationDegree: 0,
+      edits: [],
+    },
+    {
+      originalUrl: null,
+      url: null,
+      dimensions: null,
+      isCropping: false,
+      rotationDegree: 0,
+      edits: [],
+    },
+    {
+      originalUrl: null,
+      url: null,
+      dimensions: null,
+      isCropping: false,
+      rotationDegree: 0,
+      edits: [],
+    },
+    {
+      originalUrl: null,
+      url: null,
+      dimensions: null,
+      isCropping: false,
+      rotationDegree: 0,
+      edits: [],
+    },
   ]);
-
-  // Display text from the text box user has entered
+  const cropFunctionRef = useRef();
   const { text, setText, textRef } = textHandler;
 
   // --------------------------------------------------------- Handlers --------------------------------------------------------
 
-  /** toggleCategory
-   * Toggles the active category for image editing.
-   * If the clicked category is already active, it deactivates it.
-   * Otherwise, it sets the clicked category as active.
-   *
-   * @param {string} category - The category to toggle.
-   */
+  const showCrop = () => {
+    setIsCropVisible(true);
+  };
+
+  const hideCrop = () => {
+    setIsCropVisible(false);
+  };
 
   const toggleCategory = (category) => {
     console.log("toggleCategory");
@@ -65,14 +115,6 @@ export default function PhotoVideoLibrary({
     }
   };
 
-  /** toggleSubCategory
-   * Toggles the active sub-category for image editing.
-   * If the clicked sub-category is already active, it deactivates it.
-   * Otherwise, it sets the clicked sub-category as active.
-   *
-   * @param {string} subCategory - The sub-category to toggle.
-   */
-
   const toggleSubCategory = (subCategory) => {
     console.log("toggleSubCategory");
     if (activeSubCategory === subCategory) {
@@ -81,13 +123,6 @@ export default function PhotoVideoLibrary({
       setActiveSubCategory(subCategory);
     }
   };
-
-  /** handleFilesChange
-   * Handles the change event for the file input.
-   * Updates the state with the selected files and their previews.
-   *
-   * @param {Event} event - The change event from the file input.
-   */
 
   const handleFilesChange = (event) => {
     const files = Array.from(event.target.files);
@@ -156,13 +191,6 @@ export default function PhotoVideoLibrary({
     event.target.value = "";
   };
 
-  /** handleImageClick
-   * Handles the click event for an image in the list.
-   * Sets the clicked image as the currently selected image.
-   *
-   * @param {number} index - The index of the clicked image in the list.
-   */
-
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
     const file = images[index];
@@ -194,6 +222,32 @@ export default function PhotoVideoLibrary({
     }
   };
 
+  const onCropIconClick = () => {
+    console.log("Check which image we are displaying");
+    console.log("close that image in the main view");
+    setBusyEditingPhoto(true);
+    console.log("Display the cropper in its place");
+
+    showCrop();
+  };
+
+  function handleCropCancelFromEditor() {
+    setActiveSubCategory(null); // to close the cropping interface
+  }
+
+  function getCropDataFromEditor() {
+    // Call the function set by Crop4 to initiate the cropping
+    if (cropFunctionRef.current) {
+      cropFunctionRef.current();
+    }
+  }
+
+  function handleCropDoneFromEditor() {
+    getCropDataFromEditor(); // We will pass this function down
+    setBusyEditingPhoto(false);
+    setActiveSubCategory("");
+  }
+
   // --------------------------------------------------------- Render Methods --------------------------------------------------------
 
   const renderFilePreviews = () => {
@@ -219,6 +273,8 @@ export default function PhotoVideoLibrary({
     }
     return null;
   };
+
+  const renderFileEdits = () => {};
 
   const renderFileList = () => {
     return images.map((image, index) => {
@@ -282,6 +338,8 @@ export default function PhotoVideoLibrary({
               onClick={(e) => {
                 toggleSubCategory("crop");
 
+                onCropIconClick();
+                console.log("Tell ImageCropper to open Cropper");
                 e.stopPropagation(); // Stop the click event from propagating up
               }}
               className={getSubIconClass("crop")}
@@ -461,6 +519,7 @@ export default function PhotoVideoLibrary({
             onClick={() => setActivePreview("")}
           />
         </div>
+
         <div className="photo_container_item2">
           <div className="photo_styling_master">
             {selectedImageIndex !== null && renderMasterIcons()}
@@ -469,55 +528,93 @@ export default function PhotoVideoLibrary({
             {activeCategory ? renderSubIcons() : null}
           </div>
 
-          <div className="photo_preview_main">
-            <div className="file-previews">{renderFilePreviews()}</div>
-          </div>
-          <div className="photo_send_and_choose">
-            <input
-              ref={fileInputRef}
-              type="file"
-              style={{ display: "none" }}
-              multiple
-              accept="image/*,video/*"
-              onChange={handleFilesChange}
-            />
-            <button
-              className="blue_btn"
-              onClick={() => fileInputRef.current.click()}
-            >
-              {imageState.selectedFiles.length > 0
-                ? "Add more"
-                : "Choose files"}
-            </button>
-          </div>
+          {busyEditingPhoto === false && (
+            <div className="photo_preview_main">
+              <div className="file-previews">{renderFilePreviews()}</div>
+            </div>
+          )}
+          {busyEditingPhoto === true && (
+            <div className="photo_preview_main">
+              <ImageEditor
+                images={images}
+                setImages={setImages}
+                selectedImageIndex={selectedImageIndex}
+                imageState={imageState}
+                setImageState={setImageState}
+                toggleSubCategory={toggleSubCategory}
+                activeSubCategory={activeSubCategory}
+                setActiveSubCategory={setActiveSubCategory}
+                isCropVisible={isCropVisible}
+                showCrop={showCrop}
+                hideCrop={hideCrop}
+                setResetCropFunc={setResetCropFunc}
+                getCropDataFromEditor={getCropDataFromEditor}
+                cropFunctionRef={cropFunctionRef}
+              />
+            </div>
+          )}
+
+          {busyEditingPhoto === false && (
+            <div className="photo_send_and_choose">
+              <input
+                ref={fileInputRef}
+                type="file"
+                style={{ display: "none" }}
+                multiple
+                accept="image/*,video/*"
+                onChange={handleFilesChange}
+              />
+              <button
+                className="blue_btn"
+                onClick={() => fileInputRef.current.click()}
+              >
+                {imageState.selectedFiles.length > 0
+                  ? "Add more"
+                  : "Choose files"}
+              </button>
+            </div>
+          )}
+          {busyEditingPhoto === true && (
+            <div className="ImageCancelResetDone">
+              <img
+                src={icons.cancelIcon}
+                alt=""
+                onClick={() => {
+                  handleCropCancelFromEditor();
+                  setBusyEditingPhoto(false);
+                  setActiveSubCategory("");
+                }}
+              />
+
+              <img
+                src={icons.doneIcon}
+                alt=""
+                onClick={() => {
+                  handleCropDoneFromEditor();
+                }}
+              />
+            </div>
+          )}
 
           <div className="photo_preview_list">{renderFileList()}</div>
-          <div className="photo_add_text">
-            <textarea
-              maxLength="1000"
-              value={text}
-              placeholder={
-                text.length === 0
-                  ? "Add text to your photo/video"
-                  : "Modify your post"
-              }
-              className="photo_add_text"
-              onChange={(e) => setText(e.target.value)}
-              ref={textRef}
-            ></textarea>
-          </div>
+          {busyEditingPhoto === false && (
+            <div className="photo_add_text">
+              <textarea
+                maxLength="1000"
+                value={text}
+                placeholder={
+                  text.length === 0
+                    ? "Add text to your photo/video"
+                    : "Modify your post"
+                }
+                className="photo_add_text"
+                onChange={(e) => setText(e.target.value)}
+                ref={textRef}
+              ></textarea>
+            </div>
+          )}
         </div>
       </div>
-      <ImageEditor
-        images={images}
-        setImages={setImages}
-        selectedImageIndex={selectedImageIndex}
-        imageState={imageState}
-        setImageState={setImageState}
-        toggleSubCategory={toggleSubCategory}
-        activeSubCategory={activeSubCategory}
-        setActiveSubCategory={setActiveSubCategory}
-      />
     </div>
   );
 }

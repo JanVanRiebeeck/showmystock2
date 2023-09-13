@@ -1,7 +1,7 @@
 //plusMeny/ImageEditor.js
 
 import { useState, useEffect, useRef } from "react";
-import Crop1 from "../styleOptions/Crop1";
+import Crop4 from "../styleOptions/Crop4";
 
 export default function ImageEditor({
   images,
@@ -12,23 +12,23 @@ export default function ImageEditor({
   toggleSubCategory,
   setActiveSubCategory,
   activeSubCategory,
+  isCropVisible,
+  showCrop,
+  hideCrop,
+  getCropDataFromEditor,
+  cropFunctionRef,
 }) {
   // --------------------------------------------------------- States --------------------------------------------------------
   // Rotating state
   const [rotationDegree, setRotationDegree] = useState(0);
 
-  // Crop state
-  const [isCropVisible, setIsCropVisible] = useState(false);
-
-  const showCrop = () => {
-    setIsCropVisible(true);
-  };
-
-  const hideCrop = () => {
-    setIsCropVisible(false);
-  };
-
   // --------------------------------------------------------- Handlers --------------------------------------------------------
+
+  const handleCropComplete = (croppedImageDataUrl) => {
+    let updatedImages = [...images];
+    updatedImages[selectedImageIndex].url = croppedImageDataUrl;
+    setImages(updatedImages);
+  };
 
   /** handleRotateClick
    * Rotates the currently selected image by 90 degrees.
@@ -81,39 +81,10 @@ export default function ImageEditor({
     });
   }
 
-  /** handleCropComplete
-   * Handles the completion of the cropping action.
-   * Updates the state with the cropped image data.
-   *
-   * @param {string} croppedImageData - The data URL of the cropped image.
-   */
-
-  const handleCropComplete = (croppedImageData) => {
-    // Make a copy of the images array.
-    const updatedImages = [...images];
-    // Replace the original image data of the selected image with the cropped data.
-    updatedImages[selectedImageIndex].url = croppedImageData;
-    // Update the state with the modified images array.
-    setImages(updatedImages);
-
-    // Now, update the selectedFiles state with the cropped image.
-    const updatedFiles = [...imageState.selectedFiles];
-    const newBlob = dataURLtoBlob(croppedImageData); // Convert data URL to blob.
-    updatedFiles[selectedImageIndex] = newBlob;
-    setImageState.selectedFiles(updatedFiles);
-
-    // Reset the subcategory to none
-    toggleSubCategory("");
-  };
-
   /** handleCropCancel
    * Handles the cancellation of the cropping action.
    * Resets the active sub-category to null, effectively closing the cropping interface.
    */
-
-  function handleCropCancel() {
-    setActiveSubCategory(null); // to close the cropping interface
-  }
 
   /** dataURLtoBlob
    * Converts a data URL to a Blob object.
@@ -134,6 +105,22 @@ export default function ImageEditor({
     return new Blob([u8arr], { type: mime });
   }
 
+  /** Add Edit to 'edits' array */
+  function addEdit(imageIndex, editAction) {
+    setImages((prevImages) => {
+      // Clone the images array
+      const updatedImages = [...prevImages];
+
+      // Access the specific image by its index
+      const image = updatedImages[imageIndex];
+
+      // Add the edit action to the image's edits array
+      image.edits.push(editAction);
+
+      return updatedImages;
+    });
+  }
+
   // --------------------------------------------------------- Render Methods --------------------------------------------------------
 
   return (
@@ -142,14 +129,12 @@ export default function ImageEditor({
         selectedImageIndex !== null &&
         images[selectedImageIndex] &&
         isCropVisible && (
-          <Crop1
+          <Crop4
             imageDataUrl={images[selectedImageIndex].url}
             imageDimensions={images[selectedImageIndex].dimensions}
-            onCancel={handleCropCancel}
-            onCropComplete={(croppedImageData) => {
-              handleCropComplete(croppedImageData);
-              hideCrop();
-            }}
+            onCropComplete={handleCropComplete}
+            getCroppedImage={getCropDataFromEditor}
+            cropFunctionRef={cropFunctionRef}
           />
         )}
     </div>

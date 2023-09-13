@@ -180,3 +180,17 @@
   height: 40px;
   border: 1px solid #000;
 }
+
+.ImageCancelResetDone {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 40px;
+  border: 1px solid #000;
+}
+
+.ImageCancelResetDone img {
+  height: 30px;
+  width: 30px;
+}
