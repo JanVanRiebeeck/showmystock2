@@ -119,10 +119,6 @@ export default function ImageEditor({
     });
   }
 
-  console.log(activeSubCategory);
-  console.log(isCropVisible);
-  console.log(isRotateVisible);
-
   // --------------------------------------------------------- Render Methods --------------------------------------------------------
 
   return (
@@ -142,7 +138,12 @@ export default function ImageEditor({
       {activeSubCategory === "rotate" &&
         selectedImageIndex !== null &&
         images[selectedImageIndex] &&
-        isRotateVisible && <Rotate />}
+        isRotateVisible && (
+          <Rotate
+            imageDataUrl={images[selectedImageIndex].url}
+            imageDimensions={images[selectedImageIndex].dimensions}
+          />
+        )}
     </div>
   );
 }
