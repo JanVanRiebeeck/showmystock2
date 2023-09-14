@@ -115,9 +115,6 @@
   object-fit: cover;
 }
 
-.photo_preview_main canvas {
-}
-
 .photo_preview_main img {
   max-width: 100% !important; /* max width of the container */
   max-height: 220px !important; /* fit within the height of the container */

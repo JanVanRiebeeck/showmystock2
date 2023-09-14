@@ -97,6 +97,7 @@ export default function PhotoVideoLibrary({
     },
   ]);
   const cropFunctionRef = useRef();
+  const containerRef = useRef(null);
   const { text, setText, textRef } = textHandler;
 
   // --------------------------------------------------------- Handlers --------------------------------------------------------
@@ -497,7 +498,7 @@ export default function PhotoVideoLibrary({
             </div>
           )}
           {busyEditingPhoto === true && (
-            <div className="photo_preview_main">
+            <div className="photo_preview_main" ref={containerRef}>
               <ImageEditor
                 images={images}
                 setImages={setImages}

@@ -9,6 +9,8 @@ export default function Rotate({ imageDataUrl, setEditing, imageDimensions }) {
   const image_width = imageDimensions.width;
   const image_height = imageDimensions.height;
 
+  console.log(imageDimensions);
+
   const imageRef = useRef(null);
   const trRef = useRef(null);
 
@@ -33,8 +35,8 @@ export default function Rotate({ imageDataUrl, setEditing, imageDimensions }) {
   }, [imageRef, trRef]);
 
   return (
-    <div className="photo_preview_main">
-      <Stage width={image_width} height={image_height}>
+    <div>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           <Image
             ref={imageRef}
@@ -49,7 +51,6 @@ export default function Rotate({ imageDataUrl, setEditing, imageDimensions }) {
           <Transformer ref={trRef} />
         </Layer>
       </Stage>
-      <button onClick={() => setEditing(false)}>Done</button>
     </div>
   );
 }
