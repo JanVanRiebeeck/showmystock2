@@ -11,6 +11,7 @@ export default function Rotate({ imageDataUrl, setEditing, imageDimensions }) {
   const image_height = imageDimensions.height;
 
   console.log(imageDimensions);
+  console.log(imageDataUrl);
 
   const imageRef = useRef(null);
   const trRef = useRef(null);
@@ -37,12 +38,12 @@ export default function Rotate({ imageDataUrl, setEditing, imageDimensions }) {
 
   return (
     <div className="Rotate_view">
-      <Stage width={window.innerWidth} height={window.innerHeight - 220}>
+      <Stage width={500} height={450}>
         <Layer>
           <Image
             ref={imageRef}
-            x={window.innerWidth / 2}
-            y={window.innerHeight / 2}
+            x={image_width}
+            y={image_height}
             image={image}
             draggable
             // Set the anchor to the center of the image for rotation
