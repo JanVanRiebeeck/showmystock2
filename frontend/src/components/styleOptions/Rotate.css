@@ -1,0 +1,45 @@
+.Stage {
+  border: 3px solid #ce3737;
+}
+
+.Layer {
+  border: 3px solid #ce3737;
+}
+
+.Image {
+  border: 3px solid #ce3737;
+}
+
+.Transformer {
+  border: 3px solid #ce3737;
+}
+
+.Rotate_view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: 110px;
+  width: 500px;
+  height: 450px;
+  object-fit: contain;
+  border: 3px solid #ce3737;
+}
+
+.Rotate_view Stage {
+  border: 3px solid #3331c4;
+  align-items: center;
+  justify-content: center;
+}
+
+.Rotate_view Layer {
+  border: 3px solid #35ac25;
+  align-items: center;
+  justify-content: center;
+}
+
+.Rotate_view Image {
+  border: 3px solid #d3d037;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 import { Image, Stage, Layer, Rect, Transformer } from "react-konva";
+import "./Rotate.css";
 
 import useImage from "use-image";
 
@@ -35,8 +36,8 @@ export default function Rotate({ imageDataUrl, setEditing, imageDimensions }) {
   }, [imageRef, trRef]);
 
   return (
-    <div>
-      <Stage width={window.innerWidth} height={window.innerHeight}>
+    <div className="Rotate_view">
+      <Stage width={window.innerWidth} height={window.innerHeight - 220}>
         <Layer>
           <Image
             ref={imageRef}
