@@ -3,67 +3,52 @@ import { render } from "react-dom";
 import { Image, Stage, Layer, Rect, Transformer } from "react-konva";
 import Konva from "konva";
 import rotate2Icon from "../../../src/styles/icons/icons8-rotate2-64.png";
+import useImage from "use-image";
 
-export default function Rotate(imageDataUrl, imageDimensions) {
+export default function Rotate({ imageDataUrl, setEditing, setImageDataUrl }) {
   // --------------------------------------------------------- States --------------------------------------------------------
 
-  const [image] = useState(new window.Image());
+  const imageRef = useRef(null);
+  const trRef = useRef(null);
 
-  // --------------------------------------------------------- REFS --------------------------------------------------------
-  const shapeRef = useRef();
-  const trRef = useRef();
+  const [image] = useImage(imageDataUrl);
 
   // --------------------------------------------------------- States --------------------------------------------------------
 
   // --------------------------------------------------------- Effects --------------------------------------------------------
+  useEffect(() => {
+    if (imageRef.current) {
+      // Force a refresh on the layer after the image is loaded
+      imageRef.current.getLayer().batchDraw();
+    }
+  }, [image]);
 
   useEffect(() => {
-    image.src = imageDataUrl;
-    image.onload = () => {
-      // Force a refresh on the layer to display the image
-      shapeRef.current.getLayer().batchDraw();
-    };
-  }, [imageDataUrl]);
-
-  useEffect(() => {
-    let rotaterIcon;
-    const path = imageDataUrl;
-
-    const tr = trRef.current;
-    tr.nodes([shapeRef.current]);
-
-    tr.update = function () {
-      Konva.Transformer.prototype.update.call(tr);
-      var rot = tr.findOne("rotater");
-
-      if (rot) {
-        rot.setStrokeWidth(10);
-        rot.setStroke("blue");
-        rot.setCornerRadius(5);
-      }
-
-      if (!rotaterIcon) {
-        const icon = new Konva.Image({ image: rotate2Icon });
-        icon.position(rot.position());
-        icon.x(rot.x() - 5.25);
-        icon.y(rot.y() - 5.25);
-        trRef.current.add(icon);
-      } else {
-        rotaterIcon.position(rot.position());
-        rotaterIcon.x(rot.x() - 5.25);
-        rotaterIcon.y(rot.y() - 5.25);
-      }
-    };
-    tr.update();
-    tr.getLayer().batchDraw();
-  }, []);
+    if (trRef.current && imageRef.current) {
+      // Attach the transformer to the image
+      trRef.current.nodes([imageRef.current]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [imageRef, trRef]);
 
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight}>
-      <Layer>
-        <Image x={50} y={70} image={image} ref={shapeRef} draggable />
-        <Transformer ref={trRef} />
-      </Layer>
-    </Stage>
+    <div>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Image
+            ref={imageRef}
+            x={window.innerWidth / 2}
+            y={window.innerHeight / 2}
+            image={image}
+            draggable
+            // Set the anchor to the center of the image for rotation
+            offsetX={image ? image.width / 2 : 0}
+            offsetY={image ? image.height / 2 : 0}
+          />
+          <Transformer ref={trRef} />
+        </Layer>
+      </Stage>
+      <button onClick={() => setEditing(false)}>Done</button>
+    </div>
   );
 }
