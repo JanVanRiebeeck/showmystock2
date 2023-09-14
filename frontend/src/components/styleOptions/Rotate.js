@@ -1,11 +1,20 @@
 import { useState, useEffect, useRef } from "react";
 import { render } from "react-dom";
-import { Stage, Layer, Rect, Transformer } from "react-konva";
+import { Image, Stage, Layer, Rect, Transformer } from "react-konva";
 import Konva from "konva";
 
 export default function Rotate(imageDataUrl, imageDimensions) {
+  // --------------------------------------------------------- States --------------------------------------------------------
+
+  const [image] = useState(new window.Image());
+
+  // --------------------------------------------------------- REFS --------------------------------------------------------
   const shapeRef = useRef();
   const trRef = useRef();
+
+  // --------------------------------------------------------- States --------------------------------------------------------
+
+  // --------------------------------------------------------- Effects --------------------------------------------------------
 
   useEffect(() => {
     image.src = imageDataUrl;
@@ -16,6 +25,9 @@ export default function Rotate(imageDataUrl, imageDimensions) {
   }, [imageDataUrl]);
 
   useEffect(() => {
+    let rotaterIcon;
+    const path = imageDataUrl;
+
     const tr = trRef.current;
     tr.nodes([shapeRef.current]);
 
