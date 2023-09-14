@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { render } from "react-dom";
+
 import { Image, Stage, Layer, Rect, Transformer } from "react-konva";
-import Konva from "konva";
-import rotate2Icon from "../../../src/styles/icons/icons8-rotate2-64.png";
+
 import useImage from "use-image";
 
-export default function Rotate({ imageDataUrl, setEditing, setImageDataUrl }) {
+export default function Rotate({ imageDataUrl, setEditing, imageDimensions }) {
   // --------------------------------------------------------- States --------------------------------------------------------
+  const image_width = imageDimensions.width;
+  const image_height = imageDimensions.height;
 
   const imageRef = useRef(null);
   const trRef = useRef(null);
@@ -32,8 +33,8 @@ export default function Rotate({ imageDataUrl, setEditing, setImageDataUrl }) {
   }, [imageRef, trRef]);
 
   return (
-    <div>
-      <Stage width={window.innerWidth} height={window.innerHeight}>
+    <div className="photo_preview_main">
+      <Stage width={image_width} height={image_height}>
         <Layer>
           <Image
             ref={imageRef}
