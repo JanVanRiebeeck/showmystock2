@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { render } from "react-dom";
 import { Image, Stage, Layer, Rect, Transformer } from "react-konva";
 import Konva from "konva";
+import rotate2Icon from "../../../src/styles/icons/icons8-rotate2-64.png";
 
 export default function Rotate(imageDataUrl, imageDimensions) {
   // --------------------------------------------------------- States --------------------------------------------------------
@@ -39,18 +40,10 @@ export default function Rotate(imageDataUrl, imageDimensions) {
         rot.setStrokeWidth(10);
         rot.setStroke("blue");
         rot.setCornerRadius(5);
-
-        const rotaterIcon = tr.findOne("rotater-icon");
-
-        const path = imageDataUrl;
       }
 
       if (!rotaterIcon) {
-        const icon = new Konva.Path({
-          fill: "red",
-          data: path,
-          name: "rotater-icon",
-        });
+        const icon = new Konva.Image({ image: rotate2Icon });
         icon.position(rot.position());
         icon.x(rot.x() - 5.25);
         icon.y(rot.y() - 5.25);

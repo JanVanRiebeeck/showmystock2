@@ -25,6 +25,7 @@ import eraserIcon from "../../../src/styles/icons/icons8-eraser-64.png";
 import doneIcon from "../../../src/styles/icons/icons8-done-40.png";
 import cancelIcon from "../../../src/styles/icons/icons8-cancel-40.png";
 import resetIcon from "../../../src/styles/icons/icons8-reset-40.png";
+import rotate2Icon from "../../../src/styles/icons/icons8-rotate2-64.png";
 
 export const icons = {
   photoIcon,
@@ -55,4 +56,5 @@ export const icons = {
   doneIcon,
   cancelIcon,
   resetIcon,
+  rotate2Icon,
 };
