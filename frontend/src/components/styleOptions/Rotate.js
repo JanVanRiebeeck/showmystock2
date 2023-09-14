@@ -42,13 +42,13 @@ export default function Rotate({ imageDataUrl, setEditing, imageDimensions }) {
         <Layer>
           <Image
             ref={imageRef}
-            x={image_width}
-            y={image_height}
+            x={250} // Center the image horizontally
+            y={225} // Center the image vertically
             image={image}
             draggable
             // Set the anchor to the center of the image for rotation
-            offsetX={image ? image.width / 2 : 0}
-            offsetY={image ? image.height / 2 : 0}
+            offsetX={image ? image_width / 2 : 0}
+            offsetY={image ? image_height / 2 : 0}
           />
           <Transformer ref={trRef} />
         </Layer>
