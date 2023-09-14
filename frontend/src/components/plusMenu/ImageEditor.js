@@ -2,19 +2,17 @@
 
 import { useState, useEffect, useRef } from "react";
 import Crop4 from "../styleOptions/Crop4";
+import Rotate from "../styleOptions/Rotate";
 
 export default function ImageEditor({
   images,
   setImages,
   selectedImageIndex,
-  imageState,
-  setImageState,
-  toggleSubCategory,
-  setActiveSubCategory,
+
   activeSubCategory,
   isCropVisible,
-  showCrop,
-  hideCrop,
+  isRotateVisible,
+
   getCropDataFromEditor,
   cropFunctionRef,
 }) {
@@ -121,6 +119,10 @@ export default function ImageEditor({
     });
   }
 
+  console.log(activeSubCategory);
+  console.log(isCropVisible);
+  console.log(isRotateVisible);
+
   // --------------------------------------------------------- Render Methods --------------------------------------------------------
 
   return (
@@ -137,6 +139,10 @@ export default function ImageEditor({
             cropFunctionRef={cropFunctionRef}
           />
         )}
+      {activeSubCategory === "rotate" &&
+        selectedImageIndex !== null &&
+        images[selectedImageIndex] &&
+        isRotateVisible && <Rotate />}
     </div>
   );
 }

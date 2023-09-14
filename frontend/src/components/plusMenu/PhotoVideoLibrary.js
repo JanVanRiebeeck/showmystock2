@@ -11,9 +11,12 @@ export default function PhotoVideoLibrary({
 }) {
   // --------------------------------------------------------- States --------------------------------------------------------
 
-  const [resetCropFunc, setResetCropFunc] = useState(null);
   const [busyEditingPhoto, setBusyEditingPhoto] = useState(false);
+  const [busyCroppingPhoto, setBusyCroppingPhoto] = useState(false);
+  const [busyRotatingPhoto, setBusyRotatingPhoto] = useState(false);
+
   const [isCropVisible, setIsCropVisible] = useState(false);
+  const [isRotateVisible, setIsRotateVisible] = useState(false);
   const [imageState, setImageState] = useState({
     selectedFiles: [],
   });
@@ -100,6 +103,14 @@ export default function PhotoVideoLibrary({
 
   const showCrop = () => {
     setIsCropVisible(true);
+  };
+
+  const showRotate = () => {
+    setIsRotateVisible(true);
+  };
+
+  const hideRotate = () => {
+    setIsRotateVisible(false);
   };
 
   const hideCrop = () => {
@@ -232,12 +243,21 @@ export default function PhotoVideoLibrary({
   };
 
   const onCropIconClick = () => {
-    console.log("Check which image we are displaying");
-    console.log("close that image in the main view");
     setBusyEditingPhoto(true);
-    console.log("Display the cropper in its place");
+    setBusyRotatingPhoto(false);
+    setIsRotateVisible(false);
+    setBusyCroppingPhoto(true);
 
     showCrop();
+  };
+
+  const onRotateIconClick = () => {
+    setBusyEditingPhoto(true);
+    setBusyCroppingPhoto(false);
+    setIsCropVisible(false);
+    setBusyRotatingPhoto(true);
+
+    showRotate();
   };
 
   function handleCropCancelFromEditor() {
@@ -254,6 +274,8 @@ export default function PhotoVideoLibrary({
   function handleCropDoneFromEditor() {
     getCropDataFromEditor(); // We will pass this function down
     setBusyEditingPhoto(false);
+    setBusyCroppingPhoto(false);
+    setBusyRotatingPhoto(false);
     setActiveSubCategory("");
   }
 
@@ -282,8 +304,6 @@ export default function PhotoVideoLibrary({
     }
     return null;
   };
-
-  const renderFileEdits = () => {};
 
   const renderFileList = () => {
     return images.map((image, index) => {
@@ -346,9 +366,7 @@ export default function PhotoVideoLibrary({
             <div
               onClick={(e) => {
                 toggleSubCategory("crop");
-
                 onCropIconClick();
-                console.log("Tell ImageCropper to open Cropper");
                 e.stopPropagation(); // Stop the click event from propagating up
               }}
               className={getSubIconClass("crop")}
@@ -356,7 +374,14 @@ export default function PhotoVideoLibrary({
               <img src={icons.cropIcon} alt="Crop" />
             </div>
 
-            <div className={getSubIconClass("rotate")}>
+            <div
+              onClick={(e) => {
+                toggleSubCategory("rotate");
+                onRotateIconClick();
+                e.stopPropagation(); // Stop the click event from propagating
+              }}
+              className={getSubIconClass("rotate")}
+            >
               <img src={icons.rotateIcon} alt="Rotate" />
             </div>
             <div
@@ -438,83 +463,6 @@ export default function PhotoVideoLibrary({
     return activeSubCategory === subCategory ? "active-border" : "";
   };
 
-  const renderPreview = () => {
-    switch (activePreview) {
-      case "photoVideo":
-        return (
-          <div className="photo_container">
-            <div className="photo_container_item1">
-              <div></div>
-              <div className="heading">Select Photo or Video</div>
-              <img
-                src={icons.gobackIcon}
-                alt=""
-                onClick={() => setActivePreview("")}
-              />
-            </div>
-            <div className="photo_container_item2">
-              <div className="photo_styling_master">
-                {selectedImageIndex !== null && renderMasterIcons()}
-              </div>
-              <div className="photo_styling_sub">
-                {activeCategory ? renderSubIcons() : null}
-              </div>
-
-              <div className="photo_preview_main">
-                <div className="file-previews">{renderFilePreviews()}</div>
-              </div>
-              <div className="photo_send_and_choose">
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  style={{ display: "none" }}
-                  multiple
-                  accept="image/*,video/*"
-                  onChange={handleFilesChange}
-                />
-                <button
-                  className="blue_btn"
-                  onClick={() => fileInputRef.current.click()}
-                >
-                  {imageState.selectedFiles.length > 0
-                    ? "Add more"
-                    : "Choose files"}
-                </button>
-              </div>
-
-              <div className="photo_preview_list">{renderFileList()}</div>
-              <div className="photo_add_text">
-                <textarea
-                  maxLength="1000"
-                  value={text}
-                  placeholder={
-                    text.length === 0
-                      ? "Add text to your photo/video"
-                      : "Modify your post"
-                  }
-                  className="photo_add_text"
-                  onChange={(e) => setText(e.target.value)}
-                  ref={textRef}
-                ></textarea>
-              </div>
-            </div>
-          </div>
-        );
-      case "document":
-        return <div className="box">BOX for Documents</div>;
-      case "location":
-        return <div className="box">BOX for Location</div>;
-      case "contact":
-        return <div className="box">BOX for Contacts</div>;
-      case "poll":
-        return <div className="box">BOX for Polls</div>;
-      case "color":
-        return <div className="box">BOX for BackgroundColors</div>;
-      default:
-        return null;
-    }
-  };
-
   return (
     <div>
       {/* ... your photo and video library JSX here ... */}
@@ -554,15 +502,9 @@ export default function PhotoVideoLibrary({
                 images={images}
                 setImages={setImages}
                 selectedImageIndex={selectedImageIndex}
-                imageState={imageState}
-                setImageState={setImageState}
-                toggleSubCategory={toggleSubCategory}
                 activeSubCategory={activeSubCategory}
-                setActiveSubCategory={setActiveSubCategory}
                 isCropVisible={isCropVisible}
-                showCrop={showCrop}
-                hideCrop={hideCrop}
-                setResetCropFunc={setResetCropFunc}
+                isRotateVisible={isRotateVisible}
                 getCropDataFromEditor={getCropDataFromEditor}
                 cropFunctionRef={cropFunctionRef}
               />
