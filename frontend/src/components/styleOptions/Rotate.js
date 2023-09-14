@@ -8,20 +8,30 @@ export default function Rotate(imageDataUrl, imageDimensions) {
   const trRef = useRef();
 
   useEffect(() => {
+    image.src = imageDataUrl;
+    image.onload = () => {
+      // Force a refresh on the layer to display the image
+      shapeRef.current.getLayer().batchDraw();
+    };
+  }, [imageDataUrl]);
+
+  useEffect(() => {
     const tr = trRef.current;
     tr.nodes([shapeRef.current]);
 
-    tr.update = () => {
+    tr.update = function () {
       Konva.Transformer.prototype.update.call(tr);
       var rot = tr.findOne("rotater");
 
-      rot.setStrokeWidth(10);
-      rot.setStroke("blue");
-      rot.setCornerRadius(5);
+      if (rot) {
+        rot.setStrokeWidth(10);
+        rot.setStroke("blue");
+        rot.setCornerRadius(5);
 
-      const rotaterIcon = tr.findOne("rotater-icon");
+        const rotaterIcon = tr.findOne("rotater-icon");
 
-      const path = imageDataUrl;
+        const path = imageDataUrl;
+      }
 
       if (!rotaterIcon) {
         const icon = new Konva.Path({
@@ -46,21 +56,7 @@ export default function Rotate(imageDataUrl, imageDimensions) {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        <Rect
-          x={50}
-          y={70}
-          fill="grey"
-          width={200}
-          height={150}
-          ref={shapeRef}
-          enabledAnchors={[
-            "top-left",
-            "top-right",
-            "bottom-left",
-            "bottom-right",
-          ]}
-          draggable
-        />
+        <Image x={50} y={70} image={image} ref={shapeRef} draggable />
         <Transformer ref={trRef} />
       </Layer>
     </Stage>
