@@ -7,11 +7,24 @@ import useImage from "use-image";
 
 export default function Rotate({ imageDataUrl, setEditing, imageDimensions }) {
   // --------------------------------------------------------- States --------------------------------------------------------
+  const MAX_HEIGHT = 220;
+  const aspectRatio = imageDimensions.width / imageDimensions.height;
+
+  let displayWidth, displayHeight;
+
+  if (imageDimensions.height > MAX_HEIGHT) {
+    displayHeight = MAX_HEIGHT;
+    displayWidth = MAX_HEIGHT * aspectRatio;
+  } else {
+    displayWidth = imageDimensions.width;
+    displayHeight = imageDimensions.height;
+  }
+
   const image_width = imageDimensions.width;
   const image_height = imageDimensions.height;
 
-  console.log(imageDimensions);
-  console.log(imageDataUrl);
+  console.log(displayWidth);
+  console.log(displayHeight);
 
   const imageRef = useRef(null);
   const trRef = useRef(null);
@@ -42,13 +55,15 @@ export default function Rotate({ imageDataUrl, setEditing, imageDimensions }) {
         <Layer>
           <Image
             ref={imageRef}
-            x={250} // Center the image horizontally
-            y={225} // Center the image vertically
+            x={250 - displayWidth / 4}
+            y={225 - displayHeight / 2.5}
+            width={displayWidth}
+            height={displayHeight}
             image={image}
             draggable
             // Set the anchor to the center of the image for rotation
-            offsetX={image ? image_width / 2 : 0}
-            offsetY={image ? image_height / 2 : 0}
+            offsetX={displayWidth / 4}
+            offsetY={displayHeight / 4}
           />
           <Transformer ref={trRef} />
         </Layer>

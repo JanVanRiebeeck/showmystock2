@@ -262,6 +262,7 @@ export default function PhotoVideoLibrary({
   };
 
   function handleCropCancelFromEditor() {
+    console.log("Crop cancelled");
     setActiveSubCategory(null); // to close the cropping interface
   }
 
