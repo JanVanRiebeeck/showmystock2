@@ -328,6 +328,7 @@ export default function PhotoVideoLibrary({
               style={{
                 transform: `rotate(${displayedImage.edits.rotationDegree}deg)`,
               }}
+              className="nonInteractiveImage"
             />
           </div>
         );
@@ -354,6 +355,7 @@ export default function PhotoVideoLibrary({
                 style={{
                   transform: `rotate(${image.rotationDegree}deg)`,
                 }}
+                className="nonInteractiveImage"
               />
             </div>
           </div>
