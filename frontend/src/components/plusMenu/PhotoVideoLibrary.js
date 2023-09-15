@@ -169,6 +169,12 @@ export default function PhotoVideoLibrary({
       if (file.type.startsWith("image/")) {
         const objectURL = URL.createObjectURL(file);
         updatedImages[imageState.selectedFiles.length + index].url = objectURL;
+        updatedImages[imageState.selectedFiles.length + index].edits = [
+          { rotationDegree: 0 },
+        ];
+        updatedImages[
+          imageState.selectedFiles.length + index
+        ].rotationDegree = 0;
 
         // Load image to get its dimensions
         const image = new Image();
