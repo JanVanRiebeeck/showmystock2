@@ -36,7 +36,7 @@ export default function PhotoVideoLibrary({
       url: null,
       dimensions: null,
       isCropping: false,
-      rotationDegree: 0,
+      originalRotationDegree: 0,
       edits: [{ rotationDegree: 0 }],
     },
     {
@@ -44,7 +44,7 @@ export default function PhotoVideoLibrary({
       url: null,
       dimensions: null,
       isCropping: false,
-      rotationDegree: 0,
+      originalRotationDegree: 0,
       edits: [{ rotationDegree: 0 }],
     },
     {
@@ -52,7 +52,7 @@ export default function PhotoVideoLibrary({
       url: null,
       dimensions: null,
       isCropping: false,
-      rotationDegree: 0,
+      originalRotationDegree: 0,
       edits: [{ rotationDegree: 0 }],
     },
     {
@@ -60,7 +60,7 @@ export default function PhotoVideoLibrary({
       url: null,
       dimensions: null,
       isCropping: false,
-      rotationDegree: 0,
+      originalRotationDegree: 0,
       edits: [{ rotationDegree: 0 }],
     },
     {
@@ -68,7 +68,7 @@ export default function PhotoVideoLibrary({
       url: null,
       dimensions: null,
       isCropping: false,
-      rotationDegree: 0,
+      originalRotationDegree: 0,
       edits: [{ rotationDegree: 0 }],
     },
     {
@@ -76,7 +76,7 @@ export default function PhotoVideoLibrary({
       url: null,
       dimensions: null,
       isCropping: false,
-      rotationDegree: 0,
+      originalRotationDegree: 0,
       edits: [{ rotationDegree: 0 }],
     },
     {
@@ -84,7 +84,7 @@ export default function PhotoVideoLibrary({
       url: null,
       dimensions: null,
       isCropping: false,
-      rotationDegree: 0,
+      originalRotationDegree: 0,
       edits: [{ rotationDegree: 0 }],
     },
     {
@@ -92,7 +92,7 @@ export default function PhotoVideoLibrary({
       url: null,
       dimensions: null,
       isCropping: false,
-      rotationDegree: 0,
+      originalRotationDegree: 0,
       edits: [{ rotationDegree: 0 }],
     },
   ]);
@@ -309,6 +309,7 @@ export default function PhotoVideoLibrary({
         break;
     }
   }
+  console.log(images);
 
   // --------------------------------------------------------- Render Methods --------------------------------------------------------
 
@@ -353,7 +354,7 @@ export default function PhotoVideoLibrary({
                 src={image.url}
                 alt={`Image ${index + 1}`}
                 style={{
-                  transform: `rotate(${image.rotationDegree}deg)`,
+                  transform: `rotate(${image.originalRotationDegree}deg)`,
                 }}
                 className="nonInteractiveImage"
               />
