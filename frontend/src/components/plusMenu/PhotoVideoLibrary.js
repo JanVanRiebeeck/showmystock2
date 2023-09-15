@@ -261,9 +261,17 @@ export default function PhotoVideoLibrary({
     showRotate();
   };
 
-  function handleCropCancelFromEditor() {
-    console.log("Crop cancelled");
-    setActiveSubCategory(null); // to close the cropping interface
+  function handleBusyEditingCancelFromEditor() {
+    switch (activeSubCategory) {
+      case "crop":
+        console.log(activeSubCategory);
+        setActiveSubCategory(null); // to close the cropping interface
+        break;
+      case "rotate":
+        console.log(activeSubCategory);
+        setActiveSubCategory(null); // to close the rotating interface
+        break;
+    }
   }
 
   function getCropDataFromEditor() {
@@ -273,12 +281,19 @@ export default function PhotoVideoLibrary({
     }
   }
 
-  function handleCropDoneFromEditor() {
-    getCropDataFromEditor(); // We will pass this function down
-    setBusyEditingPhoto(false);
-    setBusyCroppingPhoto(false);
-    setBusyRotatingPhoto(false);
-    setActiveSubCategory("");
+  function handleBusyEditingDoneFromEditor() {
+    switch (activeSubCategory) {
+      case "crop":
+        getCropDataFromEditor(); // We will pass this function down
+        setBusyEditingPhoto(false);
+        setBusyCroppingPhoto(false);
+        setBusyRotatingPhoto(false);
+        setActiveSubCategory("");
+        break;
+      case "rotate":
+        // logic for confirming rotate
+        break;
+    }
   }
 
   // --------------------------------------------------------- Render Methods --------------------------------------------------------
@@ -539,7 +554,7 @@ export default function PhotoVideoLibrary({
                 src={icons.cancelIcon}
                 alt=""
                 onClick={() => {
-                  handleCropCancelFromEditor();
+                  handleBusyEditingCancelFromEditor();
                   setBusyEditingPhoto(false);
                   setActiveSubCategory("");
                 }}
@@ -549,7 +564,7 @@ export default function PhotoVideoLibrary({
                 src={icons.doneIcon}
                 alt=""
                 onClick={() => {
-                  handleCropDoneFromEditor();
+                  handleBusyEditingDoneFromEditor();
                 }}
               />
             </div>
