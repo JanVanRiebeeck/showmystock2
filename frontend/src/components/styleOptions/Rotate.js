@@ -31,17 +31,15 @@ export default function Rotate({
 
   const [image] = useImage(imageDataUrl);
 
-  const rotateRef = useRef(null);
-
   // --------------------------------------------------------- States --------------------------------------------------------
 
   // --------------------------------------------------------- Handlers --------------------------------------------------------
   const getRotateData = () => {
-    if (typeof rotateRef.current !== "undefined") {
-      const rotateDegrees = rotateRef.getRotation();
-      console.log(rotateDegrees.toString);
+    if (typeof imageRef.current !== "undefined") {
+      const degree = imageRef.current.rotation();
+      console.log(degree);
 
-      onRotateComplete(rotateDegrees);
+      onRotateComplete(degree);
     }
   };
 

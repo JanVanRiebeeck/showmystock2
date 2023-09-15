@@ -30,9 +30,10 @@ export default function ImageEditor({
 
   // set the new image rotationDegrees - edits: [{ rotationDegree:
   const handleRotateComplete = (degree) => {
-    console.log("How much has the image been rotated");
     let updatedImages = [...images];
     updatedImages[selectedImageIndex].edits.rotationDegree = degree;
+    // updatedImages[selectedImageIndex].rotationDegree = degree; I want to keep the original degrees 0 so that  I can display this in the preview list, the main view will show the new degrees
+
     setImages(updatedImages);
   };
 

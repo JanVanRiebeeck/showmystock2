@@ -302,10 +302,10 @@ export default function PhotoVideoLibrary({
       case "rotate":
         // logic for confirming rotate
         getRotateDataFromEditor(); // We will pass this function down
-        //setBusyEditingPhoto(false);
-        //setBusyCroppingPhoto(false);
-        //setBusyRotatingPhoto(false);
-        //setActiveSubCategory("");
+        setBusyEditingPhoto(false);
+        setBusyCroppingPhoto(false);
+        setBusyRotatingPhoto(false);
+        setActiveSubCategory("");
         break;
     }
   }
@@ -326,7 +326,7 @@ export default function PhotoVideoLibrary({
               src={displayedImage.url}
               alt="Edited Image"
               style={{
-                transform: `rotate(${displayedImage.rotationDegree}deg)`,
+                transform: `rotate(${displayedImage.edits.rotationDegree}deg)`,
               }}
             />
           </div>
