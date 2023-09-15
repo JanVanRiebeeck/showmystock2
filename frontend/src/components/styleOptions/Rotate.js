@@ -5,7 +5,13 @@ import "./Rotate.css";
 
 import useImage from "use-image";
 
-export default function Rotate({ imageDataUrl, setEditing, imageDimensions }) {
+export default function Rotate({
+  imageDataUrl,
+  setEditing,
+  imageDimensions,
+  onRotateComplete,
+  rotateFunctionRef,
+}) {
   // --------------------------------------------------------- States --------------------------------------------------------
   const MAX_HEIGHT = 220;
   const aspectRatio = imageDimensions.width / imageDimensions.height;
@@ -20,18 +26,24 @@ export default function Rotate({ imageDataUrl, setEditing, imageDimensions }) {
     displayHeight = imageDimensions.height;
   }
 
-  const image_width = imageDimensions.width;
-  const image_height = imageDimensions.height;
-
-  console.log(displayWidth);
-  console.log(displayHeight);
-
   const imageRef = useRef(null);
   const trRef = useRef(null);
 
   const [image] = useImage(imageDataUrl);
 
+  const rotateRef = useRef(null);
+
   // --------------------------------------------------------- States --------------------------------------------------------
+
+  // --------------------------------------------------------- Handlers --------------------------------------------------------
+  const getRotateData = () => {
+    if (typeof rotateRef.current !== "undefined") {
+      const rotateDegrees = rotateRef.getRotation();
+      console.log(rotateDegrees.toString);
+
+      onRotateComplete(rotateDegrees);
+    }
+  };
 
   // --------------------------------------------------------- Effects --------------------------------------------------------
   useEffect(() => {
@@ -48,6 +60,13 @@ export default function Rotate({ imageDataUrl, setEditing, imageDimensions }) {
       trRef.current.getLayer().batchDraw();
     }
   }, [imageRef, trRef]);
+
+  useEffect(() => {
+    // Assign the rotating function to the ref
+    if (rotateFunctionRef) {
+      rotateFunctionRef.current = getRotateData;
+    }
+  }, []);
 
   return (
     <div className="Rotate_view">

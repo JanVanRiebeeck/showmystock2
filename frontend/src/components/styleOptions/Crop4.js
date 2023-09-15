@@ -12,6 +12,8 @@ export default function Crop4({
 }) {
   const cropperRef = useRef(null);
 
+  // --------------------------------------------------------- Handlers --------------------------------------------------------
+
   const getCroppedData = () => {
     if (typeof cropperRef.current?.cropper !== "undefined") {
       const croppedImageDataUrl = cropperRef.current?.cropper
@@ -20,6 +22,8 @@ export default function Crop4({
       onCropComplete(croppedImageDataUrl);
     }
   };
+
+  // --------------------------------------------------------- Effects --------------------------------------------------------
 
   useEffect(() => {
     const image = new Image();

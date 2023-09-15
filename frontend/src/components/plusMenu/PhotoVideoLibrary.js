@@ -23,7 +23,7 @@ export default function PhotoVideoLibrary({
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeSubCategory, setActiveSubCategory] = useState(null);
-  const fileInputRef = useRef(null);
+
   const [imageDataUrl, setImageDataUrl] = useState("");
   const [imageDimensions, setImageDimensions] = useState({
     width: 0,
@@ -37,7 +37,7 @@ export default function PhotoVideoLibrary({
       dimensions: null,
       isCropping: false,
       rotationDegree: 0,
-      edits: [],
+      edits: [{ rotationDegree: 0 }],
     },
     {
       originalUrl: null,
@@ -45,7 +45,7 @@ export default function PhotoVideoLibrary({
       dimensions: null,
       isCropping: false,
       rotationDegree: 0,
-      edits: [],
+      edits: [{ rotationDegree: 0 }],
     },
     {
       originalUrl: null,
@@ -53,7 +53,7 @@ export default function PhotoVideoLibrary({
       dimensions: null,
       isCropping: false,
       rotationDegree: 0,
-      edits: [],
+      edits: [{ rotationDegree: 0 }],
     },
     {
       originalUrl: null,
@@ -61,7 +61,7 @@ export default function PhotoVideoLibrary({
       dimensions: null,
       isCropping: false,
       rotationDegree: 0,
-      edits: [],
+      edits: [{ rotationDegree: 0 }],
     },
     {
       originalUrl: null,
@@ -69,7 +69,7 @@ export default function PhotoVideoLibrary({
       dimensions: null,
       isCropping: false,
       rotationDegree: 0,
-      edits: [],
+      edits: [{ rotationDegree: 0 }],
     },
     {
       originalUrl: null,
@@ -77,7 +77,7 @@ export default function PhotoVideoLibrary({
       dimensions: null,
       isCropping: false,
       rotationDegree: 0,
-      edits: [],
+      edits: [{ rotationDegree: 0 }],
     },
     {
       originalUrl: null,
@@ -85,7 +85,7 @@ export default function PhotoVideoLibrary({
       dimensions: null,
       isCropping: false,
       rotationDegree: 0,
-      edits: [],
+      edits: [{ rotationDegree: 0 }],
     },
     {
       originalUrl: null,
@@ -93,14 +93,19 @@ export default function PhotoVideoLibrary({
       dimensions: null,
       isCropping: false,
       rotationDegree: 0,
-      edits: [],
+      edits: [{ rotationDegree: 0 }],
     },
   ]);
+
+  // --------------------------------------------------------- REFS --------------------------------------------------------
+  const fileInputRef = useRef(null);
   const cropFunctionRef = useRef();
+  const rotateFunctionRef = useRef();
   const containerRef = useRef(null);
-  const { text, setText, textRef } = textHandler;
 
   // --------------------------------------------------------- Handlers --------------------------------------------------------
+
+  const { text, setText, textRef } = textHandler;
 
   const showCrop = () => {
     setIsCropVisible(true);
@@ -119,7 +124,6 @@ export default function PhotoVideoLibrary({
   };
 
   const toggleCategory = (category) => {
-    console.log("toggleCategory");
     if (activeCategory === category) {
       setActiveCategory(null);
     } else {
@@ -128,7 +132,6 @@ export default function PhotoVideoLibrary({
   };
 
   const toggleSubCategory = (subCategory) => {
-    console.log("toggleSubCategory");
     if (activeSubCategory === subCategory) {
       setActiveSubCategory(null);
     } else {
@@ -264,11 +267,9 @@ export default function PhotoVideoLibrary({
   function handleBusyEditingCancelFromEditor() {
     switch (activeSubCategory) {
       case "crop":
-        console.log(activeSubCategory);
         setActiveSubCategory(null); // to close the cropping interface
         break;
       case "rotate":
-        console.log(activeSubCategory);
         setActiveSubCategory(null); // to close the rotating interface
         break;
     }
@@ -278,6 +279,14 @@ export default function PhotoVideoLibrary({
     // Call the function set by Crop4 to initiate the cropping
     if (cropFunctionRef.current) {
       cropFunctionRef.current();
+    }
+  }
+
+  function getRotateDataFromEditor() {
+    console.log("getRotateDataFromEditor");
+    // Call the function set by Rotate.js to initiate the Rotate
+    if (rotateFunctionRef.current) {
+      rotateFunctionRef.current();
     }
   }
 
@@ -292,6 +301,11 @@ export default function PhotoVideoLibrary({
         break;
       case "rotate":
         // logic for confirming rotate
+        getRotateDataFromEditor(); // We will pass this function down
+        //setBusyEditingPhoto(false);
+        //setBusyCroppingPhoto(false);
+        //setBusyRotatingPhoto(false);
+        //setActiveSubCategory("");
         break;
     }
   }
@@ -524,6 +538,7 @@ export default function PhotoVideoLibrary({
                 isRotateVisible={isRotateVisible}
                 getCropDataFromEditor={getCropDataFromEditor}
                 cropFunctionRef={cropFunctionRef}
+                rotateFunctionRef={rotateFunctionRef}
               />
             </div>
           )}

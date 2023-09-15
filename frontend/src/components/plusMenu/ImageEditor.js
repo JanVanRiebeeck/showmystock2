@@ -15,14 +15,24 @@ export default function ImageEditor({
 
   getCropDataFromEditor,
   cropFunctionRef,
+  rotateFunctionRef,
 }) {
   // --------------------------------------------------------- States --------------------------------------------------------
 
   // --------------------------------------------------------- Handlers --------------------------------------------------------
 
+  // set The new image URL
   const handleCropComplete = (croppedImageDataUrl) => {
     let updatedImages = [...images];
     updatedImages[selectedImageIndex].url = croppedImageDataUrl;
+    setImages(updatedImages);
+  };
+
+  // set the new image rotationDegrees - edits: [{ rotationDegree:
+  const handleRotateComplete = (degree) => {
+    console.log("How much has the image been rotated");
+    let updatedImages = [...images];
+    updatedImages[selectedImageIndex].edits.rotationDegree = degree;
     setImages(updatedImages);
   };
 
@@ -49,6 +59,8 @@ export default function ImageEditor({
           <Rotate
             imageDataUrl={images[selectedImageIndex].url}
             imageDimensions={images[selectedImageIndex].dimensions}
+            onRotateComplete={handleRotateComplete}
+            rotateFunctionRef={rotateFunctionRef}
           />
         )}
     </div>
