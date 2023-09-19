@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Crop4 from "../styleOptions/Crop4";
 import Rotate from "../styleOptions/Rotate";
+import Brightness from "../styleOptions/Brightness";
 
 export default function ImageEditor({
   images,
@@ -12,10 +13,12 @@ export default function ImageEditor({
   activeSubCategory,
   isCropVisible,
   isRotateVisible,
+  isBrightnessVisible,
 
   getCropDataFromEditor,
   cropFunctionRef,
   rotateFunctionRef,
+  brightnessFunctionRef,
 }) {
   // --------------------------------------------------------- States --------------------------------------------------------
 
@@ -31,7 +34,7 @@ export default function ImageEditor({
   // set the new image rotationDegrees - edits: [{ rotationDegree:
   const handleRotateComplete = (degree) => {
     let updatedImages = [...images];
-    updatedImages[selectedImageIndex].edits.rotationDegree = degree;
+    updatedImages[selectedImageIndex].rotationDegree = degree;
     // updatedImages[selectedImageIndex].rotationDegree = degree; I want to keep the original degrees 0 so that  I can display this in the preview list, the main view will show the new degrees
 
     setImages(updatedImages);
@@ -62,6 +65,15 @@ export default function ImageEditor({
             imageDimensions={images[selectedImageIndex].dimensions}
             onRotateComplete={handleRotateComplete}
             rotateFunctionRef={rotateFunctionRef}
+          />
+        )}
+      {activeSubCategory === "brightness" &&
+        selectedImageIndex !== null &&
+        images[selectedImageIndex] &&
+        isBrightnessVisible && (
+          <Brightness
+            imageDataUrl={images[selectedImageIndex].url}
+            imageDimensions={images[selectedImageIndex].dimensions}
           />
         )}
     </div>

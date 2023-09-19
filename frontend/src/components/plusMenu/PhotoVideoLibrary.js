@@ -14,9 +14,11 @@ export default function PhotoVideoLibrary({
   const [busyEditingPhoto, setBusyEditingPhoto] = useState(false);
   const [busyCroppingPhoto, setBusyCroppingPhoto] = useState(false);
   const [busyRotatingPhoto, setBusyRotatingPhoto] = useState(false);
+  const [busyBrighteningPhoto, setBusyBrighteningPhoto] = useState(false);
 
   const [isCropVisible, setIsCropVisible] = useState(false);
   const [isRotateVisible, setIsRotateVisible] = useState(false);
+  const [isBrightnessVisible, setIsBrightnessVisible] = useState(false);
   const [imageState, setImageState] = useState({
     selectedFiles: [],
   });
@@ -36,64 +38,56 @@ export default function PhotoVideoLibrary({
       url: null,
       dimensions: null,
       isCropping: false,
-      originalRotationDegree: 0,
-      edits: [{ rotationDegree: 0 }],
+      rotationDegree: 0,
     },
     {
       originalUrl: null,
       url: null,
       dimensions: null,
       isCropping: false,
-      originalRotationDegree: 0,
-      edits: [{ rotationDegree: 0 }],
+      rotationDegree: 0,
     },
     {
       originalUrl: null,
       url: null,
       dimensions: null,
       isCropping: false,
-      originalRotationDegree: 0,
-      edits: [{ rotationDegree: 0 }],
+      rotationDegree: 0,
     },
     {
       originalUrl: null,
       url: null,
       dimensions: null,
       isCropping: false,
-      originalRotationDegree: 0,
-      edits: [{ rotationDegree: 0 }],
+      rotationDegree: 0,
     },
     {
       originalUrl: null,
       url: null,
       dimensions: null,
       isCropping: false,
-      originalRotationDegree: 0,
-      edits: [{ rotationDegree: 0 }],
+      rotationDegree: 0,
     },
     {
       originalUrl: null,
       url: null,
       dimensions: null,
       isCropping: false,
-      originalRotationDegree: 0,
-      edits: [{ rotationDegree: 0 }],
+      rotationDegree: 0,
     },
     {
       originalUrl: null,
       url: null,
       dimensions: null,
       isCropping: false,
-      originalRotationDegree: 0,
-      edits: [{ rotationDegree: 0 }],
+      rotationDegree: 0,
     },
     {
       originalUrl: null,
       url: null,
       dimensions: null,
       isCropping: false,
-      originalRotationDegree: 0,
-      edits: [{ rotationDegree: 0 }],
+      rotationDegree: 0,
     },
   ]);
 
@@ -101,6 +95,7 @@ export default function PhotoVideoLibrary({
   const fileInputRef = useRef(null);
   const cropFunctionRef = useRef();
   const rotateFunctionRef = useRef();
+  const brightnessFunctionRef = useRef();
   const containerRef = useRef(null);
 
   // --------------------------------------------------------- Handlers --------------------------------------------------------
@@ -113,6 +108,10 @@ export default function PhotoVideoLibrary({
 
   const showRotate = () => {
     setIsRotateVisible(true);
+  };
+
+  const showBrightness = () => {
+    setIsBrightnessVisible(true);
   };
 
   const hideRotate = () => {
@@ -169,9 +168,7 @@ export default function PhotoVideoLibrary({
       if (file.type.startsWith("image/")) {
         const objectURL = URL.createObjectURL(file);
         updatedImages[imageState.selectedFiles.length + index].url = objectURL;
-        updatedImages[imageState.selectedFiles.length + index].edits = [
-          { rotationDegree: 0 },
-        ];
+
         updatedImages[
           imageState.selectedFiles.length + index
         ].rotationDegree = 0;
@@ -256,6 +253,7 @@ export default function PhotoVideoLibrary({
     setBusyEditingPhoto(true);
     setBusyRotatingPhoto(false);
     setIsRotateVisible(false);
+    setBusyBrighteningPhoto(false);
     setBusyCroppingPhoto(true);
 
     showCrop();
@@ -265,9 +263,20 @@ export default function PhotoVideoLibrary({
     setBusyEditingPhoto(true);
     setBusyCroppingPhoto(false);
     setIsCropVisible(false);
+    setBusyBrighteningPhoto(false);
     setBusyRotatingPhoto(true);
 
     showRotate();
+  };
+
+  const onBrightnessIconClick = () => {
+    setBusyEditingPhoto(true);
+    setBusyCroppingPhoto(false);
+    setBusyRotatingPhoto(false);
+    setIsCropVisible(false);
+    setBusyBrighteningPhoto(true);
+
+    showBrightness();
   };
 
   function handleBusyEditingCancelFromEditor() {
@@ -296,6 +305,14 @@ export default function PhotoVideoLibrary({
     }
   }
 
+  function getBrightnessDataFromEditor() {
+    console.log("getBrightnessDataFromEditor");
+    // Call the function set by Brightness.js to initiate the Brightness
+    if (brightnessFunctionRef.current) {
+      brightnessFunctionRef.current();
+    }
+  }
+
   function handleBusyEditingDoneFromEditor() {
     switch (activeSubCategory) {
       case "crop":
@@ -315,7 +332,6 @@ export default function PhotoVideoLibrary({
         break;
     }
   }
-  console.log(images);
 
   // --------------------------------------------------------- Render Methods --------------------------------------------------------
 
@@ -333,7 +349,7 @@ export default function PhotoVideoLibrary({
               src={displayedImage.url}
               alt="Edited Image"
               style={{
-                transform: `rotate(${displayedImage.edits.rotationDegree}deg)`,
+                transform: `rotate(${displayedImage.rotationDegree}deg)`,
               }}
               className="nonInteractiveImage"
             />
@@ -359,9 +375,6 @@ export default function PhotoVideoLibrary({
               <img
                 src={image.url}
                 alt={`Image ${index + 1}`}
-                style={{
-                  transform: `rotate(${image.originalRotationDegree}deg)`,
-                }}
                 className="nonInteractiveImage"
               />
             </div>
@@ -425,7 +438,11 @@ export default function PhotoVideoLibrary({
               <img src={icons.rotateIcon} alt="Rotate" />
             </div>
             <div
-              onClick={() => toggleSubCategory("brightness")}
+              onClick={(e) => {
+                toggleSubCategory("brightness");
+                onBrightnessIconClick();
+                e.stopPropagation(); // Stop the click event from propagating
+              }}
               className={getSubIconClass("brightness")}
             >
               <img src={icons.brighnessIcon} alt="brightness" />
@@ -545,9 +562,11 @@ export default function PhotoVideoLibrary({
                 activeSubCategory={activeSubCategory}
                 isCropVisible={isCropVisible}
                 isRotateVisible={isRotateVisible}
+                isBrightnessVisible={isBrightnessVisible}
                 getCropDataFromEditor={getCropDataFromEditor}
                 cropFunctionRef={cropFunctionRef}
                 rotateFunctionRef={rotateFunctionRef}
+                brightnessFunctionRef={brightnessFunctionRef}
               />
             </div>
           )}
