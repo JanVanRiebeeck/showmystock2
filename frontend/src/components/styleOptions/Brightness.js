@@ -1,31 +1,27 @@
 import "./Brightness.css";
 import { Image, Stage, Layer, Rect, Transformer } from "react-konva";
-import { useState, useEffect, useRef } from "react";
 import useImage from "use-image";
 
-export default function Brightness(
-  imageDataUrl,
-  imageDimensions,
-  isBrightnessVisible,
-  brightnessFunctionRef
-) {
+export default function Brightness(imageDataUrl, imageDimensions) {
   const [image] = useImage(imageDataUrl);
-  const imageRef = useRef(null);
-
-  useEffect(() => {
-    if (imageRef.current) {
-      // Force a refresh on the layer after the image is loaded
-      imageRef.current.getLayer().batchDraw();
-    }
-  }, [image]);
-
   return (
-    <div className="Brightness_view">
-      <Stage width={500} height={450}>
-        <Layer>
-          <Image ref={imageRef} image={image}></Image>
-        </Layer>
-      </Stage>
+    <div>
+      <input
+        className="slider"
+        type="range"
+        min="-10"
+        max="10"
+        step="0.05"
+        value="0"
+      />
+
+      <div className="Brightness_view">
+        <Stage>
+          <Layer>
+            <Image image={image}></Image>
+          </Layer>
+        </Stage>
+      </div>
     </div>
   );
 }

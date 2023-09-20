@@ -10,3 +10,9 @@
   object-fit: contain;
   border: 3px solid #ce3737;
 }
+
+.slider {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
